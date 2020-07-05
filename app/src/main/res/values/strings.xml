@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AllesAndroid</string>
+
+    <!-- LoginActivity -->
+    <string name="title_activity_login">Login to Alles</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_text">Login</string>
+    <string name="login_snackbar_input">Please input your login details!</string>
+    <string name="login_snackbar_error">There was an error trying to log in</string>
+</resources>
