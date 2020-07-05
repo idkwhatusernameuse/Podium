@@ -15,4 +15,7 @@
     <string name="login_snackbar_error">There was an error trying to log in</string>
     <string name="title_activity_main">MainActivity</string>
 
+    <!-- item_post -->
+    <string name="description_plus">+1</string>
+    <string name="description_minus">-1</string>
 </resources>
