@@ -35,34 +35,4 @@ object SharedPreferences {
         set(value) = login_preferences.edit{
             it.putString(key_loginToken, value)
         }
-/*
-    var theme: String
-        get() = preferences.getString(THEME.first, THEME.second)
-        set(value) = preferences.edit{
-            it.putString(THEME.first, value)
-        }
-
-    var template: String
-        get() = preferences.getString(TEMPLATE.first, TEMPLATE.second)
-        set(value) = preferences.edit{
-            it.putString(TEMPLATE.first, value)
-        }
-
-    var cache_templates: String
-        get() = preferences.getString(CACHE_JSON.first , CACHE_JSON.second)
-        set(value) = preferences.edit{
-            it.putString(CACHE_JSON.first, value)
-        }
-
-    var first_load: Boolean
-        get() = preferences.getBoolean(FIRST_LOAD.first, FIRST_LOAD.second)
-        set(value) = preferences.edit{
-            it.putBoolean(FIRST_LOAD.first, value)
-        }
-
-    var white_template: Boolean
-        get() = preferences.getBoolean(WHITE_TEMPLATE.first, WHITE_TEMPLATE.second)
-        set(value) = preferences.edit{
-            it.putBoolean(WHITE_TEMPLATE.first, value)
-        }*/
 }

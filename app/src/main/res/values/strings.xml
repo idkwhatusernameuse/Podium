@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">AllesAndroid</string>
 
+    <!-- BottomNavigationBar Items -->
+    <string name="title_home">Home</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_me">Me</string>
+
     <!-- LoginActivity -->
     <string name="title_activity_login">Login to Alles</string>
     <string name="login_username">Username</string>
@@ -8,4 +13,6 @@
     <string name="login_text">Login</string>
     <string name="login_snackbar_input">Please input your login details!</string>
     <string name="login_snackbar_error">There was an error trying to log in</string>
+    <string name="title_activity_main">MainActivity</string>
+
 </resources>

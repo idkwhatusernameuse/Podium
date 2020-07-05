@@ -1,4 +1,4 @@
-package dev.idkwuu.allesandroid
+package dev.idkwuu.allesandroid.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.models.LegacyToken
@@ -60,7 +61,8 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
         } else {
-            Snackbar.make(findViewById(R.id.main), R.string.login_snackbar_input, Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.main),
+                R.string.login_snackbar_input, Snackbar.LENGTH_LONG).show()
         }
     }
 
