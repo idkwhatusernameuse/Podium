@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.idkwuu.allesandroid.api.HomeFeedRepo
-import dev.idkwuu.allesandroid.models.AllesFeed
 import dev.idkwuu.allesandroid.models.AllesPost
 
 class HomeViewModel : ViewModel() {

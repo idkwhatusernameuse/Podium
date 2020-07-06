@@ -3,7 +3,7 @@
 
     <!-- BottomNavigationBar Items -->
     <string name="title_home">Home</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">Mentions</string>
     <string name="title_me">Me</string>
 
     <!-- LoginActivity -->

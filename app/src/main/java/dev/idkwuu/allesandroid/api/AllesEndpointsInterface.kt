@@ -18,4 +18,15 @@ interface AllesEndpointsInterface {
     @POST("post/{post}/vote")
     fun vote(@Header("authorization") token: String, @Path("post") post: String, @Body vote: AllesVote): Call<AllesVote>
 
+    @GET("mentions")
+    fun getMentions(@Header("authorization") token: String): Call<AllesMentions>
+
+    @GET("accounts")
+    fun getAccounts(@Header("authorization") token: String): Call<AllesAccounts>
+
+    @GET("post")
+    fun post(@Header("authorization") token: String, @Body content: AllesInteractionPost): Call<AllesInteractionPost>
+
+    @GET("post/{post}/remove")
+    fun remove(@Header("authorization") token: String, @Path("post") post: String): Call<AllesInteractionRemove>
 }

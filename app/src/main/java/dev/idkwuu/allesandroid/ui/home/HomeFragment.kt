@@ -1,6 +1,8 @@
 package dev.idkwuu.allesandroid.ui.home
 
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,20 +22,14 @@ class HomeFragment : Fragment() {
         ViewModelProviders.of(this).get(HomeViewModel::class.java)
     }
     private lateinit var adapter: FeedAdapter
-    private var isLoaded = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = true
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        retainInstance = true
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-
         val shimmer = view.findViewById<ShimmerFrameLayout>(R.id.shimmer)
         shimmer.startShimmer()
 

@@ -25,7 +25,6 @@ class HomeFeedRepo {
 
             override fun onResponse(call: Call<AllesFeed>, response: Response<AllesFeed>) {
                 if (response.body()?.feed != null) {
-                    SharedPreferences.cached_feed = Gson().toJson(response.body())
                     mutableData.value = response.body()!!.feed!!.toMutableList()
                 }
             }
