@@ -19,4 +19,6 @@
     <string name="description_plus">+1</string>
     <string name="description_minus">-1</string>
     <string name="vote_snackbar_error">There was an error trying to vote</string>
+
+    <string name="etasoon">eta s0n</string>
 </resources>

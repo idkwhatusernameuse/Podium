@@ -9,18 +9,20 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchorGravity="bottom|right|end"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_fluent_drafts_24_regular" />
+        android:src="@drawable/ic_fluent_drafts_24_regular"
+        style="@style/fab"
+        app:fabSize="normal"
+        app:layout_anchorGravity="bottom|right|end" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/pullToRefresh"
         tools:context=".ui.home.HomeFragment">
 
         <androidx.core.widget.NestedScrollView

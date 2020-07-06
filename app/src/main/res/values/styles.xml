@@ -1,13 +1,18 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item-->
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/nav_bar</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:colorBackground">@color/background</item>
+    </style>
+
+    <style name="FullScreenDark" parent="AppTheme">
+        <item name="android:statusBarColor">@android:color/black</item>
     </style>
 
     <style name="headline">
@@ -32,7 +37,7 @@
     <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight">
         <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
-    
+
     <style name="cardStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/background</item>
         <item name="cardCornerRadius">16dp</item>
@@ -56,5 +61,10 @@
 
     <style name="text_body2" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="fab" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="tint">@android:color/white</item>
     </style>
 </resources>

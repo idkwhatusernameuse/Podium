@@ -13,4 +13,7 @@
     <color name="vote_nothing">#424242</color>
     <color name="plus_selected">#fb8c00</color>
     <color name="minus_selected">#1e88e5</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="nav_bar">#66858585</color>
 </resources>

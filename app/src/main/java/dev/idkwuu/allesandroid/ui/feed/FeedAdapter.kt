@@ -2,6 +2,7 @@ package dev.idkwuu.allesandroid.ui.feed
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.models.AllesPost
 import dev.idkwuu.allesandroid.models.AllesVote
+import dev.idkwuu.allesandroid.ui.ImageViewerActivty
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import kotlinx.android.synthetic.main.item_post.view.*
 import retrofit2.Call
@@ -112,6 +114,11 @@ class FeedAdapter(
             if (post.image != null) {
                 itemView.post_image.visibility = View.VISIBLE
                 Glide.with(context).load(post.image).into(itemView.post_image)
+                itemView.post_image.setOnClickListener {
+                    val intent = Intent(itemView.context, ImageViewerActivty::class.java)
+                    intent.putExtra("URL", post.image.toString())
+                    itemView.context.startActivity(intent)
+                }
             }
             // Set post longevity
             /*val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
