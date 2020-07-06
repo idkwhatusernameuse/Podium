@@ -16,6 +16,6 @@ interface AllesEndpointsInterface {
     fun getUser(@Header("authorization") token: String, @Path("username") username: String): Call<AllesUser>
 
     @POST("post/{post}/vote")
-    fun vote(@Header("authorization") token: String, @Path("post") post: String, @Body vote: Int): Call<AllesVote>
+    fun vote(@Header("authorization") token: String, @Path("post") post: String, @Body vote: AllesVote): Call<AllesVote>
 
 }
