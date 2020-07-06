@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
@@ -39,17 +40,15 @@ class ImageViewerActivty : AppCompatActivity() {
 
         // Top bar hiding animation
         imageView.setOnClickListener {
-            if (findViewById<ConstraintLayout>(R.id.bar).visibility == View.GONE)
-                animateTopBar(false)
-            else animateTopBar(true)
-        }
-
-        imageView.setOnTouchListener { _, motionEvent ->
-            if (motionEvent.action == MotionEvent.ACTION_UP) {
-                if (imageView.currentZoom <= 1.3) animateTopBar(false)
-                else if (imageView.currentZoom > 2) animateTopBar(true)
+            val topBar = findViewById<ConstraintLayout>(R.id.bar)
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 200
+            TransitionManager.beginDelayedTransition(topBar, autoTransition)
+            topBar.visibility = if (topBar.visibility == View.VISIBLE) {
+                View.GONE
+            } else {
+                View.VISIBLE
             }
-            return@setOnTouchListener true
         }
 
         // Back button
@@ -60,18 +59,6 @@ class ImageViewerActivty : AppCompatActivity() {
         // Download button
         findViewById<ImageButton>(R.id.download).setOnClickListener {
             Snackbar.make(findViewById<FrameLayout>(R.id.main), R.string.etasoon, Snackbar.LENGTH_LONG).show()
-        }
-    }
-
-    private fun animateTopBar(hide: Boolean) {
-        val topBar = findViewById<ConstraintLayout>(R.id.bar)
-        val autoTransition = AutoTransition()
-        autoTransition.duration = 200
-        TransitionManager.beginDelayedTransition(topBar, autoTransition)
-        topBar.visibility = if (hide) {
-            View.GONE
-        } else {
-            View.VISIBLE
         }
     }
 }
