@@ -3,9 +3,9 @@ package dev.idkwuu.allesandroid.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class AllesFeed {
-    @SerializedName("feed")
+class AllesMentions {
+    @SerializedName("mentions")
     @Expose
-    var feed: List<AllesPost>? = null
+    var mentions: List<AllesPost>? = null
 }
 

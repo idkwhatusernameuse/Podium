@@ -1,20 +1,21 @@
 package dev.idkwuu.allesandroid.api
 
-import dev.idkwuu.allesandroid.models.AllesFeed
-import dev.idkwuu.allesandroid.models.LegacyToken
-import dev.idkwuu.allesandroid.models.LegacyUserCredentials
+import dev.idkwuu.allesandroid.models.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface AllesEndpointsInterface {
 
     @POST("login")
-    fun getToken(@Body credentials: LegacyUserCredentials): Call<LegacyToken?>?
+    fun getToken(@Body credentials: LegacyUserCredentials): Call<LegacyToken>
 
     @GET("feed")
-    fun getFeed(@Header("authorization") token: String): Call<AllesFeed?>?
+    fun getFeed(@Header("authorization") token: String): Call<AllesFeed>
+
+    @GET("users/{username}")
+    fun getUser(@Header("authorization") token: String, @Path("username") username: String): Call<AllesUser>
+
+    @POST("post/{post}/vote")
+    fun vote(@Header("authorization") token: String, @Path("post") post: String, @Body vote: Int): Call<AllesVote>
 
 }

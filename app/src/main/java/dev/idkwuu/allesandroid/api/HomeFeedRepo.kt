@@ -18,13 +18,13 @@ class HomeFeedRepo {
             .create(AllesEndpointsInterface::class.java)
         val call = retrofit.getFeed(SharedPreferences.login_token!!)
 
-        call!!.enqueue(object : Callback<AllesFeed?> {
-            override fun onFailure(call: Call<AllesFeed?>, t: Throwable) {
+        call.enqueue(object : Callback<AllesFeed> {
+            override fun onFailure(call: Call<AllesFeed>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
-            override fun onResponse(call: Call<AllesFeed?>, response: Response<AllesFeed?>) {
-                if (response.body()!!.feed != null) {
+            override fun onResponse(call: Call<AllesFeed>, response: Response<AllesFeed>) {
+                if (response.body()?.feed != null) {
                     SharedPreferences.cached_feed = Gson().toJson(response.body())
                     mutableData.value = response.body()!!.feed!!.toMutableList()
                 }

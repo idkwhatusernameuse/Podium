@@ -42,6 +42,9 @@ class FeedAdapter(
             itemView.votesCount.text = post.score.toString()
             // Comments
             itemView.comments_count.text = post.replyCount.toString()
+            if (post.replyCount!! > 0) {
+                itemView.comments_icon.setImageResource(R.drawable.ic_fluent_chat_20_filled)
+            }
             // Has user voted?
             if (post.vote == 1) ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.plus_selected)))
             else if (post.vote == -1) ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.minus_selected)))
@@ -56,12 +59,13 @@ class FeedAdapter(
                 Glide.with(context).load(post.image).into(itemView.post_image)
             }
             // Set post longevity
-            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            /*val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
             TimeZone.setDefault(null)
             sdf.timeZone = TimeZone.getDefault()
             val time = sdf.parse(post.createdAt!!)!!.time
             val now = System.currentTimeMillis()
-            itemView.time.text = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS)
+            itemView.time.text = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS)*/
+            itemView.time.text = post.createdAt
             // Set profile photo
             Glide.with(context).load("https://avatar.alles.cx/u/${post.author?.username}?size=100").into(itemView.profile_image)
         }

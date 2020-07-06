@@ -44,13 +44,13 @@ class LoginActivity : AppCompatActivity() {
             credentials.username = username
             credentials.password = password
             val call = retrofit.getToken(credentials)
-            call!!.enqueue(object : Callback<LegacyToken?> {
-                override fun onFailure(call: Call<LegacyToken?>, t: Throwable) {
+            call.enqueue(object : Callback<LegacyToken> {
+                override fun onFailure(call: Call<LegacyToken>, t: Throwable) {
                     loading.visibility = View.GONE
                     TODO("Not yet implemented")
                 }
 
-                override fun onResponse(call: Call<LegacyToken?>, response: Response<LegacyToken?>) {
+                override fun onResponse(call: Call<LegacyToken>, response: Response<LegacyToken>) {
                     if (response.body()?.token != null) {
                         SharedPreferences.login_token = response.body()?.token
                         SharedPreferences.isLoggedIn = true
