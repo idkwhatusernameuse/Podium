@@ -23,6 +23,7 @@ object SharedPreferences {
 
     private const val key_isLoggedIn = "isLoggedIn"
     private const val key_loginToken = "login_token"
+    private const val key_cachedFeed = "cached_feed"
 
     var isLoggedIn: Boolean
         get() = login_preferences.getBoolean(key_isLoggedIn, false)
@@ -34,5 +35,11 @@ object SharedPreferences {
         get() = login_preferences.getString(key_loginToken, "")
         set(value) = login_preferences.edit{
             it.putString(key_loginToken, value)
+        }
+
+    var cached_feed: String?
+        get() = app_preferences.getString(key_cachedFeed, "")
+        set(value) = app_preferences.edit{
+            it.putString(key_cachedFeed, value)
         }
 }

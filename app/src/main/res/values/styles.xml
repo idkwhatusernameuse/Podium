@@ -3,8 +3,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!--item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item-->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:colorBackground">@color/background</item>
@@ -34,7 +34,7 @@
     </style>
     
     <style name="cardStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="cardBackgroundColor">@color/background</item>
         <item name="cardCornerRadius">16dp</item>
         <item name="cardElevation">0dp</item>
         <item name="borderWidth">10dp</item>
@@ -46,7 +46,6 @@
     <style name="imageButton">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">8dp</item>
-        <item name="tint">@android:color/white</item>
         <item name="android:textColor">@color/text_color</item>
     </style>
 

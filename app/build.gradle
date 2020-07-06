@@ -62,4 +62,7 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     implementation 'me.saket:inboxrecyclerview:2.0.0-beta3'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.4.Final'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }

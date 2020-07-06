@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName
 class AllesFeed {
     @SerializedName("feed")
     @Expose
-    var feed: List<Feed>? = null
+    var feed: List<AllesPost>? = null
 }
 
-class Feed {
+class AllesPost {
     @SerializedName("type")
     @Expose
     var type: String? = null
@@ -20,7 +20,7 @@ class Feed {
 
     @SerializedName("author")
     @Expose
-    var author: Author? = null
+    var author: AllesAuthor? = null
 
     @SerializedName("content")
     @Expose
@@ -51,7 +51,7 @@ class Feed {
     var hasParent: Boolean? = null
 }
 
-class Author {
+class AllesAuthor {
     @SerializedName("id")
     @Expose
     var id: String? = null

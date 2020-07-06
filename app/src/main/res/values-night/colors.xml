@@ -6,4 +6,11 @@
     <color name="background">@android:color/black</color>
     <color name="text_color">@android:color/white</color>
     <color name="cardview_stroke">#212121</color>
+
+    <color name="shimmer_loading_color">#dddddd</color>
+
+    <!-- Vote colors -->
+    <color name="vote_nothing">@android:color/white</color>
+    <color name="plus_selected">#fb8c00</color>
+    <color name="minus_selected">#1e88e5</color>
 </resources>
