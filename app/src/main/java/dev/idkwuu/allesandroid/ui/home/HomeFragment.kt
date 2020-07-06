@@ -1,11 +1,12 @@
 package dev.idkwuu.allesandroid.ui.home
 
 import android.os.Bundle
-import android.transition.AutoTransition
-import android.transition.TransitionManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
 
@@ -22,6 +24,7 @@ class HomeFragment : Fragment() {
         ViewModelProviders.of(this).get(HomeViewModel::class.java)
     }
     private lateinit var adapter: FeedAdapter
+    var scroll = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +42,16 @@ class HomeFragment : Fragment() {
         recyclerView.isNestedScrollingEnabled = false
         observeData()
 
+        // Hide FAB on scroll
+        val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollView)
+        val fab = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)!!
+        nestedScrollView.setOnScrollChangeListener { _, _, scrollY: Int, _, oldScrollY: Int ->
+            if (scrollY > oldScrollY) {
+                fab.hide()
+            } else {
+                fab.show()
+            }
+        }
         // Setup pull to refresh
         val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
         pullToRefresh.setOnRefreshListener {
