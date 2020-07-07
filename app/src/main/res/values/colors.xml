@@ -16,6 +16,7 @@
 
     <color name="nav_bar">#66858585</color>
 
-    <color name="profile_text_opacity">#79FFFFFF</color>
-    <color name="overlay_background">#0FFFFFFF</color>
+    <color name="profile_text_opacity">@android:color/black</color>
+    <color name="overlay_background">#C4FFFFFF</color>
+    <color name="overlay_tint">#2D000000</color>
 </resources>
