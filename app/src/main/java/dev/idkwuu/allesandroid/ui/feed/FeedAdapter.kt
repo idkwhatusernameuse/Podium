@@ -79,7 +79,7 @@ class FeedAdapter(
             // Votes
             itemView.votesCount.text = post.score.toString()
             var actualVote = post.vote!!
-            itemView.plus.setOnClickListener {
+            itemView.plusLayout.setOnClickListener {
                 actualVote = if (actualVote == 1) {
                     vote(itemView, post.slug!!, 0, post.vote!!)
                     0
@@ -88,7 +88,7 @@ class FeedAdapter(
                     1
                 }
             }
-            itemView.minus.setOnClickListener {
+            itemView.minusLayout.setOnClickListener {
                 actualVote = if (actualVote == -1) {
                     vote(itemView, post.slug!!, 0, post.vote!!)
                     0

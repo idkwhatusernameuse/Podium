@@ -18,23 +18,32 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/votes"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_height="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/plus"
-                style="@style/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/description_plus"
-                android:tint="@color/vote_nothing"
+            <LinearLayout
+                android:id="@+id/plusLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="bottom"
+                app:layout_constraintBottom_toTopOf="@+id/votesCount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_fluent_add_12_filled" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageButton
+                    android:id="@+id/plus"
+                    style="@style/imageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/description_plus"
+                    android:tint="@color/vote_nothing"
+                    app:srcCompat="@drawable/ic_fluent_add_16_filled" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/votesCount"
@@ -42,23 +51,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/text_body"
+                app:layout_constraintBottom_toTopOf="@+id/minusLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plus"
+                app:layout_constraintTop_toBottomOf="@+id/plusLayout"
                 tools:text="69" />
 
-            <ImageButton
-                android:id="@+id/minus"
-                style="@style/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:contentDescription="@string/description_plus"
-                android:tint="@color/vote_nothing"
+            <LinearLayout
+                android:id="@+id/minusLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="top"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/votesCount"
-                app:srcCompat="@drawable/ic_fluent_remove_12_filled" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/votesCount">
+
+                <ImageButton
+                    android:id="@+id/minus"
+                    style="@style/imageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/description_plus"
+                    android:tint="@color/vote_nothing"
+                    app:srcCompat="@drawable/ic_fluent_remove_16_filled" />
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -66,11 +85,12 @@
             android:id="@+id/divider"
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
             android:background="@color/cardview_stroke"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/votes"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/user_info"
