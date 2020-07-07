@@ -19,7 +19,9 @@ import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.models.AllesPost
 import dev.idkwuu.allesandroid.models.AllesVote
 import dev.idkwuu.allesandroid.ui.ImageViewerActivty
+import dev.idkwuu.allesandroid.ui.ProfileActivity
 import dev.idkwuu.allesandroid.util.SharedPreferences
+import dev.idkwuu.allesandroid.util.dont_care_lol
 import kotlinx.android.synthetic.main.item_post.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,19 +57,17 @@ class FeedAdapter(
                 itemView.votesCount.text = (itemView.votesCount.text.toString().toInt() + vote).toString()
             }
         }
-        retrofit.vote(SharedPreferences.login_token!!, slug, AllesVote(vote = vote)).enqueue(object : Callback<AllesVote> {
-            override fun onFailure(call: Call<AllesVote>, t: Throwable) {
-                Snackbar.make(itemView, R.string.vote_snackbar_error, Snackbar.LENGTH_LONG).show()
-            }
-
-            override fun onResponse(call: Call<AllesVote>, response: Response<AllesVote>) {
-            }
-        })
+        retrofit.vote(SharedPreferences.login_token!!, slug, AllesVote(vote = vote)).enqueue(dont_care_lol)
     }
 
     inner class FeedViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
         fun bindView(post: AllesPost) {
+            itemView.user_info.setOnClickListener {
+                val intent = Intent(itemView.context, ProfileActivity::class.java)
+                intent.putExtra("user", post.author!!.username)
+                itemView.context.startActivity(intent)
+            }
             // Author name
             if (post.author?.plus!!) {
                 itemView.user_title.text = "${post.author?.name}\u207A"

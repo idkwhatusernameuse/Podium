@@ -15,10 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.ProfileActivity"></activity>
         <activity
             android:name=".ui.ImageViewerActivty"
-            android:theme="@style/FullScreenDark"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/FullScreenDark" />
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main" />
@@ -29,6 +30,7 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

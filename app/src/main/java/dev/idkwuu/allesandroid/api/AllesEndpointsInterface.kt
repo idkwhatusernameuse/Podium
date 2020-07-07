@@ -1,6 +1,7 @@
 package dev.idkwuu.allesandroid.api
 
 import dev.idkwuu.allesandroid.models.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -12,11 +13,17 @@ interface AllesEndpointsInterface {
     @GET("feed")
     fun getFeed(@Header("authorization") token: String): Call<AllesFeed>
 
-    @GET("users/{username}")
+    @GET("users/{username}?posts=")
     fun getUser(@Header("authorization") token: String, @Path("username") username: String): Call<AllesUser>
 
+    @GET("users/{username}/follow")
+    fun follow(@Header("authorization") token: String, @Path("username") username: String): Call<Void>
+
+    @GET("users/{username}/unfollow")
+    fun unfollow(@Header("authorization") token: String, @Path("username") username: String): Call<Void>
+
     @POST("post/{post}/vote")
-    fun vote(@Header("authorization") token: String, @Path("post") post: String, @Body vote: AllesVote): Call<AllesVote>
+    fun vote(@Header("authorization") token: String, @Path("post") post: String, @Body vote: AllesVote): Call<Void>
 
     @GET("mentions")
     fun getMentions(@Header("authorization") token: String): Call<AllesMentions>

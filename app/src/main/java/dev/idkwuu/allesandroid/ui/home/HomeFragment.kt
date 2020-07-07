@@ -24,7 +24,6 @@ class HomeFragment : Fragment() {
         ViewModelProviders.of(this).get(HomeViewModel::class.java)
     }
     private lateinit var adapter: FeedAdapter
-    var scroll = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +63,7 @@ class HomeFragment : Fragment() {
         return view
     }
 
-    fun observeData() {
+    private fun observeData() {
         viewModel.fetchPosts().observe(viewLifecycleOwner, Observer {
             val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
             shimmer.stopShimmer()

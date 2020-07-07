@@ -3,11 +3,11 @@ package dev.idkwuu.allesandroid.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.idkwuu.allesandroid.api.HomeFeedRepo
+import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.models.AllesPost
 
 class HomeViewModel : ViewModel() {
-    private val repo = HomeFeedRepo()
+    private val repo = Repo()
 
     fun fetchPosts(): LiveData<MutableList<AllesPost>> {
         val mutableData = MutableLiveData<MutableList<AllesPost>>()

@@ -21,6 +21,13 @@
         <item name="android:textSize">35sp</item>
     </style>
 
+    <style name="headline2">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">30sp</item>
+        <item name="fontWeight">900</item>
+    </style>
+
     <style name="common_button">
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
@@ -66,5 +73,15 @@
     <style name="fab" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/colorPrimary</item>
         <item name="tint">@android:color/white</item>
+    </style>
+
+    <style name="follow_button_unselected">
+        <item name="android:background">@drawable/rounded_rectangle_small</item>
+        <item name="android:textColor">@color/profile_text_opacity</item>
+    </style>
+
+    <style name="follow_button_selected">
+        <item name="background">@drawable/solid_blue_rounded</item>
+        <item name="android:textColor">@color/background</item>
     </style>
 </resources>

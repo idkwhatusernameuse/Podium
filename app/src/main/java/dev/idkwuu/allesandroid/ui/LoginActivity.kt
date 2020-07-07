@@ -53,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<LegacyToken>, response: Response<LegacyToken>) {
                     if (response.body()?.token != null) {
                         SharedPreferences.login_token = response.body()?.token
+                        SharedPreferences.current_user = username
                         SharedPreferences.isLoggedIn = true
                         openMainActivity()
                     } else {

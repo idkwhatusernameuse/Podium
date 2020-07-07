@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">#673ab7</color>
+    <color name="colorPrimaryDark">#320b86</color>
     <color name="colorAccent">@color/colorPrimary</color>
     <color name="background">@android:color/black</color>
     <color name="text_color">@android:color/white</color>
@@ -15,4 +15,7 @@
     <color name="minus_selected">#1e88e5</color>
 
     <color name="nav_bar">@android:color/black</color>
+
+    <color name="profile_text_opacity">#79FFFFFF</color>
+    <color name="overlay_background">#59000000</color>
 </resources>
