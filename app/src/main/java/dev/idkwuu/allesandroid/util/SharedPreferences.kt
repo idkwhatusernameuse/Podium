@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 
 object SharedPreferences {
 
-    private const val NAME = "SharedPreferences"
     private const val MODE = Context.MODE_PRIVATE
     private lateinit var login_preferences: SharedPreferences
     private lateinit var app_preferences: SharedPreferences
@@ -25,6 +24,7 @@ object SharedPreferences {
     private const val key_loginToken = "login_token"
     private const val key_cachedFeed = "cached_feed"
     private const val key_currentUser = "current_user"
+    private const val key_profile = "profile"
 
     var isLoggedIn: Boolean
         get() = login_preferences.getBoolean(key_isLoggedIn, false)
@@ -48,5 +48,11 @@ object SharedPreferences {
         get() = login_preferences.getString(key_currentUser, "")
         set(value) = login_preferences.edit{
             it.putString(key_currentUser, value)
+        }
+
+    var profile: String?
+        get() = app_preferences.getString(key_profile, "")
+        set(value) = login_preferences.edit{
+            it.putString(key_profile, value)
         }
 }

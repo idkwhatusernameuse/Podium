@@ -25,7 +25,9 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer"
@@ -41,14 +43,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <include
-                        android:id="@+id/profile"
-                        layout="@layout/layout_profile_info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp" />
+                    <include layout="@layout/layout_profile_info_loading"/>
 
                     <include layout="@layout/item_post_loading" />
 
@@ -70,7 +65,9 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile" />
+                app:layout_constraintTop_toBottomOf="@+id/profile"
+                tools:visibility="visible"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

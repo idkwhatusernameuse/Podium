@@ -2,15 +2,17 @@ package dev.idkwuu.allesandroid.ui.profile
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,17 +24,22 @@ import com.google.android.material.button.MaterialButton
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
-import dev.idkwuu.allesandroid.models.AllesVote
 import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
 import jp.wasabeef.blurry.Blurry
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 
 class ProfileFragment : Fragment() {
+
+    fun newInstance(user: String, withBackButton: Boolean): ProfileFragment? {
+        val bundle = Bundle()
+        bundle.putString("user", user)
+        bundle.putBoolean("withBackButton", withBackButton)
+        val fragment = ProfileFragment()
+        fragment.arguments = bundle
+        return fragment
+    }
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(ProfileViewModel::class.java)
@@ -55,10 +62,10 @@ class ProfileFragment : Fragment() {
         recyclerView.isNestedScrollingEnabled = false
 
         val user: String = try {
-            requireArguments().getString("user").toString()
+            requireArguments().getString("user")
         } catch (e: IllegalStateException) {
-            SharedPreferences.current_user.toString()
-        }
+            SharedPreferences.current_user
+        }.toString()
 
         observeData(user)
 
@@ -72,6 +79,23 @@ class ProfileFragment : Fragment() {
             observeData(user)
             pullToRefresh.isRefreshing = true
         }
+
+        // Back button
+        val withBackButton = try {
+            requireArguments().getBoolean("withBackButton")
+        } catch (e: IllegalStateException) {
+            false
+        }
+        if (withBackButton) {
+            val back = view.findViewById<ImageButton>(R.id.back)
+            back.setOnClickListener { requireActivity().finish() }
+            back.visibility = View.VISIBLE
+        }
+        // Settings button
+        if (user == SharedPreferences.current_user) {
+            view.findViewById<ImageButton>(R.id.settings).visibility =View.VISIBLE
+        }
+
         return view
     }
 
