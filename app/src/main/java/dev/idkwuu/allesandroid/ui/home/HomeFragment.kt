@@ -1,11 +1,13 @@
 package dev.idkwuu.allesandroid.ui.home
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,14 +19,15 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
+import dev.idkwuu.allesandroid.util.SharedPreferences
 
 class HomeFragment : Fragment() {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(HomeViewModel::class.java)
     }
-    private lateinit var adapter: FeedAdapter
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,11 +38,11 @@ class HomeFragment : Fragment() {
         val shimmer = view.findViewById<ShimmerFrameLayout>(R.id.shimmer)
         shimmer.startShimmer()
 
-        adapter = FeedAdapter(view.context)
+        val adapter = FeedAdapter(view.context)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         recyclerView.isNestedScrollingEnabled = false
-        observeData()
+        observeData(adapter)
 
         // Hide FAB on scroll
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollView)
@@ -57,13 +60,13 @@ class HomeFragment : Fragment() {
             shimmer.startShimmer()
             shimmer.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
-            observeData()
+            observeData(adapter)
             pullToRefresh.isRefreshing = true
         }
         return view
     }
 
-    private fun observeData() {
+    private fun observeData(adapter: FeedAdapter) {
         viewModel.fetchPosts().observe(viewLifecycleOwner, Observer {
             val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
             shimmer.stopShimmer()
