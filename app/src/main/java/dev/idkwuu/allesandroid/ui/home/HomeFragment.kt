@@ -1,13 +1,10 @@
 package dev.idkwuu.allesandroid.ui.home
 
 import android.annotation.SuppressLint
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,7 +16,6 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
-import dev.idkwuu.allesandroid.util.SharedPreferences
 
 class HomeFragment : Fragment() {
 
@@ -47,13 +43,13 @@ class HomeFragment : Fragment() {
         // Hide FAB on scroll
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollView)
         val fab = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)!!
-        nestedScrollView.setOnScrollChangeListener { _, _, scrollY: Int, _, oldScrollY: Int ->
+        nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener  { _, _, scrollY: Int, _, oldScrollY: Int ->
             if (scrollY > oldScrollY) {
                 fab.hide()
             } else {
                 fab.show()
             }
-        }
+        })
         // Setup pull to refresh
         val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
         pullToRefresh.setOnRefreshListener {
