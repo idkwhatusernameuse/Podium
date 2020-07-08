@@ -6,11 +6,11 @@ import com.google.gson.annotations.SerializedName
 class AllesInteractionPost(
     @SerializedName("content")
     @Expose
-    var content: String = "",
+    var content: String? = null,
 
     @SerializedName("image")
     @Expose
-    var image: String = ""
+    var image: String? = null
 )
 
 class AllesInteractionRemove {

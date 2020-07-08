@@ -42,17 +42,17 @@ class FeedAdapter(
             .create(AllesEndpointsInterface::class.java)
         when (vote) {
             0 -> {
-                ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.vote_nothing)))
-                ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.vote_nothing)))
+                ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.neutral)))
+                ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.neutral)))
                 itemView.votesCount.text = (itemView.votesCount.text.toString().toInt() - currentVote).toString()
             }
             1 -> {
                 ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.plus_selected)))
-                ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.vote_nothing)))
+                ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.neutral)))
                 itemView.votesCount.text = (itemView.votesCount.text.toString().toInt() + vote).toString()
             }
             -1 -> {
-                ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.vote_nothing)))
+                ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.neutral)))
                 ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.minus_selected)))
                 itemView.votesCount.text = (itemView.votesCount.text.toString().toInt() + vote).toString()
             }

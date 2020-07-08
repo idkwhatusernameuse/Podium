@@ -13,6 +13,7 @@
     <string name="login_text">Login</string>
     <string name="login_snackbar_input">Please input your login details!</string>
     <string name="login_snackbar_error">There was an error trying to log in</string>
+    <string name="post_snackbar_error">There was an error trying to post</string>
     <string name="title_activity_main">MainActivity</string>
 
     <!-- item_post -->
@@ -29,4 +30,11 @@
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
 
+    <!-- PostActivity -->
+    <string name="post">Post</string>
+    <string name="post_hint_1">What are you thinking?</string>
+    <string name="post_hint_2">How has your day been?</string>
+    <string name="post_hint_3">What\'s up?</string>
+    <string name="post_hint_4">Hmm…</string>
+    <string name="post_hint_5">*thinking*</string>
 </resources>

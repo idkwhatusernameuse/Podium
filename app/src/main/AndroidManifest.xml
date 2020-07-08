@@ -15,14 +15,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ProfileActivity"></activity>
+        <activity android:name=".ui.PostActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".ui.ProfileActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity
             android:name=".ui.ImageViewerActivty"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullScreenDark" />
+            android:theme="@style/Translucent" />
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_activity_main"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity
             android:name=".ui.SplashScreen"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -36,7 +41,8 @@
         </activity>
         <activity
             android:name=".ui.LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
     </application>
 
 </manifest>

@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/description_plus"
-                    android:tint="@color/vote_nothing"
+                    android:tint="@color/neutral"
                     app:srcCompat="@drawable/ic_fluent_add_16_filled" />
             </LinearLayout>
 
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/description_plus"
-                    android:tint="@color/vote_nothing"
+                    android:tint="@color/neutral"
                     app:srcCompat="@drawable/ic_fluent_remove_16_filled" />
             </LinearLayout>
 
@@ -231,7 +231,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:tint="@color/vote_nothing"
+                    android:tint="@color/neutral"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

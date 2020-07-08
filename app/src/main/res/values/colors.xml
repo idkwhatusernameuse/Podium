@@ -7,14 +7,16 @@
     <color name="cardview_stroke">#e0e0e0</color>
     <color name="text_color">@android:color/black</color>
 
+    <color name="neutral">#424242</color>
+    <color name="disabled">#676767</color>
     <color name="shimmer_loading_color">#dddddd</color>
 
     <!-- Vote colors -->
-    <color name="vote_nothing">#424242</color>
     <color name="plus_selected">#fb8c00</color>
     <color name="minus_selected">#1e88e5</color>
 
     <color name="nav_bar">#66858585</color>
+    <color name="background_overlay">#B4000000</color>
 
     <color name="profile_text_opacity">@android:color/black</color>
     <color name="overlay_background">#C4FFFFFF</color>

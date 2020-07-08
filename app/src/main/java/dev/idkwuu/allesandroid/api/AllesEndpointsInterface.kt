@@ -31,7 +31,7 @@ interface AllesEndpointsInterface {
     @GET("accounts")
     fun getAccounts(@Header("authorization") token: String): Call<AllesAccounts>
 
-    @GET("post")
+    @POST("post")
     fun post(@Header("authorization") token: String, @Body content: AllesInteractionPost): Call<AllesInteractionPost>
 
     @GET("post/{post}/remove")

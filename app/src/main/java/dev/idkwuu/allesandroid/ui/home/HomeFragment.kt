@@ -1,6 +1,7 @@
 package dev.idkwuu.allesandroid.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dev.idkwuu.allesandroid.ui.PostActivity
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
 
@@ -58,6 +60,11 @@ class HomeFragment : Fragment() {
             recyclerView.visibility = View.GONE
             observeData(adapter)
             pullToRefresh.isRefreshing = true
+        }
+
+        // Post FAB!
+        view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
+            startActivity(Intent(context, PostActivity::class.java))
         }
         return view
     }
