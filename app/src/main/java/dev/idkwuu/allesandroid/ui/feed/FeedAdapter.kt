@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,8 @@ import kotlinx.android.synthetic.main.item_post.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FeedAdapter(
     private val context: Context
@@ -130,13 +133,12 @@ class FeedAdapter(
                 }
             }
             // Set post longevity
-            /*val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-            TimeZone.setDefault(null)
-            sdf.timeZone = TimeZone.getDefault()
-            val time = sdf.parse(post.createdAt!!)!!.time
+            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            sdf.timeZone = TimeZone.getTimeZone("UTC")
+            val timeAndDate = sdf.parse(post.createdAt!!)
             val now = System.currentTimeMillis()
-            itemView.time.text = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS)*/
-            itemView.time.text = post.createdAt
+            val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(timeAndDate)
+            itemView.time.text = "${DateUtils.getRelativeTimeSpanString(timeAndDate.time, now, 0)}, $time"
             // Set profile photo
             Glide.with(context).load("https://avatar.alles.cx/u/${post.author?.username}?size=100").into(itemView.profile_image)
         }
