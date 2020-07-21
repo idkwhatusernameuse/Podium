@@ -49,15 +49,24 @@ class FeedAdapter(
             1 -> {
                 ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.plus_selected)))
                 ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.neutral)))
-                itemView.votesCount.text = (itemView.votesCount.text.toString().toInt() + vote).toString()
+                itemView.votesCount.text = if (currentVote == -1) {
+                    (itemView.votesCount.text.toString().toInt() + 2).toString()
+                } else {
+                    (itemView.votesCount.text.toString().toInt() + 1).toString()
+                }
             }
             -1 -> {
                 ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.neutral)))
                 ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.minus_selected)))
-                itemView.votesCount.text = (itemView.votesCount.text.toString().toInt() + vote).toString()
+                itemView.votesCount.text = if (currentVote == 1) {
+                    (itemView.votesCount.text.toString().toInt() - 2).toString()
+                } else {
+                    (itemView.votesCount.text.toString().toInt() - 1).toString()
+                }
             }
         }
-        retrofit.vote(SharedPreferences.login_token!!, slug, AllesVote(vote = vote)).enqueue(dont_care_lol)
+
+        retrofit.vote(SharedPreferences.login_token!!, slug, AllesVote(vote)).enqueue(dont_care_lol)
     }
 
     inner class FeedViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -79,21 +88,21 @@ class FeedAdapter(
             // Votes
             itemView.votesCount.text = post.score.toString()
             var actualVote = post.vote!!
-            itemView.plusLayout.setOnClickListener {
+            itemView.plusInternal.setOnClickListener {
                 actualVote = if (actualVote == 1) {
-                    vote(itemView, post.slug!!, 0, post.vote!!)
+                    vote(itemView, post.slug!!, 0, actualVote)
                     0
                 } else {
-                    vote(itemView, post.slug!!, 1, post.vote!!)
+                    vote(itemView, post.slug!!, 1, actualVote)
                     1
                 }
             }
-            itemView.minusLayout.setOnClickListener {
+            itemView.minusInternal.setOnClickListener {
                 actualVote = if (actualVote == -1) {
-                    vote(itemView, post.slug!!, 0, post.vote!!)
+                    vote(itemView, post.slug!!, 0, actualVote)
                     0
                 } else {
-                    vote(itemView, post.slug!!, -1, post.vote!!)
+                    vote(itemView, post.slug!!, -1, actualVote)
                     -1
                 }
             }
