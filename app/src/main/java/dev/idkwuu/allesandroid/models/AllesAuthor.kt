@@ -3,20 +3,20 @@ package dev.idkwuu.allesandroid.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class AllesAuthor {
+class AllesAuthor (
     @SerializedName("id")
     @Expose
-    var id: String? = null
+    var id: String,
 
     @SerializedName("name")
     @Expose
-    var name: String? = null
+    var name: String,
 
     @SerializedName("username")
     @Expose
-    var username: String? = null
+    var username: String,
 
     @SerializedName("plus")
     @Expose
-    var plus: Boolean? = null
-}
+    var plus: Boolean
+)

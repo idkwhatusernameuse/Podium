@@ -40,9 +40,7 @@ class LoginActivity : AppCompatActivity() {
             // Login shit with Retrofit
             val retrofit = RetrofitClientInstance().getRetrofitInstance()
                 .create(AllesEndpointsInterface::class.java)
-            val credentials = LegacyUserCredentials()
-            credentials.username = username
-            credentials.password = password
+            val credentials = LegacyUserCredentials(username, password)
             val call = retrofit.getToken(credentials)
             call.enqueue(object : Callback<LegacyToken> {
                 override fun onFailure(call: Call<LegacyToken>, t: Throwable) {

@@ -3,45 +3,44 @@ package dev.idkwuu.allesandroid.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class AllesPost {
+class AllesPost(
     @SerializedName("type")
     @Expose
-    var type: String? = null
+    val type: String,
 
     @SerializedName("slug")
     @Expose
-    var slug: String? = null
+    var slug: String,
 
     @SerializedName("author")
     @Expose
-    var author: AllesAuthor? = null
+    var author: AllesAuthor,
 
     @SerializedName("content")
     @Expose
-    var content: String? = null
+    var content: String,
 
     @SerializedName("image")
     @Expose
-    var image: Any? = null
+    var image: String? = null,
 
     @SerializedName("createdAt")
     @Expose
-    var createdAt: String? = null
+    var createdAt: String,
 
     @SerializedName("score")
     @Expose
-    var score: Int? = null
+    var score: Int,
 
     @SerializedName("vote")
     @Expose
-    var vote: Int? = null
+    var vote: Int,
 
     @SerializedName("replyCount")
     @Expose
-    var replyCount: Int? = null
+    var replyCount: Int,
 
     @SerializedName("hasParent")
     @Expose
-    var hasParent: Boolean? = null
-}
-
+    var hasParent: Boolean
+)

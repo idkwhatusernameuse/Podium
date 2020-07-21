@@ -4,19 +4,18 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-class LegacyUserCredentials {
+class LegacyUserCredentials (
     @SerializedName("username")
     @Expose
-    var username: String? = null
+    var username: String,
 
     @SerializedName("password")
     @Expose
-    var password: String? = null
+    var password: String
+)
 
-}
-
-class LegacyToken {
+class LegacyToken (
     @SerializedName("token")
     @Expose
     var token: String? = null
-}
+)

@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
 
         // Hide FAB on scroll
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollView)
-        val fab = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)!!
+        val fab = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
         nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener  { _, _, scrollY: Int, _, oldScrollY: Int ->
             if (scrollY > oldScrollY) {
                 fab.hide()

@@ -77,48 +77,48 @@ class FeedAdapter(
         fun bindView(post: AllesPost) {
             itemView.user_info.setOnClickListener {
                 val intent = Intent(itemView.context, ProfileActivity::class.java)
-                intent.putExtra("user", post.author!!.username)
+                intent.putExtra("user", post.author.username)
                 itemView.context.startActivity(intent)
             }
             // Author name
-            if (post.author?.plus!!) {
-                itemView.user_title.text = "${post.author?.name}\u207A"
+            if (post.author.plus) {
+                itemView.user_title.text = "${post.author.name}\u207A"
             } else {
-                itemView.user_title.text = post.author?.name
+                itemView.user_title.text = post.author.name
             }
             // Author username
-            itemView.user_handle.text = "@${post.author?.username}"
+            itemView.user_handle.text = "@${post.author.username}"
             // Votes
             itemView.votesCount.text = post.score.toString()
-            var actualVote = post.vote!!
+            var actualVote = post.vote
             itemView.plusInternal.setOnClickListener {
                 actualVote = if (actualVote == 1) {
-                    vote(itemView, post.slug!!, 0, actualVote)
+                    vote(itemView, post.slug, 0, actualVote)
                     0
                 } else {
-                    vote(itemView, post.slug!!, 1, actualVote)
+                    vote(itemView, post.slug, 1, actualVote)
                     1
                 }
             }
             itemView.minusInternal.setOnClickListener {
                 actualVote = if (actualVote == -1) {
-                    vote(itemView, post.slug!!, 0, actualVote)
+                    vote(itemView, post.slug, 0, actualVote)
                     0
                 } else {
-                    vote(itemView, post.slug!!, -1, actualVote)
+                    vote(itemView, post.slug, -1, actualVote)
                     -1
                 }
             }
             // Comments
             itemView.comments_count.text = post.replyCount.toString()
-            if (post.replyCount!! > 0) {
+            if (post.replyCount > 0) {
                 itemView.comments_icon.setImageResource(R.drawable.ic_fluent_chat_20_filled)
             }
             // Has user voted?
             if (post.vote == 1) ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.plus_selected)))
             else if (post.vote == -1) ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.minus_selected)))
             // Set post content
-            if (post.content!!.isNotEmpty()) {
+            if (post.content.isNotEmpty()) {
                 itemView.post_text.visibility = View.VISIBLE
                 itemView.post_text.text = post.content
             }
@@ -135,12 +135,12 @@ class FeedAdapter(
             // Set post longevity
             val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
             sdf.timeZone = TimeZone.getTimeZone("UTC")
-            val timeAndDate = sdf.parse(post.createdAt!!)
+            val timeAndDate = sdf.parse(post.createdAt)
             val now = System.currentTimeMillis()
-            val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(timeAndDate)
+            val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(timeAndDate!!)
             itemView.time.text = "${DateUtils.getRelativeTimeSpanString(timeAndDate.time, now, 0)}, $time"
             // Set profile photo
-            Glide.with(context).load("https://avatar.alles.cx/u/${post.author?.username}?size=100").into(itemView.profile_image)
+            Glide.with(context).load("https://avatar.alles.cx/u/${post.author.username}?size=100").into(itemView.profile_image)
         }
     }
 

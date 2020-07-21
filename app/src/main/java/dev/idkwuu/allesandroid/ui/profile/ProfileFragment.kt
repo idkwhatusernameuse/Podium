@@ -119,27 +119,27 @@ class ProfileFragment : Fragment() {
             profileView.findViewById<TextView>(R.id.user_handle).text = "@${it.username}"
             profileView.findViewById<TextView>(R.id.user_followers).text = "${it.followers.toString()} ${getString(R.string.followers)}"
             //profileView.findViewById<TextView>(R.id.user_following).text = "${it.following.toString()} ${getString(R.string.following)}"
-            if (it.followingUser!!) {
+            if (it.followingUser) {
                 profileView.findViewById<TextView>(R.id.follows_you).visibility = View.VISIBLE
             }
             profileView.findViewById<TextView>(R.id.user_description).text = it.about
             if (user != SharedPreferences.current_user) {
                 val followButton = profileView.findViewById<MaterialButton>(R.id.follow_button)
                 followButton.visibility = View.VISIBLE
-                if (it.following!!) {
-                    setFollow(followButton, it.following!!, it.username!!)
+                if (it.following) {
+                    setFollow(followButton, it.following, it.username)
                 }
-                var following = it.following!!
+                var following = it.following
                 followButton.setOnClickListener {_ ->
                     following = !following
-                    setFollow(followButton, !following, it.username!!)
+                    setFollow(followButton, !following, it.username)
                 }
             }
 
             // Profile picture
             Glide.with(requireView().context)
                 .asBitmap()
-                .load("https://avatar.alles.cx/u/${it.username!!}?size=100")
+                .load("https://avatar.alles.cx/u/${it.username}?size=100")
                 .into(object: SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
                         pfpBitmap = resource
