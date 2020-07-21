@@ -1,6 +1,7 @@
 package dev.idkwuu.allesandroid.ui.profile
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.graphics.*
 import android.os.Bundle
 import android.util.Log
@@ -49,6 +50,7 @@ class ProfileFragment : Fragment() {
         ViewModelProviders.of(this).get(ProfileViewModel::class.java)
     }
     private lateinit var adapter: FeedAdapter
+    private lateinit var pfpBitmap: Bitmap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,14 +76,8 @@ class ProfileFragment : Fragment() {
         observeData(user)
 
         // Setup pull to refresh
-        val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
-        pullToRefresh.setOnRefreshListener {
-            shimmer.startShimmer()
-            shimmer.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
-            view.findViewById<View>(R.id.profile).visibility = View.GONE
-            observeData(user)
-            pullToRefresh.isRefreshing = true
+        view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).setOnRefreshListener {
+            refresh(user)
         }
 
         // Back button
@@ -101,6 +97,16 @@ class ProfileFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun refresh(user: String) {
+        val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
+        shimmer.startShimmer()
+        shimmer.visibility = View.VISIBLE
+        requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.GONE
+        requireView().findViewById<View>(R.id.profile).visibility = View.GONE
+        observeData(user)
+        requireView().findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = true
     }
 
     @SuppressLint("SetTextI18n")
@@ -136,6 +142,7 @@ class ProfileFragment : Fragment() {
                 .load("https://avatar.alles.cx/u/${it.username!!}?size=100")
                 .into(object: SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
+                        pfpBitmap = resource
                         setColorsProfile(resource)
                     }
                 })
@@ -163,17 +170,22 @@ class ProfileFragment : Fragment() {
 
         } else {
             followButton.background = requireContext().getDrawable(R.drawable.rounded_rectangle_small)
-            followButton.setTextColor(requireContext().getColor(R.color.profile_text_opacity))
+            followButton.setTextColor(requireContext().getColor(R.color.colorAccent))
             followButton.text = getString(R.string.follow)
             retrofit.unfollow(SharedPreferences.login_token!!, username).enqueue(dont_care_lol)
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        setColorsProfile(pfpBitmap)
+        super.onConfigurationChanged(newConfig)
     }
 
     private fun setColorsProfile(profile_picture: Bitmap) {
         requireView().findViewById<ImageView>(R.id.profile_image).setImageBitmap(profile_picture)
         try {
             // Get the layout in a bitmap
-            val layout = requireView().findViewById<ConstraintLayout>(R.id.view)
+            val layout = requireView().findViewById<ConstraintLayout>(R.id.info)
             val layoutBitmap = Bitmap.createBitmap(layout.width, layout.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(layoutBitmap)
             layout.draw(canvas)
