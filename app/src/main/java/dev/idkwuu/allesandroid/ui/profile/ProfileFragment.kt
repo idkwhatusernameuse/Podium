@@ -115,10 +115,13 @@ class ProfileFragment : Fragment() {
             val profileView = requireView().findViewById<View>(R.id.profile)
             profileView.visibility = View.VISIBLE
             // Text
-            profileView.findViewById<TextView>(R.id.user_title).text = it.name
+            profileView.findViewById<TextView>(R.id.user_title).text = if (it.plus) {
+                "${it.name}\u207A"
+            } else {
+                it.name
+            }
             profileView.findViewById<TextView>(R.id.user_handle).text = "@${it.username}"
             profileView.findViewById<TextView>(R.id.user_followers).text = "${it.followers.toString()} ${getString(R.string.followers)}"
-            //profileView.findViewById<TextView>(R.id.user_following).text = "${it.following.toString()} ${getString(R.string.following)}"
             if (it.followingUser) {
                 profileView.findViewById<TextView>(R.id.follows_you).visibility = View.VISIBLE
             }
@@ -142,8 +145,7 @@ class ProfileFragment : Fragment() {
                 .load("https://avatar.alles.cx/u/${it.username}")
                 .into(object: SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
-                        pfpBitmap = resource
-                        setColorsProfile(resource)
+                        setBlurredBanner(resource)
                     }
                 })
 
@@ -164,10 +166,8 @@ class ProfileFragment : Fragment() {
             .create(AllesEndpointsInterface::class.java)
         if (follow) {
             followButton.background = requireContext().getDrawable(R.drawable.solid_blue_rounded)
-            followButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.background))
             followButton.text = getString(R.string.unfollow)
             retrofit.follow(SharedPreferences.login_token!!, username).enqueue(dont_care_lol)
-
         } else {
             followButton.background = requireContext().getDrawable(R.drawable.rounded_rectangle_small)
             followButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
@@ -176,68 +176,13 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        setColorsProfile(pfpBitmap)
-        super.onConfigurationChanged(newConfig)
-    }
-
-    private fun setColorsProfile(profile_picture: Bitmap) {
+    private fun setBlurredBanner(profile_picture: Bitmap) {
         requireView().findViewById<ImageView>(R.id.profile_image).setImageBitmap(profile_picture)
-        try {
-            // Get the layout in a bitmap
-            val layout = requireView().findViewById<ConstraintLayout>(R.id.info)
-            val layoutBitmap = Bitmap.createBitmap(layout.width, layout.height, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(layoutBitmap)
-            layout.draw(canvas)
-
-            // Create blurred version of profile picture
-            val blurFactor = BlurFactor()
-            blurFactor.width = profile_picture.width
-            blurFactor.height = profile_picture.height
-            val blurryPicture = Blur.of(requireContext(), profile_picture, blurFactor)
-            val scaledBlurryPicture = Bitmap.createScaledBitmap(
-                blurryPicture,
-                layoutBitmap.width,
-                layoutBitmap.width * (layoutBitmap.width / layoutBitmap.height),
-                false
-            )
-            requireView().findViewById<ImageView>(R.id.background).setImageBitmap(blurryPicture)
-
-            // Do motherfucking math (i thought that school shit was over)
-            val alignment: Float
-            val doYaxis: Boolean
-            if (layoutBitmap.width > layoutBitmap.height) {
-                // Y
-                alignment = (scaledBlurryPicture.height - layoutBitmap.height) / 2f
-                doYaxis = true
-            } else {
-                // X
-                alignment = (scaledBlurryPicture.width - layoutBitmap.width) / 2f
-                doYaxis = false
-            }
-
-            // Generate final bitmap
-            val bitmapOut = Bitmap.createBitmap(layout.width, layout.height, Bitmap.Config.ARGB_8888)
-            val canvasOut = Canvas(bitmapOut)
-
-            val maskPaint = Paint()
-            maskPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
-            // Source
-            canvasOut.drawBitmap(
-                scaledBlurryPicture,
-                if (!doYaxis) -alignment else 0f,
-                if (doYaxis) -alignment else 0f,
-                null
-            )
-            // Destination
-            canvasOut.drawBitmap(layoutBitmap, 0f, 0f, maskPaint)
-            requireView().findViewById<ImageView>(R.id.overlay).setImageBitmap(bitmapOut)
-
-            // Hide views
-            requireView().findViewById<ConstraintLayout>(R.id.info).visibility = View.INVISIBLE
-        } catch (e: Exception) {
-            //fuck my life
-            Blurry.with(requireContext()).from(profile_picture).into(requireView().findViewById(R.id.background))
-        }
+        // Create blurred version of profile picture
+        val blurFactor = BlurFactor()
+        blurFactor.width = profile_picture.width
+        blurFactor.height = profile_picture.height
+        val blurryPicture = Blur.of(requireContext(), profile_picture, blurFactor)
+        requireView().findViewById<ImageView>(R.id.background).setImageBitmap(blurryPicture)
     }
 }
