@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AllesAndroid</string>
+    <string name="app_name">Podium</string>
 
     <!-- BottomNavigationBar Items -->
     <string name="title_home">Home</string>
