@@ -187,20 +187,29 @@
                 tools:text="This is an example of a post on Alles, aaaaa the lazy fox jumped over something i dont remember the phrase"
                 tools:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/post_image"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_image"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
                 android:visibility="gone"
+                app:cardCornerRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/post_text"
-                tools:srcCompat="@tools:sample/backgrounds/scenic"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                style="@style/cardStyle">
+
+                <ImageView
+                    android:id="@+id/post_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            </androidx.cardview.widget.CardView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

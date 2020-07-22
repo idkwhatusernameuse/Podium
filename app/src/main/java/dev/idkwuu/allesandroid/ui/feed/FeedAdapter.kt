@@ -124,7 +124,7 @@ class FeedAdapter(
             }
             // Post image
             if (post.image != null) {
-                itemView.post_image.visibility = View.VISIBLE
+                itemView.card_image.visibility = View.VISIBLE
                 Glide.with(context).load(post.image).into(itemView.post_image)
                 itemView.post_image.setOnClickListener {
                     val intent = Intent(itemView.context, ImageViewerActivty::class.java)
