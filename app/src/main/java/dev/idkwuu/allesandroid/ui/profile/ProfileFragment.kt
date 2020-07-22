@@ -164,13 +164,13 @@ class ProfileFragment : Fragment() {
             .create(AllesEndpointsInterface::class.java)
         if (follow) {
             followButton.background = requireContext().getDrawable(R.drawable.solid_blue_rounded)
-            followButton.setTextColor(requireContext().getColor(R.color.background))
+            followButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.background))
             followButton.text = getString(R.string.unfollow)
             retrofit.follow(SharedPreferences.login_token!!, username).enqueue(dont_care_lol)
 
         } else {
             followButton.background = requireContext().getDrawable(R.drawable.rounded_rectangle_small)
-            followButton.setTextColor(requireContext().getColor(R.color.colorAccent))
+            followButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             followButton.text = getString(R.string.follow)
             retrofit.unfollow(SharedPreferences.login_token!!, username).enqueue(dont_care_lol)
         }
@@ -234,7 +234,6 @@ class ProfileFragment : Fragment() {
             requireView().findViewById<ImageView>(R.id.overlay).setImageBitmap(bitmapOut)
 
             // Hide views
-            requireView().findViewById<ConstraintLayout>(R.id.bar).visibility = View.INVISIBLE
             requireView().findViewById<ConstraintLayout>(R.id.info).visibility = View.INVISIBLE
         } catch (e: Exception) {
             //fuck my life
