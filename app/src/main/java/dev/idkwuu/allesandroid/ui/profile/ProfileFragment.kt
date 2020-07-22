@@ -24,6 +24,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.button.MaterialButton
+import de.hdodenhof.circleimageview.CircleImageView
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
@@ -149,6 +150,11 @@ class ProfileFragment : Fragment() {
                     }
                 })
 
+            // Is online?
+            if (it.isOnline) {
+                profileView.findViewById<CircleImageView>(R.id.profile_image).borderWidth = 1
+            }
+
             // Set posts list
             requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
             requireView().findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = false
@@ -166,6 +172,7 @@ class ProfileFragment : Fragment() {
             .create(AllesEndpointsInterface::class.java)
         if (follow) {
             followButton.background = requireContext().getDrawable(R.drawable.solid_blue_rounded)
+            followButton.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
             followButton.text = getString(R.string.unfollow)
             retrofit.follow(SharedPreferences.login_token!!, username).enqueue(dont_care_lol)
         } else {

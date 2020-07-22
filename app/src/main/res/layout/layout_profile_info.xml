@@ -73,6 +73,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="16dp"
+            app:civ_border_width="0dp"
+            app:civ_border_color="#07de40"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -95,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/headline2"
-                android:textColor="@color/profile_text_opacity"
+                android:textColor="@color/profile_foreground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -116,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/text_body"
-                    android:textColor="@color/profile_text_opacity"
+                    android:textColor="@color/profile_foreground"
                     tools:text="\@idkwuu" />
 
                 <TextView
@@ -131,7 +133,7 @@
                     android:paddingBottom="2dp"
                     android:text="@string/follows_you"
                     android:textAppearance="@style/text_body"
-                    android:textColor="@color/profile_text_opacity"
+                    android:textColor="@color/profile_foreground"
                     android:visibility="gone" />
             </LinearLayout>
 
@@ -152,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textColor="@color/profile_text_opacity"
+                    android:textColor="@color/profile_foreground"
                     tools:text="69 followers" />
 
                 <TextView
@@ -163,7 +165,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
                     android:textAlignment="textStart"
-                    android:textColor="@color/profile_text_opacity"
+                    android:textColor="@color/profile_foreground"
                     android:visibility="gone"
                     tools:text="420 following" />
             </LinearLayout>
@@ -175,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"
-                android:textColor="@color/profile_text_opacity"
+                android:textColor="@color/profile_foreground"
                 app:layout_constraintTop_toBottomOf="@+id/follow_counts"
                 tools:text="i like programming (kotlin, flutter and js), doing things in after effects and anime | 17" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -187,9 +189,10 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_rectangle_small"
             android:text="@string/follow"
-            android:textColor="@color/profile_text_opacity"
+            android:textColor="@color/profile_foreground"
             android:textStyle="bold"
             android:visibility="gone"
+            app:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/info"

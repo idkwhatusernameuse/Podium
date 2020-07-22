@@ -53,7 +53,7 @@
     </style>
 
     <style name="cardStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">@color/background</item>
+        <item name="cardBackgroundColor">@color/cards</item>
         <item name="cardCornerRadius">16dp</item>
         <item name="cardElevation">0dp</item>
         <item name="borderWidth">10dp</item>
@@ -84,11 +84,11 @@
 
     <style name="follow_button_unselected">
         <item name="android:background">@drawable/rounded_rectangle_small</item>
-        <item name="android:textColor">@color/profile_text_opacity</item>
+        <item name="android:textColor">@color/profile_foreground</item>
     </style>
 
     <style name="follow_button_selected">
         <item name="background">@drawable/solid_blue_rounded</item>
-        <item name="android:textColor">@color/background</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>

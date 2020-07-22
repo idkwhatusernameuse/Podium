@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/headline2"
-                android:textColor="@color/profile_text_opacity"
+                android:textColor="@color/profile_foreground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_image"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/text_body"
-                android:textColor="@color/profile_text_opacity"
+                android:textColor="@color/profile_foreground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/user_title"
@@ -74,7 +74,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/profile_text_opacity"
+                    android:textColor="@color/profile_foreground"
                     tools:text="69 followers" />
 
                 <TextView
@@ -85,7 +85,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:textAlignment="textStart"
-                    android:textColor="@color/profile_text_opacity"
+                    android:textColor="@color/profile_foreground"
                     tools:text="420 following" />
             </LinearLayout>
 
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"
-                android:textColor="@color/profile_text_opacity"
+                android:textColor="@color/profile_foreground"
                 app:layout_constraintTop_toBottomOf="@+id/follow_counts"
                 tools:text="i like programming (kotlin, flutter and js), doing things in after effects and anime | 17" />
 

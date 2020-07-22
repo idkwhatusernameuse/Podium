@@ -12,5 +12,7 @@
 
     <color name="overlay_background">#C1000000</color>
     <color name="overlay_tint">#4FFFFFFF</color>
-    <color name="profile_text_opacity">@android:color/white</color>
+
+    <color name="cards">#131313</color>
+    <color name="profile_foreground">@android:color/white</color>
 </resources>
