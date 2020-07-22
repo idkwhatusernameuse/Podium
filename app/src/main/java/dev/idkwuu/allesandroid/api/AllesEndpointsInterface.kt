@@ -6,7 +6,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface AllesEndpointsInterface {
-
     @POST("login")
     fun getToken(@Body credentials: LegacyUserCredentials): Call<LegacyToken>
 
@@ -36,4 +35,7 @@ interface AllesEndpointsInterface {
 
     @GET("post/{post}/remove")
     fun remove(@Header("authorization") token: String, @Path("post") post: String): Call<AllesInteractionRemove>
+
+    @GET("https://online.alles.cx/{id}")
+    fun getIsOnline(@Path("id") userId: String): Call<String>
 }
