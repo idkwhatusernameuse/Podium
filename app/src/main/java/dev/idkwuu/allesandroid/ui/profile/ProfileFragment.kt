@@ -115,7 +115,7 @@ class ProfileFragment : Fragment() {
             val profileView = requireView().findViewById<View>(R.id.profile)
             profileView.visibility = View.VISIBLE
             // Text
-            profileView.findViewById<TextView>(R.id.user_title).text = it.nickname
+            profileView.findViewById<TextView>(R.id.user_title).text = it.name
             profileView.findViewById<TextView>(R.id.user_handle).text = "@${it.username}"
             profileView.findViewById<TextView>(R.id.user_followers).text = "${it.followers.toString()} ${getString(R.string.followers)}"
             //profileView.findViewById<TextView>(R.id.user_following).text = "${it.following.toString()} ${getString(R.string.following)}"
@@ -139,7 +139,7 @@ class ProfileFragment : Fragment() {
             // Profile picture
             Glide.with(requireView().context)
                 .asBitmap()
-                .load("https://avatar.alles.cx/u/${it.username}?size=100")
+                .load("https://avatar.alles.cx/u/${it.username}")
                 .into(object: SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
                         pfpBitmap = resource
