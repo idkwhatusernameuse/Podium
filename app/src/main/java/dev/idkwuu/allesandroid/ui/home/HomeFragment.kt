@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.todou.nestrefresh.RefreshHeaderView
+import com.todou.nestrefresh.base.OnRefreshListener
 import dev.idkwuu.allesandroid.ui.PostActivity
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
@@ -53,14 +55,12 @@ class HomeFragment : Fragment() {
             }
         })
         // Setup pull to refresh
-        val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
-        pullToRefresh.setOnRefreshListener {
-            shimmer.startShimmer()
-            shimmer.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
-            observeData(adapter)
-            pullToRefresh.isRefreshing = true
-        }
+        val pullToRefresh = view.findViewById<RefreshHeaderView>(R.id.pullToRefresh)
+        pullToRefresh.setOnRefreshListener(object : OnRefreshListener {
+            override fun onRefresh() {
+                observeData(adapter, false)
+            }
+        })
 
         // Post FAB!
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
@@ -69,13 +69,15 @@ class HomeFragment : Fragment() {
         return view
     }
 
-    private fun observeData(adapter: FeedAdapter) {
+    private fun observeData(adapter: FeedAdapter, hideShimmer: Boolean = true) {
         viewModel.fetchPosts().observe(viewLifecycleOwner, Observer {
-            val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
-            shimmer.stopShimmer()
-            shimmer.visibility = View.GONE
-            requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
-            requireView().findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = false
+            if (hideShimmer) {
+                val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
+                shimmer.stopShimmer()
+                shimmer.visibility = View.GONE
+                requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
+            }
+            requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
             adapter.setListData(it)
             adapter.notifyDataSetChanged()
         })

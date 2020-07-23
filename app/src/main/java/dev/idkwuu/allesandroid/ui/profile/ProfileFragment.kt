@@ -24,6 +24,8 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.button.MaterialButton
+import com.todou.nestrefresh.RefreshHeaderView
+import com.todou.nestrefresh.base.OnRefreshListener
 import de.hdodenhof.circleimageview.CircleImageView
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
@@ -77,9 +79,11 @@ class ProfileFragment : Fragment() {
         observeData(user)
 
         // Setup pull to refresh
-        view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).setOnRefreshListener {
-            refresh(user)
-        }
+        view.findViewById<RefreshHeaderView>(R.id.pullToRefresh).setOnRefreshListener(object : OnRefreshListener {
+            override fun onRefresh() {
+                observeData(user, false)
+            }
+        })
 
         // Back button
         val withBackButton = try {
@@ -100,18 +104,8 @@ class ProfileFragment : Fragment() {
         return view
     }
 
-    private fun refresh(user: String) {
-        val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
-        shimmer.startShimmer()
-        shimmer.visibility = View.VISIBLE
-        requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.GONE
-        requireView().findViewById<View>(R.id.profile).visibility = View.GONE
-        observeData(user)
-        requireView().findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = true
-    }
-
     @SuppressLint("SetTextI18n")
-    private fun observeData(user: String) {
+    private fun observeData(user: String, hideShimmer: Boolean = true) {
         viewModel.fetchUser(user).observe(viewLifecycleOwner, Observer {
             val profileView = requireView().findViewById<View>(R.id.profile)
             profileView.visibility = View.VISIBLE
@@ -156,14 +150,16 @@ class ProfileFragment : Fragment() {
             }
 
             // Set posts list
-            requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
-            requireView().findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = false
+            requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
             adapter.setListData(it.posts!!.toMutableList())
             adapter.notifyDataSetChanged()
 
-            val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
-            shimmer.stopShimmer()
-            shimmer.visibility = View.GONE
+            if (hideShimmer) {
+                requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
+                val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
+                shimmer.stopShimmer()
+                shimmer.visibility = View.GONE
+            }
         })
     }
 
