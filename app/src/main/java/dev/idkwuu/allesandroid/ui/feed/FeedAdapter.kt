@@ -24,6 +24,7 @@ import dev.idkwuu.allesandroid.models.AllesPost
 import dev.idkwuu.allesandroid.models.AllesVote
 import dev.idkwuu.allesandroid.ui.ImageViewerActivty
 import dev.idkwuu.allesandroid.ui.ProfileActivity
+import dev.idkwuu.allesandroid.ui.ThreadActivity
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
 import kotlinx.android.synthetic.main.item_post.view.*
@@ -125,7 +126,7 @@ class FeedAdapter(
             // Post image
             if (post.image != null) {
                 itemView.card_image.visibility = View.VISIBLE
-                Glide.with(context).load(post.image).into(itemView.post_image)
+                Glide.with(context.applicationContext).load(post.image).into(itemView.post_image)
                 itemView.post_image.setOnClickListener {
                     val intent = Intent(itemView.context, ImageViewerActivty::class.java)
                     intent.putExtra("URL", post.image.toString())
@@ -141,10 +142,14 @@ class FeedAdapter(
             itemView.time.text = "${DateUtils.getRelativeTimeSpanString(timeAndDate.time, now, 0)}, $time"
             // Set profile photo
             Repo().getEtagProfilePicture(post.author.username).observeForever { etag ->
-                Glide.with(context)
+                Glide.with(context.applicationContext)
                     .load("https://avatar.alles.cx/u/${post.author.username}")
                     .signature(ObjectKey(etag))
                     .into(itemView.profile_image)
+            }
+            // Open thread
+            itemView.setOnClickListener {
+                context.startActivity(Intent(context, ThreadActivity::class.java))
             }
         }
     }
