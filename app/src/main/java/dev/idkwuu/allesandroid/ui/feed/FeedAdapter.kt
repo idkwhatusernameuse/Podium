@@ -29,9 +29,9 @@ class FeedAdapter(
     private val context: Context
 ) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
 
-    private var dataList = mutableListOf<AllesPost>()
+    private var dataList = listOf<AllesPost>()
 
-    fun setListData(data: MutableList<AllesPost>) {
+    fun setListData(data: List<AllesPost>) {
         dataList = data
     }
 

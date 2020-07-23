@@ -70,13 +70,16 @@ class HomeFragment : Fragment() {
 
     private fun observeData(adapter: FeedAdapter, hideShimmer: Boolean = true) {
         viewModel.fetchPosts().observe(viewLifecycleOwner, Observer {
+            val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
             if (hideShimmer) {
                 val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
                 shimmer.stopShimmer()
                 shimmer.visibility = View.GONE
-                requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
+                recyclerView.visibility = View.VISIBLE
             }
             requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
+            recyclerView.adapter = null
+            recyclerView.adapter = adapter
             adapter.setListData(it)
             adapter.notifyDataSetChanged()
         })

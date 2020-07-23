@@ -146,11 +146,14 @@ class ProfileFragment : Fragment() {
 
             // Set posts list
             requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
-            adapter.setListData(it.posts!!.toMutableList())
+            val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
+            recyclerView.adapter = null
+            recyclerView.adapter = adapter
+            adapter.setListData(it.posts)
             adapter.notifyDataSetChanged()
 
             if (hideShimmer) {
-                requireView().findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
+                recyclerView.visibility = View.VISIBLE
                 val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
                 shimmer.stopShimmer()
                 shimmer.visibility = View.GONE
