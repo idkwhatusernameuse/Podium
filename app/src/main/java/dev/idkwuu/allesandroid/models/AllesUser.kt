@@ -54,9 +54,15 @@ class AllesUser (
 
     @SerializedName("posts")
     @Expose
-    var posts: List<AllesPost>? = null,
+    var posts: List<AllesPost>,
 
     @SerializedName("color")
     @Expose
-    var color: Any? = null
+    var color: Any? = null,
+
+    var isOnline: Boolean = false,
+
+    @SerializedName("err")
+    @Expose
+    var err: String? = null
 )

@@ -17,5 +17,9 @@ class LegacyUserCredentials (
 class LegacyToken (
     @SerializedName("token")
     @Expose
-    var token: String? = null
+    var token: String? = null,
+
+    @SerializedName("err")
+    @Expose
+    var err: String? = null
 )
