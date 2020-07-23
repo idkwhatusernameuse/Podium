@@ -40,7 +40,11 @@ class AllesPost(
     @Expose
     var replyCount: Int,
 
-    @SerializedName("hasParent")
+    @SerializedName("replies")
     @Expose
-    var hasParent: Boolean
+    var replies: List<AllesPost>,
+
+    @SerializedName("ancestors")
+    @Expose
+    var ancestors: List<AllesPost>
 )
