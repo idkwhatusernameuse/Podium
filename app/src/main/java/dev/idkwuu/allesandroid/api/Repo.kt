@@ -80,16 +80,30 @@ class Repo {
         val etag = MutableLiveData<String>()
         val call = retrofitInstance.getImageHeaders(user)
         call.enqueue(object: Callback<Void> {
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-            }
-
+            override fun onFailure(call: Call<Void>, t: Throwable) { }
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.headers() != null) {
                     etag.value = response.headers()!!["etag"]!!
                 }
             }
-
         })
         return etag
+    }
+
+    fun getMentions(): LiveData<MutableList<AllesPost>> {
+        val mutableData = MutableLiveData<MutableList<AllesPost>>()
+        val call = retrofitInstance.getMentions(SharedPreferences.login_token!!)
+        call.enqueue(object : Callback<AllesMentions> {
+            override fun onFailure(call: Call<AllesMentions>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onResponse(call: Call<AllesMentions>, response: Response<AllesMentions>) {
+                if (response.body()?.mentions != null) {
+                    mutableData.value = response.body()!!.mentions.toMutableList()
+                }
+            }
+        })
+        return mutableData
     }
 }
