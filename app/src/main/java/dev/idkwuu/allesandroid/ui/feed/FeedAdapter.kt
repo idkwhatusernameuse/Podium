@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
+import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.models.AllesPost
 import dev.idkwuu.allesandroid.models.AllesVote
@@ -135,7 +140,12 @@ class FeedAdapter(
             val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(timeAndDate!!)
             itemView.time.text = "${DateUtils.getRelativeTimeSpanString(timeAndDate.time, now, 0)}, $time"
             // Set profile photo
-            Glide.with(context).load("https://avatar.alles.cx/u/${post.author.username}?size=100").into(itemView.profile_image)
+            Repo().getEtagProfilePicture(post.author.username).observeForever { etag ->
+                Glide.with(context)
+                    .load("https://avatar.alles.cx/u/${post.author.username}")
+                    .signature(ObjectKey(etag))
+                    .into(itemView.profile_image)
+            }
         }
     }
 

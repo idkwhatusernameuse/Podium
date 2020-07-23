@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.idkwuu.allesandroid.models.*
 import dev.idkwuu.allesandroid.util.SharedPreferences
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URL
 
 class Repo {
     companion object {
@@ -72,5 +74,22 @@ class Repo {
             }
         })
         return isOnline
+    }
+
+    fun getEtagProfilePicture(user: String): LiveData<String> {
+        val etag = MutableLiveData<String>()
+        val call = retrofitInstance.getImageHeaders(user)
+        call.enqueue(object: Callback<Void> {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.headers() != null) {
+                    etag.value = response.headers()!!["etag"]!!
+                }
+            }
+
+        })
+        return etag
     }
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.button.MaterialButton
 import com.todou.nestrefresh.RefreshHeaderView
@@ -25,6 +26,7 @@ import com.todou.nestrefresh.base.OnRefreshListener
 import de.hdodenhof.circleimageview.CircleImageView
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
+import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
 import dev.idkwuu.allesandroid.util.SharedPreferences
@@ -130,14 +132,18 @@ class ProfileFragment : Fragment() {
             }
 
             // Profile picture
-            Glide.with(requireView().context)
-                .asBitmap()
-                .load("https://avatar.alles.cx/u/${it.username}")
-                .into(object: SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
-                        setBlurredBanner(resource)
-                    }
-                })
+            Repo().getEtagProfilePicture(it.username).observeForever { etag ->
+                Glide.with(requireView().context)
+                    .asBitmap()
+                    .load("https://avatar.alles.cx/u/${it.username}")
+                    .signature(ObjectKey(etag))
+                    .into(object: SimpleTarget<Bitmap>() {
+                        override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
+                            setBlurredBanner(resource)
+                        }
+                    })
+            }
+
 
             // Is online?
             if (it.isOnline) {

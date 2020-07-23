@@ -1,6 +1,7 @@
 package dev.idkwuu.allesandroid.api
 
 import dev.idkwuu.allesandroid.models.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -37,4 +38,7 @@ interface AllesEndpointsInterface {
 
     @GET("https://online.alles.cx/{id}")
     fun getIsOnline(@Path("id") userId: String): Call<String>
+
+    @HEAD("https://avatar.alles.cx/u/{username}")
+    fun getImageHeaders(@Path("username") username: String): Call<Void>
 }
