@@ -10,7 +10,6 @@
 
     <color name="nav_bar">@android:color/black</color>
 
-    <color name="overlay_background">#C1000000</color>
     <color name="overlay_tint">#4FFFFFFF</color>
 
     <color name="cards">#131313</color>

@@ -18,7 +18,6 @@
     <color name="nav_bar">#66858585</color>
     <color name="background_overlay">#B4000000</color>
 
-    <color name="overlay_background">#C4FFFFFF</color>
     <color name="overlay_tint">#2D000000</color>
 
     <color name="cards">@color/background</color>
