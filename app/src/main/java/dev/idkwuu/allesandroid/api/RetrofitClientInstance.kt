@@ -1,9 +1,7 @@
 package dev.idkwuu.allesandroid.api
 
-import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 
 class RetrofitClientInstance {
     private var retrofit: Retrofit? = null

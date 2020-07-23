@@ -19,15 +19,12 @@ import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.models.AllesInteractionPost
-import dev.idkwuu.allesandroid.models.LegacyToken
-import dev.idkwuu.allesandroid.models.LegacyUserCredentials
 import dev.idkwuu.allesandroid.util.ImageUtil
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.random.Random
-
 
 class PostActivity : AppCompatActivity() {
 

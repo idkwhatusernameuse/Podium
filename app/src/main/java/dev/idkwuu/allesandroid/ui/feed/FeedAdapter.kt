@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
@@ -24,9 +22,6 @@ import dev.idkwuu.allesandroid.ui.ProfileActivity
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
 import kotlinx.android.synthetic.main.item_post.view.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 

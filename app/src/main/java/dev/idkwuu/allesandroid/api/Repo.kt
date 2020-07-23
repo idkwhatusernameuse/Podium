@@ -1,9 +1,7 @@
 package dev.idkwuu.allesandroid.api
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import dev.idkwuu.allesandroid.models.*
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import retrofit2.Call

@@ -4,17 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
 import android.transition.AutoTransition
 import android.transition.TransitionManager
-import android.view.GestureDetector
-import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.ortiz.touchview.TouchImageView
