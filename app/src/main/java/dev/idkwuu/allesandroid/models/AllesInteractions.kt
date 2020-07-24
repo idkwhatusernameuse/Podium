@@ -10,7 +10,11 @@ class AllesInteractionPost(
 
     @SerializedName("image")
     @Expose
-    var image: String? = null
+    var image: String? = null,
+
+    @SerializedName("parent")
+    @Expose
+    var parent: String? = null
 )
 
 class AllesInteractionRemove {

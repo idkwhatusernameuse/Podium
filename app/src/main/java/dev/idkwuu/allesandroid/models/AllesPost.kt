@@ -42,9 +42,9 @@ class AllesPost(
 
     @SerializedName("replies")
     @Expose
-    var replies: List<AllesPost>,
+    var replies: List<AllesPost>?,
 
     @SerializedName("ancestors")
     @Expose
-    var ancestors: List<AllesPost>
+    var ancestors: List<AllesPost>?
 )
