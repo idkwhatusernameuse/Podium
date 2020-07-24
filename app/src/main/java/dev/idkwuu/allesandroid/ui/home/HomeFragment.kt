@@ -16,9 +16,9 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.todou.nestrefresh.RefreshHeaderView
 import com.todou.nestrefresh.base.OnRefreshListener
-import dev.idkwuu.allesandroid.ui.PostActivity
+import dev.idkwuu.allesandroid.ui.post.PostActivity
 import dev.idkwuu.allesandroid.R
-import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
+import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 
 class HomeFragment : Fragment() {
 
@@ -37,7 +37,8 @@ class HomeFragment : Fragment() {
         val shimmer = view.findViewById<ShimmerFrameLayout>(R.id.shimmer)
         shimmer.startShimmer()
 
-        val adapter = FeedAdapter(view.context)
+        val adapter =
+            PostListAdapter(view.context)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         recyclerView.isNestedScrollingEnabled = false
@@ -68,7 +69,7 @@ class HomeFragment : Fragment() {
         return view
     }
 
-    private fun observeData(adapter: FeedAdapter, hideShimmer: Boolean = true) {
+    private fun observeData(adapter: PostListAdapter, hideShimmer: Boolean = true) {
         viewModel.fetchPosts().observe(viewLifecycleOwner, Observer {
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
             if (hideShimmer) {

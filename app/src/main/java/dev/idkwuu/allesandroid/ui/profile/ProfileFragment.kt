@@ -28,7 +28,7 @@ import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
-import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
+import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
 import jp.wasabeef.blurry.internal.Blur
@@ -49,7 +49,7 @@ class ProfileFragment : Fragment() {
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(ProfileViewModel::class.java)
     }
-    private lateinit var adapter: FeedAdapter
+    private lateinit var adapter: PostListAdapter
     private lateinit var pfpBitmap: Bitmap
 
     override fun onCreateView(
@@ -62,7 +62,7 @@ class ProfileFragment : Fragment() {
         val shimmer = view.findViewById<ShimmerFrameLayout>(R.id.shimmer)
         shimmer.startShimmer()
 
-        adapter = FeedAdapter(view.context)
+        adapter = PostListAdapter(view.context)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         recyclerView.isNestedScrollingEnabled = false

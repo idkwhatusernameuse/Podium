@@ -1,4 +1,4 @@
-package dev.idkwuu.allesandroid.ui
+package dev.idkwuu.allesandroid.ui.post
 
 import android.app.Activity
 import android.content.Intent

@@ -1,25 +1,20 @@
 package dev.idkwuu.allesandroid.ui.notifications
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.todou.nestrefresh.RefreshHeaderView
 import com.todou.nestrefresh.base.OnRefreshListener
-import dev.idkwuu.allesandroid.ui.PostActivity
 import dev.idkwuu.allesandroid.R
-import dev.idkwuu.allesandroid.ui.feed.FeedAdapter
-import dev.idkwuu.allesandroid.ui.home.HomeViewModel
+import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 
 class NotificationsFragment : Fragment() {
 
@@ -38,7 +33,8 @@ class NotificationsFragment : Fragment() {
         val shimmer = view.findViewById<ShimmerFrameLayout>(R.id.shimmer)
         shimmer.startShimmer()
 
-        val adapter = FeedAdapter(view.context)
+        val adapter =
+            PostListAdapter(view.context)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         recyclerView.isNestedScrollingEnabled = false
@@ -55,7 +51,7 @@ class NotificationsFragment : Fragment() {
         return view
     }
 
-    private fun observeData(adapter: FeedAdapter, hideShimmer: Boolean = true) {
+    private fun observeData(adapter: PostListAdapter, hideShimmer: Boolean = true) {
         viewModel.fetchMentions().observe(viewLifecycleOwner, Observer {
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
             if (hideShimmer) {
