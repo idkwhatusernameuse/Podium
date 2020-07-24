@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.google.gson.Gson
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.Repo
@@ -65,7 +66,7 @@ class PostBinder {
     }
 
     @SuppressLint("SetTextI18n")
-    fun bindView(post: AllesPost, itemView: View) {
+    fun bindView(post: AllesPost, itemView: View, isMainPost: Boolean = false) {
         itemView.user_info.setOnClickListener {
             val intent = Intent(itemView.context, ProfileActivity::class.java)
             intent.putExtra("user", post.author.username)
@@ -139,9 +140,13 @@ class PostBinder {
                 .signature(ObjectKey(etag))
                 .into(itemView.profile_image)
         }
-        // Open thread
-        itemView.setOnClickListener {
-            itemView.context.startActivity(Intent(itemView.context, ThreadActivity::class.java))
+        if (!isMainPost) {
+            // Open thread
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, ThreadActivity::class.java)
+                intent.putExtra("json", Gson().toJson(post))
+                itemView.context.startActivity(intent)
+            }
         }
     }
 }

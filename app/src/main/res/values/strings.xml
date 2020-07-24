@@ -37,4 +37,9 @@
     <string name="post_hint_3">What\'s up?</string>
     <string name="post_hint_4">Hmm…</string>
     <string name="post_hint_5">*thinking*</string>
+
+
+    <string name="reply">Reply to</string>
+    <string name="replying">Replying to</string>
+
 </resources>

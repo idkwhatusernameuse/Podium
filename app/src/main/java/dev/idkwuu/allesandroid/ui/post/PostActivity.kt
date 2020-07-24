@@ -1,5 +1,6 @@
 package dev.idkwuu.allesandroid.ui.post
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -8,10 +9,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
@@ -39,6 +37,7 @@ class PostActivity : AppCompatActivity() {
     private var bitmap: Bitmap? = null
     private var mime: String = ""
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
@@ -46,6 +45,12 @@ class PostActivity : AppCompatActivity() {
         val addImage = findViewById<ImageButton>(R.id.addImage)
         val post = findViewById<Button>(R.id.post)
         val editText = findViewById<EditText>(R.id.editText)
+
+        // Replying to
+        val postToReply = intent.getStringExtra("replyTo")
+        if (postToReply != null) {
+            findViewById<TextView>(R.id.replyingTo).text = "${getString(R.string.replying)} @${intent.getStringExtra("userToReply")}"
+        }
 
         // Get a random phrase for the hint
         randomStringForHint()
@@ -65,7 +70,7 @@ class PostActivity : AppCompatActivity() {
         }
 
         post.setOnClickListener {
-            postEverything()
+            postEverything(postToReply)
         }
 
         // Back button
@@ -116,10 +121,11 @@ class PostActivity : AppCompatActivity() {
         findViewById<EditText>(R.id.editText).hint = getString(randomStrings[Random.nextInt(0, 4)])
     }
 
-    private fun postEverything() {
+    private fun postEverything(postToReply: String?) {
         val post = AllesInteractionPost(
             content = findViewById<EditText>(R.id.editText).text.toString(),
-            image = if (bitmap != null) { "data:$mime;base64,${ImageUtil.convertToBase64(bitmap!!)}" } else { null }
+            image = if (bitmap != null) { "data:$mime;base64,${ImageUtil.convertToBase64(bitmap!!)}" } else { null },
+            parent = postToReply
         )
         val retrofit = RetrofitClientInstance().getRetrofitInstance()
             .create(AllesEndpointsInterface::class.java)
