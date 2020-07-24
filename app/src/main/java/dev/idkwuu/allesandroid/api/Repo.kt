@@ -106,4 +106,21 @@ class Repo {
         })
         return mutableData
     }
+
+    fun getPost(slug: String): LiveData<AllesPost> {
+        val mutableData = MutableLiveData<AllesPost>()
+        val call = retrofitInstance.getPost(SharedPreferences.login_token!!, slug)
+        call.enqueue(object : Callback<AllesPost> {
+            override fun onFailure(call: Call<AllesPost>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onResponse(call: Call<AllesPost>, response: Response<AllesPost>) {
+                if (response.body() != null) {
+                    mutableData.value = response.body()!!
+                }
+            }
+        })
+        return mutableData
+    }
 }

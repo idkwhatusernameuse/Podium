@@ -41,4 +41,7 @@ interface AllesEndpointsInterface {
 
     @HEAD("https://avatar.alles.cx/u/{username}")
     fun getImageHeaders(@Path("username") username: String): Call<Void>
+
+    @GET("post/{slug}?children?=")
+    fun getPost(@Header("authorization") token: String, @Path("slug") slug: String): Call<AllesPost>
 }
