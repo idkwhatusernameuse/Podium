@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
         val pullToRefresh = view.findViewById<RefreshHeaderView>(R.id.pullToRefresh)
         pullToRefresh.setOnRefreshListener(object : OnRefreshListener {
             override fun onRefresh() {
-                observeData(adapter, false)
+                observeData(adapter, hideShimmer = false, reload = true)
             }
         })
 
@@ -69,8 +69,8 @@ class HomeFragment : Fragment() {
         return view
     }
 
-    private fun observeData(adapter: PostListAdapter, hideShimmer: Boolean = true) {
-        viewModel.fetchPosts().observe(viewLifecycleOwner, Observer {
+    private fun observeData(adapter: PostListAdapter, hideShimmer: Boolean = true, reload: Boolean = false) {
+        viewModel.fetchPosts(reload).observe(viewLifecycleOwner, Observer {
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
             if (hideShimmer) {
                 val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)

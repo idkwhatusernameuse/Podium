@@ -9,9 +9,9 @@ import dev.idkwuu.allesandroid.models.AllesPost
 class HomeViewModel : ViewModel() {
     private val repo = Repo()
 
-    fun fetchPosts(): LiveData<MutableList<AllesPost>> {
+    fun fetchPosts(reload: Boolean): LiveData<MutableList<AllesPost>> {
         val mutableData = MutableLiveData<MutableList<AllesPost>>()
-        repo.getPosts().observeForever {
+        repo.getPosts(reload).observeForever {
             mutableData.value = it
         }
         return mutableData

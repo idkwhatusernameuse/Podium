@@ -24,22 +24,27 @@ class Repo {
             }
 
         val cachedEtags = ArrayList<Pair<String, String?>>()
+        var cachedFeed: List<AllesPost>? = null
     }
 
-    fun getPosts(): LiveData<MutableList<AllesPost>> {
+    fun getPosts(reload: Boolean = false): LiveData<MutableList<AllesPost>> {
         val mutableData = MutableLiveData<MutableList<AllesPost>>()
-        val call = retrofitInstance.getFeed(SharedPreferences.login_token!!)
-        call.enqueue(object : Callback<AllesFeed> {
-            override fun onFailure(call: Call<AllesFeed>, t: Throwable) {
+        if (cachedFeed == null || reload) {
+            val call = retrofitInstance.getFeed(SharedPreferences.login_token!!)
+            call.enqueue(object : Callback<AllesFeed> {
+                override fun onFailure(call: Call<AllesFeed>, t: Throwable) {
 
-            }
-
-            override fun onResponse(call: Call<AllesFeed>, response: Response<AllesFeed>) {
-                if (response.body()?.feed != null) {
-                    mutableData.value = response.body()!!.feed.toMutableList()
                 }
-            }
-        })
+                override fun onResponse(call: Call<AllesFeed>, response: Response<AllesFeed>) {
+                    if (response.body()?.feed != null) {
+                        cachedFeed = response.body()!!.feed
+                        mutableData.value = response.body()!!.feed.toMutableList()
+                    }
+                }
+            })
+        } else {
+            mutableData.value = cachedFeed!!.toMutableList()
+        }
         return mutableData
     }
 
