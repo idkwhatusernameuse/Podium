@@ -22,6 +22,8 @@ class Repo {
                 }
                 return instance
             }
+
+        val cachedEtags = ArrayList<Pair<String, String?>>()
     }
 
     fun getPosts(): LiveData<MutableList<AllesPost>> {
@@ -29,7 +31,7 @@ class Repo {
         val call = retrofitInstance.getFeed(SharedPreferences.login_token!!)
         call.enqueue(object : Callback<AllesFeed> {
             override fun onFailure(call: Call<AllesFeed>, t: Throwable) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onResponse(call: Call<AllesFeed>, response: Response<AllesFeed>) {
@@ -76,17 +78,23 @@ class Repo {
         return isOnline
     }
 
-    fun getEtagProfilePicture(user: String): LiveData<String> {
-        val etag = MutableLiveData<String>()
-        val call = retrofitInstance.getImageHeaders(user)
-        call.enqueue(object: Callback<Void> {
-            override fun onFailure(call: Call<Void>, t: Throwable) { }
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.headers() != null) {
-                    etag.value = response.headers()!!["etag"]!!
+    fun getEtagProfilePicture(user: String): LiveData<Pair<String, String?>?> {
+        val data = cachedEtags.find { it.first == user }
+        val etag = MutableLiveData(data)
+        // Check if we already have cached an etag
+        if (data == null) {
+            val call = retrofitInstance.getImageHeaders(user)
+            call.enqueue(object: Callback<Void> {
+                override fun onFailure(call: Call<Void>, t: Throwable) { }
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.headers() != null) {
+                        val etagPair = Pair(user, response.headers()!!["etag"]!!)
+                        cachedEtags.add(etagPair)
+                        etag.value = etagPair
+                    }
                 }
-            }
-        })
+            })
+        }
         return etag
     }
 

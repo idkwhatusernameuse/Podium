@@ -133,15 +133,17 @@ class ProfileFragment : Fragment() {
 
             // Profile picture
             Repo().getEtagProfilePicture(it.username).observeForever { etag ->
-                Glide.with(requireView().context)
-                    .asBitmap()
-                    .load("https://avatar.alles.cx/u/${it.username}")
-                    .signature(ObjectKey(etag))
-                    .into(object: SimpleTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
-                            setBlurredBanner(resource)
-                        }
-                    })
+                if (etag?.second != null) {
+                    Glide.with(requireView().context)
+                        .asBitmap()
+                        .load("https://avatar.alles.cx/u/${it.username}")
+                        .signature(ObjectKey(etag.second!!))
+                        .into(object: SimpleTarget<Bitmap>() {
+                            override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
+                                setBlurredBanner(resource)
+                            }
+                        })
+                }
             }
 
 

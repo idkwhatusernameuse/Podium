@@ -135,10 +135,12 @@ class PostBinder {
         itemView.time.text = "${DateUtils.getRelativeTimeSpanString(timeAndDate.time, now, 0)}, $time"
         // Set profile photo
         Repo().getEtagProfilePicture(post.author.username).observeForever { etag ->
-            Glide.with(itemView.context.applicationContext)
-                .load("https://avatar.alles.cx/u/${post.author.username}")
-                .signature(ObjectKey(etag))
-                .into(itemView.profile_image)
+            if (etag?.second != null) {
+                Glide.with(itemView.context.applicationContext)
+                    .load("https://avatar.alles.cx/u/${post.author.username}")
+                    .signature(ObjectKey(etag.second!!))
+                    .into(itemView.profile_image)
+            }
         }
         if (!isMainPost) {
             // Open thread
