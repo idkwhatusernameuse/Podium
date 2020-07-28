@@ -20,6 +20,7 @@
         <include
             layout="@layout/item_post"
             android:id="@+id/main_post"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_width="match_parent"

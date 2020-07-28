@@ -41,5 +41,31 @@
 
     <string name="reply">Reply to</string>
     <string name="replying">Replying to</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
+    <!-- Preference Titles -->
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+
+    <string name="app_info">App info</string>
+    <string name="app_info_secondary">Podium v1.0</string>
+    <string name="app_info_message">Podium, an Alles Micro client for Android.\n\nMade with ❤ from Mexico c:</string>
+
+    <string name="licenses">Licenses</string>
+    <string name="licenses_secondary">This app is possible thanks to this software</string>
+
+    <string name="app_preferences">App settings</string>
+    <string name="theme">Theme</string>
+
+    <!-- Theme entries -->
+    <string name="theme_default">System default</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <string name="account_preferences">Account settings</string>
+    <string name="name">Name</string>
+    <string name="nickname">Nickname</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
 </resources>

@@ -25,6 +25,7 @@
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">35sp</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="headline2">
@@ -32,6 +33,15 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">30sp</item>
         <item name="fontWeight">900</item>
+        <item name="android:fontFamily">@font/inter</item>
+    </style>
+
+    <style name="headline3">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontWeight">900</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="common_button">
@@ -71,10 +81,12 @@
     <style name="text_body" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="text_body2" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="fab" parent="Widget.MaterialComponents.FloatingActionButton">
@@ -90,5 +102,16 @@
     <style name="follow_button_selected">
         <item name="background">@drawable/solid_blue_rounded</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="cardview_setting">
+        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="contentPaddingTop">16dp</item>
+        <item name="contentPaddingBottom">16dp</item>
+        <item name="contentPaddingLeft">16dp</item>
+        <item name="contentPaddingRight">16dp</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardElevation">0dp</item>
     </style>
 </resources>

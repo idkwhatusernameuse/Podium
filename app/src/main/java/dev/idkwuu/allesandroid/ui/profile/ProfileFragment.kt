@@ -1,6 +1,7 @@
 package dev.idkwuu.allesandroid.ui.profile
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
+import dev.idkwuu.allesandroid.ui.SettingsActivity
 import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
@@ -95,7 +97,11 @@ class ProfileFragment : Fragment() {
         }
         // Settings button
         if (user == SharedPreferences.current_user) {
-            view.findViewById<ImageButton>(R.id.settings).visibility =View.VISIBLE
+            val settings = view.findViewById<ImageButton>(R.id.settings)
+            settings.visibility = View.VISIBLE
+            settings.setOnClickListener {
+                startActivity(Intent(context, SettingsActivity::class.java))
+            }
         }
 
         return view

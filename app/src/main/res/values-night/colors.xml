@@ -14,4 +14,6 @@
 
     <color name="cards">#131313</color>
     <color name="profile_foreground">@android:color/white</color>
+
+    <color name="fluent_default_icon_tint">@android:color/white</color>
 </resources>
