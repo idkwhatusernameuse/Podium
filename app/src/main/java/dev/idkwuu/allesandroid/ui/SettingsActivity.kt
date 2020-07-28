@@ -1,32 +1,27 @@
 package dev.idkwuu.allesandroid.ui
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
-import androidx.preference.ListPreference
-import androidx.preference.PreferenceFragmentCompat
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import dev.idkwuu.allesandroid.BuildConfig
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.switchTheme
+
 
 class SettingsActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
+        setContentView(R.layout.activity_settings)
 
         // Theme setting
         setThemeSecondaryLine()
@@ -43,6 +38,11 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.app_info_version).text = "Podium ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
         findViewById<CardView>(R.id.app_info).setOnClickListener {
             openAppInfo()
+        }
+
+        // Licenses
+        findViewById<CardView>(R.id.licenses).setOnClickListener {
+            startActivity(Intent(this, OssLicensesMenuActivity::class.java))
         }
     }
 
