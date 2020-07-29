@@ -7,6 +7,10 @@
     android:background="@color/background"
     tools:context=".ui.ProfileFragment">
 
+    <include
+        android:id="@+id/floatingActionButtonLayout"
+        layout="@layout/layout_post_fab"/>
+
     <com.todou.nestrefresh.RefreshHeaderView
         android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
@@ -16,6 +20,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/nestedScrollView"
         app:layout_behavior="@string/nest_refresh_scroll_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout

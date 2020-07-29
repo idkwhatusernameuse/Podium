@@ -40,16 +40,13 @@ class HomeFragment : Fragment() {
         recyclerView.isNestedScrollingEnabled = false
         observeData(adapter)
 
-        // Hide FAB on scroll
-        val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollView)
-        val fab = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
-        nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener  { _, _, scrollY: Int, _, oldScrollY: Int ->
-            if (scrollY > oldScrollY) {
-                fab.hide()
-            } else {
-                fab.show()
-            }
-        })
+        FloatingActionButtonLayout().set(
+            activity = requireActivity(),
+            context = requireContext(),
+            fab = view.findViewById(R.id.floatingActionButtonLayout),
+            nestedScrollView = view.findViewById(R.id.nestedScrollView)
+        )
+
         // Setup pull to refresh
         val pullToRefresh = view.findViewById<RefreshHeaderView>(R.id.pullToRefresh)
         pullToRefresh.setOnRefreshListener(object : OnRefreshListener {
@@ -57,11 +54,6 @@ class HomeFragment : Fragment() {
                 observeData(adapter, hideShimmer = false, reload = true)
             }
         })
-
-        // Post FAB!
-        view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
-            startActivityForResult(Intent(context, PostActivity::class.java), 69)
-        }
         return view
     }
 

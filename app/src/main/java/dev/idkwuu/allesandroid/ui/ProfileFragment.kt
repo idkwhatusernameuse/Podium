@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.todou.nestrefresh.RefreshHeaderView
 import com.todou.nestrefresh.base.OnRefreshListener
 import de.hdodenhof.circleimageview.CircleImageView
@@ -28,6 +30,7 @@ import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
+import dev.idkwuu.allesandroid.ui.post.PostActivity
 import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
@@ -89,14 +92,22 @@ class ProfileFragment : Fragment() {
             back.setOnClickListener { requireActivity().finish() }
             back.visibility = View.VISIBLE
         }
-        // Settings button
+        // Settings button and FAB
         if (user == SharedPreferences.current_user) {
             val settings = view.findViewById<ImageButton>(R.id.settings)
             settings.visibility = View.VISIBLE
             settings.setOnClickListener {
                 startActivity(Intent(context, SettingsActivity::class.java))
             }
+
+            FloatingActionButtonLayout().set(
+                activity = requireActivity(),
+                context = requireContext(),
+                fab = view.findViewById(R.id.floatingActionButtonLayout),
+                nestedScrollView = view.findViewById(R.id.nestedScrollView)
+            )
         }
+
 
         return view
     }
