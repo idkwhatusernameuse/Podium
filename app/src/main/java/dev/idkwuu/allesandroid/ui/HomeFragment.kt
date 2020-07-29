@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
 
         // Post FAB!
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
-            startActivity(Intent(context, PostActivity::class.java))
+            startActivityForResult(Intent(context, PostActivity::class.java), 69)
         }
         return view
     }
@@ -80,5 +80,12 @@ class HomeFragment : Fragment() {
             adapter.setListData(it)
             adapter.notifyDataSetChanged()
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == 69) {
+            observeData(PostListAdapter(requireContext()), hideShimmer = false, reload = true)
+        }
     }
 }

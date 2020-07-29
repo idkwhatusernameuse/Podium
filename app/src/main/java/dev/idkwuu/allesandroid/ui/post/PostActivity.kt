@@ -142,6 +142,7 @@ class PostActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<AllesInteractionPost>, response: Response<AllesInteractionPost>) {
+                setResult(69)
                 finish()
             }
         })

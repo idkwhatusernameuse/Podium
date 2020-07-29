@@ -16,6 +16,9 @@ import dev.idkwuu.allesandroid.ui.post.PostBinder
 import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 
 class ThreadActivity : AppCompatActivity() {
+
+    private var slug: String = ""
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +35,16 @@ class ThreadActivity : AppCompatActivity() {
             val intent = Intent(this, PostActivity::class.java)
             intent.putExtra("replyTo", post.slug)
             intent.putExtra("userToReply", post.author.username)
-            startActivity(intent)
+            startActivityForResult(intent, 69)
         }
 
         // Get post replies and ancestors
-        Repo().getPost(post.slug).observeForever {
+        slug = post.slug
+        getData()
+    }
+
+    private fun getData() {
+        Repo().getPost(slug).observeForever {
             setAncestorsAndReplies(it.ancestors, it.replies)
         }
     }
@@ -60,6 +68,13 @@ class ThreadActivity : AppCompatActivity() {
             repliesRV.adapter = repliesAdapter
             repliesRV.isNestedScrollingEnabled = false
             repliesAdapter.setListData(replies)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == 69) {
+            getData()
         }
     }
 }
