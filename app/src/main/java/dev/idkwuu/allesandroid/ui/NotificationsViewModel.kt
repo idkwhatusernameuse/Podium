@@ -1,4 +1,4 @@
-package dev.idkwuu.allesandroid.ui.notifications
+package dev.idkwuu.allesandroid.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

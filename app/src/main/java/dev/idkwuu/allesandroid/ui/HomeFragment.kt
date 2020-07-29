@@ -1,4 +1,4 @@
-package dev.idkwuu.allesandroid.ui.home
+package dev.idkwuu.allesandroid.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -18,13 +17,10 @@ import com.todou.nestrefresh.RefreshHeaderView
 import com.todou.nestrefresh.base.OnRefreshListener
 import dev.idkwuu.allesandroid.ui.post.PostActivity
 import dev.idkwuu.allesandroid.R
+import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 
 class HomeFragment : Fragment() {
-
-    private val viewModel by lazy {
-        ViewModelProviders.of(this).get(HomeViewModel::class.java)
-    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -70,7 +66,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeData(adapter: PostListAdapter, hideShimmer: Boolean = true, reload: Boolean = false) {
-        viewModel.fetchPosts(reload).observe(viewLifecycleOwner, Observer {
+        Repo().getPosts(reload).observe(viewLifecycleOwner, Observer {
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
             if (hideShimmer) {
                 val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)

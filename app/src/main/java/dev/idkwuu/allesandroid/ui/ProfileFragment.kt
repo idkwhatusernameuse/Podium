@@ -1,4 +1,4 @@
-package dev.idkwuu.allesandroid.ui.profile
+package dev.idkwuu.allesandroid.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -29,7 +28,6 @@ import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
-import dev.idkwuu.allesandroid.ui.SettingsActivity
 import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
@@ -48,11 +46,7 @@ class ProfileFragment : Fragment() {
         return fragment
     }
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(this).get(ProfileViewModel::class.java)
-    }
     private lateinit var adapter: PostListAdapter
-    private lateinit var pfpBitmap: Bitmap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -109,7 +103,7 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeData(user: String, hideShimmer: Boolean = true) {
-        viewModel.fetchUser(user).observe(viewLifecycleOwner, Observer {
+        Repo().getUser(user).observe(viewLifecycleOwner, Observer {
             val profileView = requireView().findViewById<View>(R.id.profile)
             profileView.visibility = View.VISIBLE
             // Text
