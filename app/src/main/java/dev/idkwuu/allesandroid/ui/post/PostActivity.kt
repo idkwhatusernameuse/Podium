@@ -122,6 +122,8 @@ class PostActivity : AppCompatActivity() {
     }
 
     private fun postEverything(postToReply: String?) {
+        val loading = findViewById<LinearLayout>(R.id.loading)
+        loading.visibility = View.VISIBLE
         val post = AllesInteractionPost(
             content = findViewById<EditText>(R.id.editText).text.toString(),
             image = if (bitmap != null) { "data:$mime;base64,${ImageUtil.convertToBase64(bitmap!!)}" } else { null },
@@ -130,9 +132,13 @@ class PostActivity : AppCompatActivity() {
         val retrofit = RetrofitClientInstance().getRetrofitInstance()
             .create(AllesEndpointsInterface::class.java)
         val call = retrofit.post(SharedPreferences.login_token!!, post)
+
+        findViewById<Button>(R.id.cancel).setOnClickListener { call.cancel(); finish() }
+
         call.enqueue(object : Callback<AllesInteractionPost> {
             override fun onFailure(call: Call<AllesInteractionPost>, t: Throwable) {
-                Snackbar.make(findViewById(R.id.main), R.string.post_snackbar_error, Snackbar.LENGTH_LONG).show()
+                loading.visibility = View.GONE
+                Snackbar.make(findViewById(R.id.editText), R.string.post_snackbar_error, Snackbar.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call<AllesInteractionPost>, response: Response<AllesInteractionPost>) {
