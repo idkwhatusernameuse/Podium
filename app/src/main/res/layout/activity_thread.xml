@@ -12,10 +12,37 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/back"
+                style="@style/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:tint="@color/neutral"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_fluent_arrow_left_24_filled" />
+
+            <TextView
+                android:id="@+id/replyingTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:textAppearance="@style/text_body"
+                android:text="@string/thread" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recyclerView_ancestors"/>
+            android:id="@+id/recyclerView_ancestors">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
         <include
             layout="@layout/item_post"
