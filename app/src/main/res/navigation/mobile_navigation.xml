@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="dev.idkwuu.allesandroid.ui.notifications.NotificationsFragment"
+        android:name="dev.idkwuu.allesandroid.ui.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
