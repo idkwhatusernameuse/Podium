@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import dev.idkwuu.allesandroid.BuildConfig
 import dev.idkwuu.allesandroid.R
+import dev.idkwuu.allesandroid.ui.licenses.LicensesActivity
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.switchTheme
 
@@ -42,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // Licenses
         findViewById<CardView>(R.id.licenses).setOnClickListener {
-            startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+            startActivity(Intent(this, LicensesActivity::class.java))
         }
     }
 
