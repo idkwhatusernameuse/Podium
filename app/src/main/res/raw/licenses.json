@@ -69,6 +69,11 @@
       "title": "Blurry",
       "type": "Apache 2.0",
       "file": "apachetwo"
+    },
+    {
+      "title": "Inter (font)",
+      "type": "SIL OFL 1.1",
+      "file": "oflinter"
     }
   ]
 }
