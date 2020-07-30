@@ -182,6 +182,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:autoLink="web"
                 tools:text="This is an example of a post on Alles, aaaaa the lazy fox jumped over something i dont remember the phrase"
                 tools:visibility="visible" />
 

@@ -1,9 +1,15 @@
 package dev.idkwuu.allesandroid.ui.post
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.format.DateUtils
+import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
@@ -20,10 +26,13 @@ import dev.idkwuu.allesandroid.ui.ImageViewerActivty
 import dev.idkwuu.allesandroid.ui.ProfileActivity
 import dev.idkwuu.allesandroid.ui.ThreadActivity
 import dev.idkwuu.allesandroid.util.SharedPreferences
+import dev.idkwuu.allesandroid.util.TextClickableSpan
 import dev.idkwuu.allesandroid.util.dont_care_lol
 import kotlinx.android.synthetic.main.item_post.view.*
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.coroutines.coroutineContext
 
 class PostBinder {
     private fun vote(itemView: View, slug: String, vote: Int, currentVote: Int) {
@@ -114,7 +123,8 @@ class PostBinder {
         // Set post content
         if (post.content.isNotEmpty()) {
             itemView.post_text.visibility = View.VISIBLE
-            itemView.post_text.text = post.content
+            itemView.post_text.text = setClickableHashtagsUsernames(post.content)
+            itemView.post_text.movementMethod = LinkMovementMethod.getInstance()
         }
         // Post image
         if (post.image != null) {
@@ -150,5 +160,59 @@ class PostBinder {
                 itemView.context.startActivity(intent)
             }
         }
+    }
+
+    // Enjoy this long function name c:
+    private fun checkIfCharShouldBeClickable(char: Char): Boolean =
+        char == '#' || char == '%' || char == '@'
+
+    private fun createSpannableString(word: String): SpannableString {
+        val string = SpannableString(word)
+        string.setSpan(TextClickableSpan(word), 0, word.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        string.setSpan(Color.BLUE, 0, word.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        return string
+    }
+
+    private fun setClickableHashtagsUsernames(text: String): SpannableString {
+        val finalString = SpannableStringBuilder()
+        val lineSplit = text.split("\n")
+
+        // Go through every line
+        repeat(lineSplit.size) { i ->
+            // Add a line break because the last split got rid of all of them
+            if (i > 0 && i < lineSplit.size) {
+                finalString.append("\n")
+            }
+            // Split each line into an array of words
+            val textSplit = lineSplit[i].split(" ")
+            // Go through every word
+            repeat(textSplit.size) { j ->
+                // Add a space
+                if (j > 0 && j < textSplit.size) {
+                    finalString.append(" ")
+                }
+                // Split the word if the #, @ and/or & are together (wtf?)
+                val wordSplit = textSplit[j].split(Regex("(?=#)|(?=%)|(?=@)"))
+                repeat(wordSplit.size){ k ->
+                    finalString.append(
+                        // Check if the string isn't empty, otherwise, KotlinNullPointerException c:
+                        if (wordSplit[k].isNotEmpty()) {
+                            // Check the first character of the word
+                            if (checkIfCharShouldBeClickable(wordSplit[k][0])) {
+                                // Set hashtag/username/post
+                                SpannableString(createSpannableString(wordSplit[k]))
+                            } else {
+                                // Add the word
+                                wordSplit[k]
+                            }
+                        } else {
+                            wordSplit[k]
+                        }
+                    )
+                }
+            }
+        }
+
+        return SpannableString(finalString)
     }
 }
