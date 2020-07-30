@@ -24,7 +24,7 @@
                 android:tint="@color/neutral"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_fluent_arrow_left_24_filled" />
+                app:srcCompat="@drawable/ic_fluent_arrow_left_24_regular" />
 
             <TextView
                 android:id="@+id/replyingTo"

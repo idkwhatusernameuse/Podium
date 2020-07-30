@@ -36,7 +36,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="@color/shimmer_loading_color"
-                app:srcCompat="@drawable/ic_fluent_add_12_filled" />
+                app:srcCompat="@drawable/ic_fluent_add_16_filled" />
 
             <TextView
                 android:id="@+id/votesCount"
@@ -63,7 +63,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/votesCount"
                 android:background="@color/shimmer_loading_color"
-                app:srcCompat="@drawable/ic_fluent_remove_12_filled" />
+                app:srcCompat="@drawable/ic_fluent_remove_16_filled" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
