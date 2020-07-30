@@ -2,15 +2,25 @@ package dev.idkwuu.allesandroid.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 
 object SharedPreferences {
 
     private const val MODE = Context.MODE_PRIVATE
     private lateinit var preferences: SharedPreferences
+    private lateinit var login_preferences: SharedPreferences
 
     fun init(context: Context) {
-        if (!this::preferences.isInitialized) {
+        if (!this::preferences.isInitialized || !this::login_preferences.isInitialized) {
             preferences = context.getSharedPreferences("dev.idkwuu.allesandroid.preferences", MODE)
+            login_preferences = EncryptedSharedPreferences.create(
+                "dev.idkwuu.allesandroid.securepreferences",
+                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                context,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
         }
     }
 
@@ -26,20 +36,20 @@ object SharedPreferences {
     private const val key_theme = "theme"
 
     var isLoggedIn: Boolean
-        get() = preferences.getBoolean(key_isLoggedIn, false)
-        set(value) = preferences.edit{
+        get() = login_preferences.getBoolean(key_isLoggedIn, false)
+        set(value) = login_preferences.edit{
             it.putBoolean(key_isLoggedIn, value)
         }
 
     var login_token: String?
-        get() = preferences.getString(key_loginToken, "")
-        set(value) = preferences.edit{
+        get() = login_preferences.getString(key_loginToken, "")
+        set(value) = login_preferences.edit{
             it.putString(key_loginToken, value)
         }
 
     var current_user: String?
-        get() = preferences.getString(key_currentUser, "")
-        set(value) = preferences.edit{
+        get() = login_preferences.getString(key_currentUser, "")
+        set(value) = login_preferences.edit{
             it.putString(key_currentUser, value)
         }
 

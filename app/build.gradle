@@ -56,7 +56,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
-    implementation 'com.microsoft.design:fluent-system-icons:1.1.32'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
@@ -67,4 +66,5 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.github.MikeOrtiz:TouchImageView:3.0.2'
     implementation 'jp.wasabeef:blurry:3.0.0'
+    implementation "androidx.security:security-crypto:1.0.0-rc02"
 }
