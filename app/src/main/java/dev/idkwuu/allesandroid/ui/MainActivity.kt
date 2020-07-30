@@ -19,4 +19,15 @@ class MainActivity : AppCompatActivity() {
 
         Repo.handler.post(Repo.onlineRunnable)
     }
+
+    override fun onStop() {
+        Repo.shouldStopLoop = true
+        super.onStop()
+    }
+
+    override fun onRestart() {
+        Repo.shouldStopLoop = false
+        Repo.handler.post(Repo.onlineRunnable)
+        super.onRestart()
+    }
 }
