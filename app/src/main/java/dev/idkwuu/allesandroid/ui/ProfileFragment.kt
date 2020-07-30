@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -115,65 +116,80 @@ class ProfileFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun observeData(user: String, hideShimmer: Boolean = true) {
         Repo().getUser(user).observe(viewLifecycleOwner, Observer {
-            val profileView = requireView().findViewById<View>(R.id.profile)
-            profileView.visibility = View.VISIBLE
-            // Text
-            profileView.findViewById<TextView>(R.id.user_title).text = if (it.plus) {
-                "${it.name}\u207A"
-            } else {
-                it.name
-            }
-            profileView.findViewById<TextView>(R.id.user_handle).text = "@${it.username}"
-            profileView.findViewById<TextView>(R.id.user_followers).text = "${it.followers} ${getString(R.string.followers)}"
-            if (it.followingUser) {
-                profileView.findViewById<TextView>(R.id.follows_you).visibility = View.VISIBLE
-            }
-            profileView.findViewById<TextView>(R.id.user_description).text = it.about
-            if (user != SharedPreferences.current_user) {
-                val followButton = profileView.findViewById<MaterialButton>(R.id.follow_button)
-                followButton.visibility = View.VISIBLE
-                if (it.following) {
-                    setFollow(followButton, it.following, it.username)
-                }
-                var following = it.following
-                followButton.setOnClickListener {_ ->
-                    following = !following
-                    setFollow(followButton, !following, it.username)
-                }
-            }
-
-            // Profile picture
-            Repo().getEtagProfilePicture(it.username).observeForever { etag ->
-                if (etag?.second != null) {
-                    Glide.with(requireView().context)
-                        .asBitmap()
-                        .load("https://avatar.alles.cx/u/${it.username}")
-                        .signature(ObjectKey(etag.second!!))
-                        .into(object: SimpleTarget<Bitmap>() {
-                            override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
-                                setBlurredBanner(resource)
-                            }
-                        })
-                }
-            }
-
-
-            // Is online?
-            Repo().getIsOnline(it.id).observeForever { isOnline ->
-                profileView.findViewById<CircleImageView>(R.id.profile_image).borderWidth = if (isOnline) { 2 } else { 0 }
-            }
-
-            // Set posts list
-            requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
+            val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
-            recyclerView.adapter = null
-            recyclerView.adapter = adapter
-            adapter.setListData(it.posts)
-            adapter.notifyDataSetChanged()
+            val errorLayout = requireView().findViewById<View>(R.id.error_loading)
+            if (it != null) {
+                val profileView = requireView().findViewById<View>(R.id.profile)
+                profileView.visibility = View.VISIBLE
+                // Text
+                profileView.findViewById<TextView>(R.id.user_title).text = if (it.plus) {
+                    "${it.name}\u207A"
+                } else {
+                    it.name
+                }
+                profileView.findViewById<TextView>(R.id.user_handle).text = "@${it.username}"
+                profileView.findViewById<TextView>(R.id.user_followers).text = "${it.followers} ${getString(R.string.followers)}"
+                if (it.followingUser) {
+                    profileView.findViewById<TextView>(R.id.follows_you).visibility = View.VISIBLE
+                }
+                profileView.findViewById<TextView>(R.id.user_description).text = it.about
+                if (user != SharedPreferences.current_user) {
+                    val followButton = profileView.findViewById<MaterialButton>(R.id.follow_button)
+                    followButton.visibility = View.VISIBLE
+                    if (it.following) {
+                        setFollow(followButton, it.following, it.username)
+                    }
+                    var following = it.following
+                    followButton.setOnClickListener {_ ->
+                        following = !following
+                        setFollow(followButton, !following, it.username)
+                    }
+                }
+
+                // Profile picture
+                Repo().getEtagProfilePicture(it.username).observeForever { etag ->
+                    if (etag?.second != null) {
+                        Glide.with(requireView().context)
+                            .asBitmap()
+                            .load("https://avatar.alles.cx/u/${it.username}")
+                            .signature(ObjectKey(etag.second!!))
+                            .into(object: SimpleTarget<Bitmap>() {
+                                override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
+                                    setBlurredBanner(resource)
+                                }
+                            })
+                    }
+                }
+
+
+                // Is online?
+                Repo().getIsOnline(it.id).observeForever { isOnline ->
+                    profileView.findViewById<CircleImageView>(R.id.profile_image).borderWidth = if (isOnline) { 2 } else { 0 }
+                }
+
+                // Set posts list
+                requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
+                recyclerView.adapter = null
+                recyclerView.adapter = adapter
+
+                errorLayout.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+                adapter.setListData(it.posts)
+                adapter.notifyDataSetChanged()
+            } else {
+                errorLayout.visibility = View.VISIBLE
+                errorLayout.findViewById<Button>(R.id.retry).setOnClickListener {
+                    recyclerView.visibility = View.VISIBLE
+                    errorLayout.visibility = View.GONE
+                    shimmer.startShimmer()
+                    shimmer.visibility = View.VISIBLE
+                    observeData(user, hideShimmer = true)
+                }
+            }
 
             if (hideShimmer) {
                 recyclerView.visibility = View.VISIBLE
-                val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
                 shimmer.stopShimmer()
                 shimmer.visibility = View.GONE
             }

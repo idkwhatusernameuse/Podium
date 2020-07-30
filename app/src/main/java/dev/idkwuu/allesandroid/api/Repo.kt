@@ -28,14 +28,15 @@ class Repo {
         var cachedFeed: List<AllesPost>? = null
     }
 
-    fun getPosts(reload: Boolean = false): LiveData<MutableList<AllesPost>> {
-        val mutableData = MutableLiveData<MutableList<AllesPost>>()
+    fun getPosts(reload: Boolean = false): LiveData<MutableList<AllesPost>?> {
+        val mutableData = MutableLiveData<MutableList<AllesPost>?>()
         if (cachedFeed == null || reload) {
             val call = retrofitInstance.getFeed(SharedPreferences.login_token!!)
             call.enqueue(object : Callback<AllesFeed> {
                 override fun onFailure(call: Call<AllesFeed>, t: Throwable) {
-
+                    mutableData.value = null
                 }
+
                 override fun onResponse(call: Call<AllesFeed>, response: Response<AllesFeed>) {
                     if (response.body()?.feed != null) {
                         cachedFeed = response.body()!!.feed
@@ -49,12 +50,12 @@ class Repo {
         return mutableData
     }
 
-    fun getUser(user: String): LiveData<AllesUser> {
-        val mutableData = MutableLiveData<AllesUser>()
+    fun getUser(user: String): LiveData<AllesUser?> {
+        val mutableData = MutableLiveData<AllesUser?>()
         val call = retrofitInstance.getUser(SharedPreferences.login_token!!, user)
         call.enqueue(object : Callback<AllesUser> {
             override fun onFailure(call: Call<AllesUser>, t: Throwable) {
-                TODO("Not yet implemented")
+                mutableData.value = null
             }
 
             override fun onResponse(call: Call<AllesUser>, response: Response<AllesUser>) {
@@ -71,9 +72,8 @@ class Repo {
         val call = retrofitInstance.getIsOnline(user, (System.currentTimeMillis() / 1000).toString())
         call.enqueue(object: Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-
+                isOnline.value = false
             }
-
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.body() != null) {
                     isOnline.value = response.body()!!.string() == "\uD83D\uDFE2"
@@ -92,23 +92,21 @@ class Repo {
             call.enqueue(object: Callback<Void> {
                 override fun onFailure(call: Call<Void>, t: Throwable) { }
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.headers() != null) {
-                        val etagPair = Pair(user, response.headers()!!["etag"]!!)
-                        cachedEtags.add(etagPair)
-                        etag.value = etagPair
-                    }
+                    val etagPair = Pair(user, response.headers()["etag"]!!)
+                    cachedEtags.add(etagPair)
+                    etag.value = etagPair
                 }
             })
         }
         return etag
     }
 
-    fun getMentions(): LiveData<MutableList<AllesPost>> {
-        val mutableData = MutableLiveData<MutableList<AllesPost>>()
+    fun getMentions(): LiveData<MutableList<AllesPost>?> {
+        val mutableData = MutableLiveData<MutableList<AllesPost>?>()
         val call = retrofitInstance.getMentions(SharedPreferences.login_token!!)
         call.enqueue(object : Callback<AllesMentions> {
             override fun onFailure(call: Call<AllesMentions>, t: Throwable) {
-                TODO("Not yet implemented")
+                mutableData.value = null
             }
 
             override fun onResponse(call: Call<AllesMentions>, response: Response<AllesMentions>) {
@@ -120,12 +118,12 @@ class Repo {
         return mutableData
     }
 
-    fun getPost(slug: String): LiveData<AllesPost> {
-        val mutableData = MutableLiveData<AllesPost>()
+    fun getPost(slug: String): LiveData<AllesPost?> {
+        val mutableData = MutableLiveData<AllesPost?>()
         val call = retrofitInstance.getPost(SharedPreferences.login_token!!, slug)
         call.enqueue(object : Callback<AllesPost> {
             override fun onFailure(call: Call<AllesPost>, t: Throwable) {
-                TODO("Not yet implemented")
+                mutableData.value = null
             }
 
             override fun onResponse(call: Call<AllesPost>, response: Response<AllesPost>) {

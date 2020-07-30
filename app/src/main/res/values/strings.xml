@@ -67,4 +67,9 @@
 
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    
+    <!-- Errors -->
+    <string name="retry">Retry</string>
+    <string name="error_network">There was an error trying to load this</string>
+    <string name="error_network_uwu">Oopsie, UwU, something happened! OwO</string>
 </resources>

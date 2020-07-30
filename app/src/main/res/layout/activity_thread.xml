@@ -69,6 +69,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recyclerView_replies"/>
+
+        <include
+            android:id="@+id/error_loading"
+            layout="@layout/layout_error_loading"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

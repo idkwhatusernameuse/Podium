@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,10 +43,21 @@ class ThreadActivity : AppCompatActivity() {
             PostBinder().bindView(post, findViewById(R.id.main_post), true)
         }
         Repo().getPost(slug).observeForever {
-            if (post != null) {
-                PostBinder().bindView(it, findViewById(R.id.main_post), true)
+            val errorLayout = findViewById<View>(R.id.error_loading)
+            if (it != null) {
+                errorLayout.visibility = View.GONE
+                if (post != null) {
+                    PostBinder().bindView(it, findViewById(R.id.main_post), true)
+                }
+                setThread(it)
+            } else {
+                errorLayout.visibility = View.VISIBLE
+                findViewById<Button>(R.id.reply).visibility = View.GONE
+                errorLayout.findViewById<Button>(R.id.retry).setOnClickListener {
+                    errorLayout.visibility = View.GONE
+                    load(post)
+                }
             }
-            setThread(it)
         }
     }
 
@@ -54,6 +66,7 @@ class ThreadActivity : AppCompatActivity() {
         // Reply button
         val replyButton = findViewById<Button>(R.id.reply)
         replyButton.text = "${getString(R.string.reply)} @${post.author.username}"
+        replyButton.visibility = View.VISIBLE
         replyButton.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
             intent.putExtra("replyTo", post.slug)

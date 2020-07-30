@@ -72,5 +72,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <include
+        android:id="@+id/error_loading"
+        layout="@layout/layout_error_loading"
+        android:visibility="gone"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

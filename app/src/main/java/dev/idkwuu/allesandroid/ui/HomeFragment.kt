@@ -6,16 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.todou.nestrefresh.RefreshHeaderView
 import com.todou.nestrefresh.base.OnRefreshListener
-import dev.idkwuu.allesandroid.ui.post.PostActivity
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.ui.post.PostListAdapter
@@ -60,8 +59,8 @@ class HomeFragment : Fragment() {
     private fun observeData(adapter: PostListAdapter, hideShimmer: Boolean = true, reload: Boolean = false) {
         Repo().getPosts(reload).observe(viewLifecycleOwner, Observer {
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
+            val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
             if (hideShimmer) {
-                val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
                 shimmer.stopShimmer()
                 shimmer.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
@@ -69,8 +68,25 @@ class HomeFragment : Fragment() {
             requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
             recyclerView.adapter = null
             recyclerView.adapter = adapter
-            adapter.setListData(it)
-            adapter.notifyDataSetChanged()
+
+            val errorLayout = requireView().findViewById<View>(R.id.error_loading)
+            if (it == null) {
+                // Show R.layout.layout_error_loading if there was an error
+                recyclerView.visibility = View.GONE
+                errorLayout.visibility = View.VISIBLE
+                errorLayout.findViewById<Button>(R.id.retry).setOnClickListener {
+                    recyclerView.visibility = View.VISIBLE
+                    errorLayout.visibility = View.GONE
+                    shimmer.startShimmer()
+                    shimmer.visibility = View.VISIBLE
+                    observeData(PostListAdapter(requireContext()), hideShimmer = true, reload = true)
+                }
+            } else {
+                errorLayout.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+                adapter.setListData(it)
+                adapter.notifyDataSetChanged()
+            }
         })
     }
 
