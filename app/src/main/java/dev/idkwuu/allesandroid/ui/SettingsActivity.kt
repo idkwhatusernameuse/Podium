@@ -9,13 +9,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import dev.idkwuu.allesandroid.BuildConfig
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.ui.licenses.LicensesActivity
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.switchTheme
-
 
 class SettingsActivity : AppCompatActivity() {
 
