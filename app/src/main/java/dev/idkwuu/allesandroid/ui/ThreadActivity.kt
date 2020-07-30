@@ -46,7 +46,7 @@ class ThreadActivity : AppCompatActivity() {
             val errorLayout = findViewById<View>(R.id.error_loading)
             if (it != null) {
                 errorLayout.visibility = View.GONE
-                if (post != null) {
+                if (post == null) {
                     PostBinder().bindView(it, findViewById(R.id.main_post), true)
                 }
                 setThread(it)
