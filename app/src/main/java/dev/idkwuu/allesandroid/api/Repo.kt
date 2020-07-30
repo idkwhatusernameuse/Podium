@@ -1,15 +1,18 @@
 package dev.idkwuu.allesandroid.api
 
+import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import dev.idkwuu.allesandroid.models.*
-import dev.idkwuu.allesandroid.ui.MainActivity
+import dev.idkwuu.allesandroid.models.AllesFeed
+import dev.idkwuu.allesandroid.models.AllesMentions
+import dev.idkwuu.allesandroid.models.AllesPost
+import dev.idkwuu.allesandroid.models.AllesUser
 import dev.idkwuu.allesandroid.util.SharedPreferences
+import dev.idkwuu.allesandroid.util.dont_care_lol
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URL
 
 class Repo {
     companion object {
@@ -26,6 +29,18 @@ class Repo {
 
         val cachedEtags = ArrayList<Pair<String, String?>>()
         var cachedFeed: List<AllesPost>? = null
+
+        var shouldStopLoop = false
+        val handler = Handler()
+        var onlineRunnable: Runnable = object : Runnable {
+            override fun run() {
+                val call = retrofitInstance.online(SharedPreferences.login_token!!)
+                call.enqueue(dont_care_lol)
+                if (!shouldStopLoop) {
+                    handler.postDelayed(this, 10000)
+                }
+            }
+        }
     }
 
     fun getPosts(reload: Boolean = false): LiveData<MutableList<AllesPost>?> {

@@ -39,6 +39,9 @@ interface AllesEndpointsInterface {
     @GET("https://online.alles.cx/{id}")
     fun getIsOnline(@Path("id") userId: String, @Query("t") time: String): Call<ResponseBody>
 
+    @POST("https://online.alles.cx/")
+    fun online(@Header("authorization") token: String): Call<Void>
+
     @HEAD("https://avatar.alles.cx/u/{username}")
     fun getImageHeaders(@Path("username") username: String): Call<Void>
 
