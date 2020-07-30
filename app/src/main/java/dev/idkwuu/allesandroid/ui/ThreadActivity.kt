@@ -19,7 +19,6 @@ import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 class ThreadActivity : AppCompatActivity() {
 
     private var slug: String = ""
-    private lateinit var gPost: AllesPost
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,28 +26,31 @@ class ThreadActivity : AppCompatActivity() {
         val json = intent.getStringExtra("json")
         if (json == null) {
             slug = intent.getStringExtra("post")!!
-            loadFromServer()
+            load()
         } else {
-            gPost = Gson().fromJson(json, AllesPost::class.java)
-            slug = gPost.slug
-            load(gPost)
+            val post = Gson().fromJson(json, AllesPost::class.java)
+            slug = post.slug
+            load(post)
         }
 
         // Back button
         findViewById<ImageButton>(R.id.back).setOnClickListener { finish() }
     }
 
-    private fun loadFromServer() {
+    private fun load(post: AllesPost? = null) {
+        if (post != null) {
+            PostBinder().bindView(post, findViewById(R.id.main_post), true)
+        }
         Repo().getPost(slug).observeForever {
-            gPost = it
-            load(it)
+            if (post != null) {
+                PostBinder().bindView(it, findViewById(R.id.main_post), true)
+            }
+            setThread(it)
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun load(post: AllesPost) {
-        PostBinder().bindView(post, findViewById(R.id.main_post), true)
-
+    private fun setThread(post: AllesPost) {
         // Reply button
         val replyButton = findViewById<Button>(R.id.reply)
         replyButton.text = "${getString(R.string.reply)} @${post.author.username}"
@@ -88,7 +90,7 @@ class ThreadActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 69) {
-            loadFromServer()
+            load()
         }
     }
 }
