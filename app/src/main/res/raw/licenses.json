@@ -1,0 +1,74 @@
+{
+  "licenses": [
+    {
+      "title": "AndroidX",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "Kotlin",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "Material Components for Android",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "Gson",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "OkHttp",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "Retrofit",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "Fluent System Icons",
+      "type": "MIT",
+      "file": "mit"
+    },
+    {
+      "title": "Glide",
+      "type": "BSD, part MIT and Apache 2.0",
+      "file": "glide"
+    },
+    {
+      "title": "LeakCanary",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "NestRefresh",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "CircleImageView",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    },
+    {
+      "title": "Shimmer",
+      "type": "BSD",
+      "file": "bsdshimmer"
+    },
+    {
+      "title": "TouchImageView",
+      "type": "MIT",
+      "file": "mit"
+    },
+    {
+      "title": "Blurry",
+      "type": "Apache 2.0",
+      "file": "apachetwo"
+    }
+  ]
+}
