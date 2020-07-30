@@ -19,14 +19,34 @@ import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 class ThreadActivity : AppCompatActivity() {
 
     private var slug: String = ""
+    private lateinit var gPost: AllesPost
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread)
         val json = intent.getStringExtra("json")
-        val post = Gson().fromJson(json, AllesPost::class.java)
+        if (json == null) {
+            slug = intent.getStringExtra("post")!!
+            loadFromServer()
+        } else {
+            gPost = Gson().fromJson(json, AllesPost::class.java)
+            slug = gPost.slug
+            load(gPost)
+        }
 
+        // Back button
+        findViewById<ImageButton>(R.id.back).setOnClickListener { finish() }
+    }
+
+    private fun loadFromServer() {
+        Repo().getPost(slug).observeForever {
+            gPost = it
+            load(it)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun load(post: AllesPost) {
         PostBinder().bindView(post, findViewById(R.id.main_post), true)
 
         // Reply button
@@ -40,17 +60,7 @@ class ThreadActivity : AppCompatActivity() {
         }
 
         // Get post replies and ancestors
-        slug = post.slug
-        getData()
-
-        // Back button
-        findViewById<ImageButton>(R.id.back).setOnClickListener { finish() }
-    }
-
-    private fun getData() {
-        Repo().getPost(slug).observeForever {
-            setAncestorsAndReplies(it.ancestors, it.replies)
-        }
+        setAncestorsAndReplies(post.ancestors, post.replies)
     }
 
     private fun setAncestorsAndReplies(ancestors: List<AllesPost>?, replies: List<AllesPost>?) {
@@ -78,7 +88,7 @@ class ThreadActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 69) {
-            getData()
+            loadFromServer()
         }
     }
 }

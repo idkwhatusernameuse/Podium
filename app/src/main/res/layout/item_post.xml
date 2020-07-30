@@ -175,14 +175,13 @@
 
             <TextView
                 android:id="@+id/post_text"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
                 android:textAppearance="@style/text_body2"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:autoLink="web"
                 tools:text="This is an example of a post on Alles, aaaaa the lazy fox jumped over something i dont remember the phrase"
                 tools:visibility="visible" />
 

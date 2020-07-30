@@ -9,7 +9,9 @@ object SharedPreferences {
     private lateinit var preferences: SharedPreferences
 
     fun init(context: Context) {
-        preferences = context.getSharedPreferences("dev.idkwuu.allesandroid.preferences", MODE)
+        if (!this::preferences.isInitialized) {
+            preferences = context.getSharedPreferences("dev.idkwuu.allesandroid.preferences", MODE)
+        }
     }
 
     private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {

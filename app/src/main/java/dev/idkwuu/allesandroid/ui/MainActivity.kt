@@ -1,5 +1,6 @@
 package dev.idkwuu.allesandroid.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
