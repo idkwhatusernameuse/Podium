@@ -66,18 +66,17 @@ class Repo {
         return mutableData
     }
 
-    // Not working currently. For some reason it skips directly to the return instead of doing the
-    // request
-    fun getIsOnline(user: String): Boolean {
-        var isOnline = false
-        val call = retrofitInstance.getIsOnline(user)
-        call.enqueue(object: Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
+    fun getIsOnline(user: String): LiveData<Boolean> {
+        val isOnline = MutableLiveData<Boolean>()
+        val call = retrofitInstance.getIsOnline(user, (System.currentTimeMillis() / 1000).toString())
+        call.enqueue(object: Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+
             }
 
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.body() != null) {
-                    isOnline = response.body()!! == "\uD83D\uDFE2"
+                    isOnline.value = response.body()!!.string() == "\uD83D\uDFE2"
                 }
             }
         })

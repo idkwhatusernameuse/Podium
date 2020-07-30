@@ -60,8 +60,6 @@ class AllesUser (
     @Expose
     var color: Any? = null,
 
-    var isOnline: Boolean = false,
-
     @SerializedName("err")
     @Expose
     var err: String? = null

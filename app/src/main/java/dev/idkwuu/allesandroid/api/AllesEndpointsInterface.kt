@@ -37,7 +37,7 @@ interface AllesEndpointsInterface {
     fun remove(@Header("authorization") token: String, @Path("post") post: String): Call<AllesInteractionRemove>
 
     @GET("https://online.alles.cx/{id}")
-    fun getIsOnline(@Path("id") userId: String): Call<String>
+    fun getIsOnline(@Path("id") userId: String, @Query("t") time: String): Call<ResponseBody>
 
     @HEAD("https://avatar.alles.cx/u/{username}")
     fun getImageHeaders(@Path("username") username: String): Call<Void>

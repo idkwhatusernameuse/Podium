@@ -159,8 +159,8 @@ class ProfileFragment : Fragment() {
 
 
             // Is online?
-            if (it.isOnline) {
-                profileView.findViewById<CircleImageView>(R.id.profile_image).borderWidth = 1
+            Repo().getIsOnline(it.id).observeForever { isOnline ->
+                profileView.findViewById<CircleImageView>(R.id.profile_image).borderWidth = if (isOnline) { 2 } else { 0 }
             }
 
             // Set posts list
