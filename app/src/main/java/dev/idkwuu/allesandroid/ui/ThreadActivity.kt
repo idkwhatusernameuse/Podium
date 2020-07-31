@@ -42,7 +42,7 @@ class ThreadActivity : AppCompatActivity() {
         if (post != null) {
             PostBinder().bindView(post, findViewById(R.id.main_post), true)
         }
-        Repo().getPost(slug).observeForever {
+        Repo().getPost(this, slug).observeForever {
             val errorLayout = findViewById<View>(R.id.error_loading)
             if (it != null) {
                 errorLayout.visibility = View.GONE

@@ -18,7 +18,6 @@ class RetrofitClientInstance {
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .addInterceptor(ApiInterceptor())
-            .authenticator(ApiInterceptor())
         return builder.build()
     }
 

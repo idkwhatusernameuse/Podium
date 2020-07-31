@@ -1,5 +1,6 @@
 package dev.idkwuu.allesandroid.api
 
+import android.content.Context
 import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,29 +35,27 @@ class Repo {
         val handler = Handler()
         var onlineRunnable: Runnable = object : Runnable {
             override fun run() {
-                val call = retrofitInstance.online(SharedPreferences.login_token!!)
-                call.enqueue(dont_care_lol)
                 if (!shouldStopLoop) {
+                    val call = retrofitInstance.online()
+                    call.enqueue(dont_care_lol)
                     handler.postDelayed(this, 10000)
                 }
             }
         }
     }
 
-    fun getPosts(reload: Boolean = false): LiveData<MutableList<AllesPost>?> {
+    fun getPosts(context: Context, reload: Boolean = false): LiveData<MutableList<AllesPost>?> {
         val mutableData = MutableLiveData<MutableList<AllesPost>?>()
         if (cachedFeed == null || reload) {
-            val call = retrofitInstance.getFeed(SharedPreferences.login_token!!)
-            call.enqueue(object : Callback<AllesFeed> {
-                override fun onFailure(call: Call<AllesFeed>, t: Throwable) {
+            val call = retrofitInstance.getFeed()
+            call.enqueue(object : BaseCallback<AllesFeed>(context) {
+                override fun onFailure(call: Call<AllesFeed>?, t: Throwable?) {
                     mutableData.value = null
                 }
 
-                override fun onResponse(call: Call<AllesFeed>, response: Response<AllesFeed>) {
-                    if (response.body()?.feed != null) {
-                        cachedFeed = response.body()!!.feed
-                        mutableData.value = response.body()!!.feed.toMutableList()
-                    }
+                override fun onSuccess(response: AllesFeed) {
+                    cachedFeed = response.feed
+                    mutableData.value = response.feed.toMutableList()
                 }
             })
         } else {
@@ -65,18 +64,16 @@ class Repo {
         return mutableData
     }
 
-    fun getUser(user: String): LiveData<AllesUser?> {
+    fun getUser(context: Context, user: String): LiveData<AllesUser?> {
         val mutableData = MutableLiveData<AllesUser?>()
-        val call = retrofitInstance.getUser(SharedPreferences.login_token!!, user)
-        call.enqueue(object : Callback<AllesUser> {
-            override fun onFailure(call: Call<AllesUser>, t: Throwable) {
+        val call = retrofitInstance.getUser(user)
+        call.enqueue(object : BaseCallback<AllesUser>(context) {
+            override fun onFailure(call: Call<AllesUser>?, t: Throwable?) {
                 mutableData.value = null
             }
 
-            override fun onResponse(call: Call<AllesUser>, response: Response<AllesUser>) {
-                if (response.body() != null) {
-                    mutableData.value = response.body()!!
-                }
+            override fun onSuccess(response: AllesUser) {
+                mutableData.value = response
             }
         })
         return mutableData
@@ -116,35 +113,31 @@ class Repo {
         return etag
     }
 
-    fun getMentions(): LiveData<MutableList<AllesPost>?> {
+    fun getMentions(context: Context): LiveData<MutableList<AllesPost>?> {
         val mutableData = MutableLiveData<MutableList<AllesPost>?>()
-        val call = retrofitInstance.getMentions(SharedPreferences.login_token!!)
-        call.enqueue(object : Callback<AllesMentions> {
-            override fun onFailure(call: Call<AllesMentions>, t: Throwable) {
+        val call = retrofitInstance.getMentions()
+        call.enqueue(object : BaseCallback<AllesMentions>(context) {
+            override fun onFailure(call: Call<AllesMentions>?, t: Throwable?) {
                 mutableData.value = null
             }
 
-            override fun onResponse(call: Call<AllesMentions>, response: Response<AllesMentions>) {
-                if (response.body()?.mentions != null) {
-                    mutableData.value = response.body()!!.mentions.toMutableList()
-                }
+            override fun onSuccess(response: AllesMentions) {
+                mutableData.value = response.mentions.toMutableList()
             }
         })
         return mutableData
     }
 
-    fun getPost(slug: String): LiveData<AllesPost?> {
+    fun getPost(context: Context, slug: String): LiveData<AllesPost?> {
         val mutableData = MutableLiveData<AllesPost?>()
-        val call = retrofitInstance.getPost(SharedPreferences.login_token!!, slug)
-        call.enqueue(object : Callback<AllesPost> {
-            override fun onFailure(call: Call<AllesPost>, t: Throwable) {
+        val call = retrofitInstance.getPost(slug)
+        call.enqueue(object : BaseCallback<AllesPost>(context) {
+            override fun onFailure(call: Call<AllesPost>?, t: Throwable?) {
                 mutableData.value = null
             }
 
-            override fun onResponse(call: Call<AllesPost>, response: Response<AllesPost>) {
-                if (response.body() != null) {
-                    mutableData.value = response.body()!!
-                }
+            override fun onSuccess(response: AllesPost) {
+                mutableData.value = response
             }
         })
         return mutableData

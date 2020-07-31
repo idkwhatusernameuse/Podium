@@ -115,7 +115,7 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeData(user: String, hideShimmer: Boolean = true) {
-        Repo().getUser(user).observe(viewLifecycleOwner, Observer {
+        Repo().getUser(requireContext(), user).observe(viewLifecycleOwner, Observer {
             val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
             val errorLayout = requireView().findViewById<View>(R.id.error_loading)
@@ -203,12 +203,12 @@ class ProfileFragment : Fragment() {
             followButton.background = requireContext().getDrawable(R.drawable.solid_blue_rounded)
             followButton.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
             followButton.text = getString(R.string.unfollow)
-            retrofit.follow(SharedPreferences.login_token!!, username).enqueue(dont_care_lol)
+            retrofit.follow(username).enqueue(dont_care_lol)
         } else {
             followButton.background = requireContext().getDrawable(R.drawable.rounded_rectangle_small)
             followButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             followButton.text = getString(R.string.follow)
-            retrofit.unfollow(SharedPreferences.login_token!!, username).enqueue(dont_care_lol)
+            retrofit.unfollow(username).enqueue(dont_care_lol)
         }
     }
 

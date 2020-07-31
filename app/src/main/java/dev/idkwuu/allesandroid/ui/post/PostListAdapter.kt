@@ -11,7 +11,7 @@ import dev.idkwuu.allesandroid.models.AllesPost
 
 class PostListAdapter(
     private val context: Context
-) : RecyclerView.Adapter<PostListAdapter.FeedViewHolder>() {
+) : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
 
     private var dataList = listOf<AllesPost>()
 
@@ -19,23 +19,21 @@ class PostListAdapter(
         dataList = data
     }
 
-    inner class FeedViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
         fun bindView(post: AllesPost) {
             PostBinder().bindView(post, itemView)
         }
     }
 
-    private val viewTypes = listOf(R.layout.item_post)
-
-    override fun onCreateViewHolder(parent: ViewGroup, id: Int): FeedViewHolder {
-        val view = LayoutInflater.from(context).inflate(viewTypes[id], parent, false)
-        return FeedViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, id: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false)
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int = dataList.size
 
-    override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = dataList[position]
         holder.bindView(post)
     }

@@ -50,7 +50,7 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun observeData(adapter: PostListAdapter, hideShimmer: Boolean = true) {
-        Repo().getMentions().observe(viewLifecycleOwner, Observer {
+        Repo().getMentions(requireContext()).observe(viewLifecycleOwner, Observer {
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
             val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
             if (hideShimmer) {

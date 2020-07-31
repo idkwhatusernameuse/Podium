@@ -131,7 +131,7 @@ class PostActivity : AppCompatActivity() {
         )
         val retrofit = RetrofitClientInstance().getRetrofitInstance()
             .create(AllesEndpointsInterface::class.java)
-        val call = retrofit.post(SharedPreferences.login_token!!, post)
+        val call = retrofit.post(post)
 
         findViewById<Button>(R.id.cancel).setOnClickListener { call.cancel(); finish() }
 

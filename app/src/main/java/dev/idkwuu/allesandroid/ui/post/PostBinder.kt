@@ -71,7 +71,7 @@ class PostBinder {
             }
         }
 
-        retrofit.vote(SharedPreferences.login_token!!, slug, AllesVote(vote)).enqueue(dont_care_lol)
+        retrofit.vote(slug, AllesVote(vote)).enqueue(dont_care_lol)
     }
 
     @SuppressLint("SetTextI18n")

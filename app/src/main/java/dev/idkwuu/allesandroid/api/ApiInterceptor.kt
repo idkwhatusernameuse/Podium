@@ -3,21 +3,14 @@ package dev.idkwuu.allesandroid.api
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import okhttp3.*
 
-class ApiInterceptor: Interceptor, Authenticator {
+class ApiInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        request = request.newBuilder()
-            .build()
-        return chain.proceed(request)
-    }
-
-    override fun authenticate(route: Route?, response: Response): Request? {
-        var requestAvailable: Request? = null
-        try {
-            requestAvailable = response.request.newBuilder()
+        if (!request.url.toString().contains(Regex("(api/login|(?<=online.alles.cx/).*)"))) {
+            request = request.newBuilder()
+                .addHeader("authorization", SharedPreferences.login_token!!)
                 .build()
-            return requestAvailable
-        } catch (ex: Exception) { }
-        return requestAvailable
+        }
+        return chain.proceed(request)
     }
 }

@@ -1,5 +1,6 @@
 package dev.idkwuu.allesandroid.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -16,8 +17,6 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
-
-        Repo.handler.post(Repo.onlineRunnable)
     }
 
     override fun onStop() {
@@ -30,4 +29,6 @@ class MainActivity : AppCompatActivity() {
         Repo.handler.post(Repo.onlineRunnable)
         super.onRestart()
     }
+
+    fun getCtxt(): Context = this
 }

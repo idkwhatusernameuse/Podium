@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeData(adapter: PostListAdapter, hideShimmer: Boolean = true, reload: Boolean = false) {
-        Repo().getPosts(reload).observe(viewLifecycleOwner, Observer {
+        Repo().getPosts(requireContext(), reload).observe(viewLifecycleOwner, Observer {
             val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
             val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
             if (hideShimmer) {
