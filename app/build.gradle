@@ -10,10 +10,8 @@ android {
         applicationId "dev.idkwuu.allesandroid"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 2
+        versionName "beta02"
     }
 
     buildTypes {
