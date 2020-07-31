@@ -88,7 +88,7 @@ class PostActivity : AppCompatActivity() {
 
     private fun checkIfCanPost() {
         val post = findViewById<Button>(R.id.post)
-        if (bitmap != null || findViewById<EditText>(R.id.editText).text.toString().isNotEmpty()) {
+        if (findViewById<EditText>(R.id.editText).text.toString().isNotEmpty()) {
             post.backgroundTintList = getColorStateList(R.color.colorPrimary)
             post.isEnabled = true
         } else {
