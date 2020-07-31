@@ -17,8 +17,7 @@ import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.models.AllesInteractionPost
-import dev.idkwuu.allesandroid.util.ImageUtil
-import dev.idkwuu.allesandroid.util.SharedPreferences
+import dev.idkwuu.allesandroid.util.ImageUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -127,7 +126,7 @@ class PostActivity : AppCompatActivity() {
         loading.visibility = View.VISIBLE
         val post = AllesInteractionPost(
             content = findViewById<EditText>(R.id.editText).text.toString(),
-            image = if (bitmap != null) { "data:$mime;base64,${ImageUtil.convertToBase64(bitmap!!)}" } else { null },
+            image = if (bitmap != null) { "data:$mime;base64,${ImageUtils.convertToBase64(bitmap!!)}" } else { null },
             parent = postToReply
         )
         val retrofit = RetrofitClientInstance().getRetrofitInstance()

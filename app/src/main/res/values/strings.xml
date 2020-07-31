@@ -73,4 +73,14 @@
     <string name="retry">Retry</string>
     <string name="error_network">There was an error trying to load this</string>
     <string name="error_network_uwu">Oopsie, UwU, something happened! OwO</string>
+
+    <!-- ImageViewer Activity -->
+    <string name="saving_image">Saving image…</string>
+    <string name="saved_image">Saved!</string>
+    <string name="couldnt_save_image">There was a problem saving the image</string>
+
+    <!-- Permissions -->
+    <string name="storage_permission">Storage permission</string>
+    <string name="storage_permission_why">The app needs this permission to save the image</string>
+    <string name="continue_">Continue</string>
 </resources>

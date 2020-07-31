@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_overlay"
     android:id="@+id/main"
-    tools:context=".ui.ImageViewerActivty">
+    tools:context=".ui.ImageViewerActivity">
 
     <ProgressBar
         android:id="@+id/progressBar"
