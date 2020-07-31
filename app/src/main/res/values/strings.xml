@@ -83,4 +83,10 @@
     <string name="storage_permission">Storage permission</string>
     <string name="storage_permission_why">The app needs this permission to save the image</string>
     <string name="continue_">Continue</string>
+    <string name="copy_link">Copy link</string>
+    <string name="delete_post">Remove post</string>
+    <string name="save_post">Save post</string>
+    <string name="removed">Removed</string>
+    <string name="copied">Copied</string>
+    <string name="delete_post_confirmation">Tap here to delete the post</string>
 </resources>

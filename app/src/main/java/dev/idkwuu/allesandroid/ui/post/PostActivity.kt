@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
+import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.models.AllesInteractionPost
 import dev.idkwuu.allesandroid.util.ImageUtils
@@ -142,6 +143,7 @@ class PostActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<AllesInteractionPost>, response: Response<AllesInteractionPost>) {
+                Repo.overrideNextFeedLoad = true
                 setResult(69)
                 finish()
             }

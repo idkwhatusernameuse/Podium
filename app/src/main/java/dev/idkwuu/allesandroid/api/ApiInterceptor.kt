@@ -6,7 +6,7 @@ import okhttp3.*
 class ApiInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        if (!request.url.toString().contains(Regex("(api/login|(?<=online.alles.cx/).*)"))) {
+        if (!request.url.toString().contains("api/login")) {
             request = request.newBuilder()
                 .addHeader("authorization", SharedPreferences.login_token!!)
                 .build()

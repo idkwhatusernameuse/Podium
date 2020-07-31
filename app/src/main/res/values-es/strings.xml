@@ -42,7 +42,7 @@
     <string name="retry">Reintentar</string>
     <string name="error_network">Hubo un error al tratar de cargar esto</string>
     <string name="error_network_uwu">Oopsie, UwU, algo pasó OwO</string>
-    <string name="saving_image">Guardando imagen...</string>
+    <string name="saving_image">Guardando imagen…</string>
     <string name="saved_image">Guardado!</string>
     <string name="couldnt_save_image">Hubo un error al tratar de guardar la imagen</string>
     <string name="storage_permission">Permiso de almacenamiento</string>
@@ -50,4 +50,10 @@
     <string name="continue_">Continuar</string>
     <string name="title_activity_login">Iniciar sesión en Alles</string>
     <string name="title_me">Yo</string>
+    <string name="copy_link">Copiar enlace</string>
+    <string name="delete_post">Eliminar publicación</string>
+    <string name="save_post">Guardar publicación</string>
+    <string name="removed">Eliminado</string>
+    <string name="copied">Copiado</string>
+    <string name="delete_post_confirmation">Toca aqui para eliminar la publicación</string>
 </resources>

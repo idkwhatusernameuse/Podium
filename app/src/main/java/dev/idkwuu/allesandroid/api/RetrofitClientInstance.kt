@@ -1,5 +1,6 @@
 package dev.idkwuu.allesandroid.api
 
+import dev.idkwuu.allesandroid.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,7 +13,11 @@ class RetrofitClientInstance {
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.NONE
+        interceptor.level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BASIC
+        } else {
+            HttpLoggingInterceptor.Level.NONE
+        }
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(interceptor)
             .connectTimeout(20, TimeUnit.SECONDS)

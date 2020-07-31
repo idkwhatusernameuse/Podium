@@ -34,7 +34,7 @@ interface AllesEndpointsInterface {
     fun post(@Body content: AllesInteractionPost): Call<AllesInteractionPost>
 
     @GET("post/{post}/remove")
-    fun remove(@Path("post") post: String): Call<AllesInteractionRemove>
+    fun remove(@Path("post") post: String): Call<Void>
 
     @GET("https://online.alles.cx/{id}")
     fun getIsOnline(@Path("id") userId: String, @Query("t") time: String): Call<ResponseBody>

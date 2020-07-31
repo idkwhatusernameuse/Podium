@@ -1,6 +1,9 @@
 package dev.idkwuu.allesandroid.ui.post
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -9,11 +12,16 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.format.DateUtils
 import android.text.method.LinkMovementMethod
-import android.view.View
+import android.transition.ChangeBounds
+import android.transition.TransitionManager
+import android.view.*
+import android.view.animation.DecelerateInterpolator
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
@@ -24,16 +32,17 @@ import dev.idkwuu.allesandroid.models.AllesVote
 import dev.idkwuu.allesandroid.ui.ImageViewerActivity
 import dev.idkwuu.allesandroid.ui.ProfileActivity
 import dev.idkwuu.allesandroid.ui.ThreadActivity
+import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.TextClickableSpan
 import dev.idkwuu.allesandroid.util.dont_care_lol
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import android.os.Handler
+import android.transition.Transition
 
 class PostBinder {
     private fun vote(itemView: View, slug: String, vote: Int, currentVote: Int) {
-        val retrofit = RetrofitClientInstance().getRetrofitInstance()
-            .create(AllesEndpointsInterface::class.java)
         when (vote) {
             0 -> {
                 ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(
@@ -67,7 +76,8 @@ class PostBinder {
             }
         }
 
-        retrofit.vote(slug, AllesVote(vote)).enqueue(dont_care_lol)
+        Repo.overrideNextFeedLoad = true
+        Repo.retrofitInstance.vote(slug, AllesVote(vote)).enqueue(dont_care_lol)
     }
 
     @SuppressLint("SetTextI18n")
@@ -156,6 +166,81 @@ class PostBinder {
                 itemView.context.startActivity(intent)
             }
         }
+        // Popup menu
+        itemView.options.setOnClickListener {
+            openPopup(
+                it,
+                post.slug,
+                post.author.username,
+                if (post.author.username == SharedPreferences.current_user) itemView else null
+            )
+        }
+    }
+
+    private fun openPopup(view: View, slug: String, username: String, parentView: View? = null) {
+        val inflater = view.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupWindow = PopupWindow(
+            inflater.inflate(R.layout.layout_popup_post, RelativeLayout(view.context), false),
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        // Copy link
+        popupWindow.contentView.findViewById<TextView>(R.id.copy).setOnClickListener {
+            val clipboard = view.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Alles Post", "https://alles.cx/$username/$slug")
+            clipboard.setPrimaryClip(clip)
+            Snackbar.make(view, R.string.copied, Snackbar.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+        // Delete post
+        if (parentView != null) {
+            val delete = popupWindow.contentView.findViewById<TextView>(R.id.delete)
+            delete.visibility = View.VISIBLE
+            delete.setOnClickListener {
+                // aNiMaTiOnS!!!1!1!1!1
+                animateViewHeight(parentView.removed, ViewGroup.LayoutParams.MATCH_PARENT)
+                val handler = Handler()
+                handler.postDelayed(
+                    deleteRunnable(slug, parentView),
+                    3000
+                )
+                popupWindow.dismiss()
+
+                // Confirmation
+                parentView.removed.setOnClickListener {
+                    Repo.overrideNextFeedLoad = true
+                    Repo.retrofitInstance.remove(slug).enqueue(dont_care_lol)
+                    animateViewHeight(parentView.post, 0)
+                    parentView.removed_text.text = parentView.context.getString(R.string.removed)
+                    deleteConfirmation = true
+                }
+            }
+        }
+        // Save post
+        val save = popupWindow.contentView.findViewById<TextView>(R.id.save)
+        save.setOnClickListener {
+            Snackbar.make(view, R.string.etasoon, Snackbar.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+        popupWindow.showAsDropDown(view)
+    }
+
+    private var deleteConfirmation = false
+
+    private fun deleteRunnable(slug: String, parentView: View): Runnable = Runnable {
+        if (!deleteConfirmation) {
+            animateViewHeight(parentView.removed, 0)
+        }
+    }
+
+    private fun animateViewHeight(view: ViewGroup, height: Int) {
+        val transition = ChangeBounds()
+        transition.interpolator = DecelerateInterpolator()
+        TransitionManager.beginDelayedTransition(view, transition)
+        val paramsRoot = view.layoutParams
+        paramsRoot.height = height
+        view.layoutParams = paramsRoot
     }
 
     // Enjoy this long function name c:

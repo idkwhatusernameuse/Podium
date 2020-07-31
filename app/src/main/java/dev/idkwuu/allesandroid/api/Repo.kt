@@ -30,6 +30,7 @@ class Repo {
 
         val cachedEtags = ArrayList<Pair<String, String?>>()
         var cachedFeed: List<AllesPost>? = null
+        var overrideNextFeedLoad = false
 
         var shouldStopLoop = false
         val handler = Handler()
@@ -46,7 +47,7 @@ class Repo {
 
     fun getPosts(context: Context, reload: Boolean = false): LiveData<MutableList<AllesPost>?> {
         val mutableData = MutableLiveData<MutableList<AllesPost>?>()
-        if (cachedFeed == null || reload) {
+        if (cachedFeed == null || reload || overrideNextFeedLoad) {
             val call = retrofitInstance.getFeed()
             call.enqueue(object : BaseCallback<AllesFeed>(context) {
                 override fun onFailure(call: Call<AllesFeed>?, t: Throwable?) {
@@ -61,6 +62,7 @@ class Repo {
         } else {
             mutableData.value = cachedFeed!!.toMutableList()
         }
+        overrideNextFeedLoad = false
         return mutableData
     }
 
