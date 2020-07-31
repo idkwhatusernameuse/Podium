@@ -37,20 +37,20 @@ object SharedPreferences {
     private const val key_theme = "theme"
 
     var isLoggedIn: Boolean
-        get() = preferences.getBoolean(key_isLoggedIn, false)
-        set(value) = preferences.edit{
+        get() = login_preferences.getBoolean(key_isLoggedIn, false)
+        set(value) = login_preferences.edit{
             it.putBoolean(key_isLoggedIn, value)
         }
 
     var login_token: String?
-        get() = preferences.getString(key_loginToken, "")
-        set(value) = preferences.edit{
+        get() = login_preferences.getString(key_loginToken, "")
+        set(value) = login_preferences.edit{
             it.putString(key_loginToken, value)
         }
 
     var current_user: String?
-        get() = preferences.getString(key_currentUser, null)
-        set(value) = preferences.edit{
+        get() = login_preferences.getString(key_currentUser, "")
+        set(value) = login_preferences.edit{
             it.putString(key_currentUser, value)
         }
 
