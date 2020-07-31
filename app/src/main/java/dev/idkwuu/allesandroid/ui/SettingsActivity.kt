@@ -80,11 +80,10 @@ class SettingsActivity : AppCompatActivity() {
             .setMessage(R.string.app_info_message)
             .setIcon(getDrawable(R.mipmap.ic_launcher_round))
             .setPositiveButton("Twitter") { _, _ ->
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/idkwuu")))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/PodiumApp_")))
             }
-            .setNegativeButton("Alles") { _, _ ->
-                // Ironically I'm going to open the Alles profile in the browser, temporarily
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://alles.cx/idkwuu")))
+            .setNegativeButton("GitHub") { _, _ ->
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/idkwhatusernameuse/Podium")))
             }
             .setNeutralButton(R.string.close) { dialogInterface, _ ->
                 dialogInterface.cancel()
