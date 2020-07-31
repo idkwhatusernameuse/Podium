@@ -50,6 +50,7 @@ class PostActivity : AppCompatActivity() {
         val postToReply = intent.getStringExtra("replyTo")
         if (postToReply != null) {
             findViewById<TextView>(R.id.replyingTo).text = "${getString(R.string.replying)} @${intent.getStringExtra("userToReply")}"
+            post.text = getString(R.string.reply)
         }
 
         // Get a random phrase for the hint

@@ -65,7 +65,7 @@ class ThreadActivity : AppCompatActivity() {
     private fun setThread(post: AllesPost) {
         // Reply button
         val replyButton = findViewById<Button>(R.id.reply)
-        replyButton.text = "${getString(R.string.reply)} @${post.author.username}"
+        replyButton.text = "${getString(R.string.reply_to)} @${post.author.username}"
         replyButton.visibility = View.VISIBLE
         replyButton.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
