@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.os.Handler
 import android.transition.Transition
+import dev.idkwuu.allesandroid.util.BookmarksManager
 
 class PostBinder {
     private fun vote(itemView: View, slug: String, vote: Int, currentVote: Int) {
@@ -219,10 +220,28 @@ class PostBinder {
         }
         // Save post
         val save = popupWindow.contentView.findViewById<TextView>(R.id.save)
-        save.setOnClickListener {
-            Snackbar.make(view, R.string.etasoon, Snackbar.LENGTH_SHORT).show()
-            popupWindow.dismiss()
+        if (BookmarksManager.data.value?.contains(slug)!!){
+            save.setCompoundDrawablesWithIntrinsicBounds(
+                R.drawable.ic_fluent_bookmark_24_filled,
+                0,
+                0,
+                0
+            )
+            save.text = view.context.getString(R.string.bookmark_post_remove)
+
+            save.setOnClickListener {
+                BookmarksManager().remove(slug)
+                Snackbar.make(view, R.string.removed_from_bookmarks, Snackbar.LENGTH_SHORT).show()
+                popupWindow.dismiss()
+            }
+        } else {
+            save.setOnClickListener {
+                BookmarksManager().save(slug)
+                Snackbar.make(view, R.string.added_to_bookmarks, Snackbar.LENGTH_SHORT).show()
+                popupWindow.dismiss()
+            }
         }
+
         popupWindow.showAsDropDown(view)
     }
 

@@ -35,6 +35,7 @@ object SharedPreferences {
     private const val key_loginToken = "login_token"
     private const val key_currentUser = "current_user"
     private const val key_theme = "theme"
+    private const val key_bookmarks = "bookmarks"
 
     var isLoggedIn: Boolean
         get() = login_preferences.getBoolean(key_isLoggedIn, false)
@@ -58,6 +59,12 @@ object SharedPreferences {
         get() = preferences.getInt(key_theme, 0)
         set(value) = preferences.edit {
             it.putInt(key_theme, value)
+        }
+
+    var bookmarks: String
+        get() = preferences.getString(key_bookmarks, "[]") ?: "[]"
+        set(value) = preferences.edit{
+            it.putString(key_bookmarks, value)
         }
 
 }
