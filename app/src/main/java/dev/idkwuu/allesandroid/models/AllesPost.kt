@@ -46,5 +46,9 @@ class AllesPost(
 
     @SerializedName("ancestors")
     @Expose
-    var ancestors: List<AllesPost>?
+    var ancestors: List<AllesPost>?,
+
+    @SerializedName("err")
+    @Expose
+    var error: String?
 )

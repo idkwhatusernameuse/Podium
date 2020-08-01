@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,77 +8,9 @@
         android:id="@+id/floatingActionButtonLayout"
         layout="@layout/layout_post_fab"/>
 
-    <com.todou.nestrefresh.RefreshHeaderView
-        android:id="@+id/pullToRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/nest_refresh_single_behavior"/>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/nest_refresh_scroll_behavior">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/title_home"
-                android:textAppearance="@style/headline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                tools:visibility="gone">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <include layout="@layout/item_post_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
     <include
-        android:id="@+id/error_loading"
-        layout="@layout/layout_error_loading"
-        android:visibility="gone"/>
+        android:id="@+id/timeline"
+        layout="@layout/layout_timeline"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

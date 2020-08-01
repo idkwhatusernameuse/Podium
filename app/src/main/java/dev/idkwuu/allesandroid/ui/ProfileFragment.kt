@@ -1,6 +1,7 @@
 package dev.idkwuu.allesandroid.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
@@ -37,6 +38,8 @@ import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
 import jp.wasabeef.blurry.internal.Blur
 import jp.wasabeef.blurry.internal.BlurFactor
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.IllegalStateException
 
 class ProfileFragment : Fragment() {
@@ -58,14 +61,6 @@ class ProfileFragment : Fragment() {
     ): View? {
         retainInstance = true
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        val shimmer = view.findViewById<ShimmerFrameLayout>(R.id.shimmer)
-        shimmer.startShimmer()
-
-        adapter = PostListAdapter(view.context)
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.adapter = adapter
-        recyclerView.isNestedScrollingEnabled = false
 
         val user: String = try {
             requireArguments().getString("user")
@@ -73,14 +68,18 @@ class ProfileFragment : Fragment() {
             SharedPreferences.current_user
         }.toString()
 
-        observeData(user)
+        Timeline(
+            view = view.findViewById(R.id.timeline),
+            fabLayout = if (user == SharedPreferences.current_user) {
+                view.findViewById<FloatingActionButton>(R.id.floatingActionButtonLayout)
+            } else null,
+            activity = requireActivity(),
+            withReload = true,
+            loader = { context, param -> Repo().getUserPosts(context, user) },
+            viewLifecycleOwner = viewLifecycleOwner
+        )
 
-        // Setup pull to refresh
-        view.findViewById<RefreshHeaderView>(R.id.pullToRefresh).setOnRefreshListener(object : OnRefreshListener {
-            override fun onRefresh() {
-                observeData(user, false)
-            }
-        })
+        observeData(user)
 
         // Back button
         val withBackButton = try {
@@ -93,20 +92,13 @@ class ProfileFragment : Fragment() {
             back.setOnClickListener { requireActivity().finish() }
             back.visibility = View.VISIBLE
         }
-        // Settings button and FAB
+        // Settings button
         if (user == SharedPreferences.current_user) {
             val settings = view.findViewById<ImageButton>(R.id.settings)
             settings.visibility = View.VISIBLE
             settings.setOnClickListener {
                 startActivity(Intent(context, SettingsActivity::class.java))
             }
-
-            FloatingActionButtonLayout().set(
-                activity = requireActivity(),
-                context = requireContext(),
-                fab = view.findViewById(R.id.floatingActionButtonLayout),
-                nestedScrollView = view.findViewById(R.id.nestedScrollView)
-            )
         }
 
 
@@ -114,10 +106,9 @@ class ProfileFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeData(user: String, hideShimmer: Boolean = true) {
+    private fun observeData(user: String) {
         Repo().getUser(requireContext(), user).observe(viewLifecycleOwner, Observer {
-            val shimmer = requireView().findViewById<ShimmerFrameLayout>(R.id.shimmer)
-            val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerView)
+            val nestedScrollView = requireView().findViewById<NestedScrollView>(R.id.nestedScrollView)
             val errorLayout = requireView().findViewById<View>(R.id.error_loading)
             if (it != null) {
                 val profileView = requireView().findViewById<View>(R.id.profile)
@@ -156,42 +147,28 @@ class ProfileFragment : Fragment() {
                             .signature(ObjectKey(etag.second!!))
                             .into(object: SimpleTarget<Bitmap>() {
                                 override fun onResourceReady(resource: Bitmap,transition: Transition<in Bitmap>?) {
-                                    setBlurredBanner(resource)
+                                    GlobalScope.launch {
+                                        setBlurredBanner(resource)
+                                    }
                                 }
                             })
                     }
                 }
-
 
                 // Is online?
                 Repo().getIsOnline(it.id).observeForever { isOnline ->
                     profileView.findViewById<CircleImageView>(R.id.profile_image).borderWidth = if (isOnline) { 2 } else { 0 }
                 }
 
-                // Set posts list
-                requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
-                recyclerView.adapter = null
-                recyclerView.adapter = adapter
-
                 errorLayout.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
-                adapter.setListData(it.posts)
-                adapter.notifyDataSetChanged()
+                nestedScrollView.visibility = View.VISIBLE
             } else {
                 errorLayout.visibility = View.VISIBLE
                 errorLayout.findViewById<Button>(R.id.retry).setOnClickListener {
-                    recyclerView.visibility = View.VISIBLE
+                    nestedScrollView.visibility = View.VISIBLE
                     errorLayout.visibility = View.GONE
-                    shimmer.startShimmer()
-                    shimmer.visibility = View.VISIBLE
-                    observeData(user, hideShimmer = true)
+                    observeData(user)
                 }
-            }
-
-            if (hideShimmer) {
-                recyclerView.visibility = View.VISIBLE
-                shimmer.stopShimmer()
-                shimmer.visibility = View.GONE
             }
         })
     }
@@ -213,12 +190,14 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setBlurredBanner(profile_picture: Bitmap) {
-        requireView().findViewById<ImageView>(R.id.profile_image).setImageBitmap(profile_picture)
         // Create blurred version of profile picture
         val blurFactor = BlurFactor()
         blurFactor.width = profile_picture.width
         blurFactor.height = profile_picture.height
         val blurryPicture = Blur.of(requireContext(), profile_picture, blurFactor)
-        requireView().findViewById<ImageView>(R.id.background).setImageBitmap(blurryPicture)
+        requireActivity().runOnUiThread {
+            requireView().findViewById<ImageView>(R.id.profile_image).setImageBitmap(profile_picture)
+            requireView().findViewById<ImageView>(R.id.background).setImageBitmap(blurryPicture)
+        }
     }
 }

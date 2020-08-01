@@ -8,8 +8,11 @@ import dev.idkwuu.allesandroid.models.AllesFeed
 import dev.idkwuu.allesandroid.models.AllesMentions
 import dev.idkwuu.allesandroid.models.AllesPost
 import dev.idkwuu.allesandroid.models.AllesUser
+import dev.idkwuu.allesandroid.util.BookmarksManager
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.dont_care_lol
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,21 +20,16 @@ import retrofit2.Response
 
 class Repo {
     companion object {
-        private lateinit var instance: AllesEndpointsInterface
-
-        val retrofitInstance: AllesEndpointsInterface
-            get() {
-                if (!this::instance.isInitialized) {
-                    instance = RetrofitClientInstance().getRetrofitInstance()
-                        .create(AllesEndpointsInterface::class.java)
-                }
-                return instance
-            }
+        val retrofitInstance: AllesEndpointsInterface by lazy {
+            RetrofitClientInstance().getRetrofitInstance().create(AllesEndpointsInterface::class.java)
+        }
 
         val cachedEtags = ArrayList<Pair<String, String?>>()
         var cachedFeed: List<AllesPost>? = null
         var overrideNextFeedLoad = false
 
+        var cachedNotifications: List<AllesPost>? = null
+        var cachedBookmarks: List<AllesPost>? = null
         var shouldStopLoop = false
         val handler = Handler()
         var onlineRunnable: Runnable = object : Runnable {
@@ -45,9 +43,9 @@ class Repo {
         }
     }
 
-    fun getPosts(context: Context, reload: Boolean = false): LiveData<MutableList<AllesPost>?> {
+    fun getPosts(context: Context, reload: String): LiveData<MutableList<AllesPost>?> {
         val mutableData = MutableLiveData<MutableList<AllesPost>?>()
-        if (cachedFeed == null || reload || overrideNextFeedLoad) {
+        if (cachedFeed == null || reload.toBoolean() || overrideNextFeedLoad) {
             val call = retrofitInstance.getFeed()
             call.enqueue(object : BaseCallback<AllesFeed>(context) {
                 override fun onFailure(call: Call<AllesFeed>?, t: Throwable?) {
@@ -76,6 +74,21 @@ class Repo {
 
             override fun onSuccess(response: AllesUser) {
                 mutableData.value = response
+            }
+        })
+        return mutableData
+    }
+
+    fun getUserPosts(context: Context, user: String): LiveData<MutableList<AllesPost>?> {
+        val mutableData = MutableLiveData<MutableList<AllesPost>?>()
+        val call = retrofitInstance.getUserPosts(user)
+        call.enqueue(object : BaseCallback<AllesUser>(context) {
+            override fun onFailure(call: Call<AllesUser>?, t: Throwable?) {
+                mutableData.value = null
+            }
+
+            override fun onSuccess(response: AllesUser) {
+                mutableData.value = response.posts.toMutableList()
             }
         })
         return mutableData
@@ -115,24 +128,29 @@ class Repo {
         return etag
     }
 
-    fun getMentions(context: Context): LiveData<MutableList<AllesPost>?> {
+    fun getMentions(context: Context, reload: String): LiveData<MutableList<AllesPost>?> {
         val mutableData = MutableLiveData<MutableList<AllesPost>?>()
-        val call = retrofitInstance.getMentions()
-        call.enqueue(object : BaseCallback<AllesMentions>(context) {
-            override fun onFailure(call: Call<AllesMentions>?, t: Throwable?) {
-                mutableData.value = null
-            }
+        if (cachedNotifications == null || reload.toBoolean()) {
+            val call = retrofitInstance.getMentions()
+            call.enqueue(object : BaseCallback<AllesMentions>(context) {
+                override fun onFailure(call: Call<AllesMentions>?, t: Throwable?) {
+                    mutableData.value = null
+                }
 
-            override fun onSuccess(response: AllesMentions) {
-                mutableData.value = response.mentions.toMutableList()
-            }
-        })
+                override fun onSuccess(response: AllesMentions) {
+                    cachedNotifications = response.mentions.toMutableList()
+                    mutableData.value = response.mentions.toMutableList()
+                }
+            })
+        } else {
+            mutableData.value = cachedNotifications!!.toMutableList()
+        }
         return mutableData
     }
 
     fun getPost(context: Context, slug: String): LiveData<AllesPost?> {
         val mutableData = MutableLiveData<AllesPost?>()
-        val call = retrofitInstance.getPost(slug)
+        val call = retrofitInstance.getThread(slug)
         call.enqueue(object : BaseCallback<AllesPost>(context) {
             override fun onFailure(call: Call<AllesPost>?, t: Throwable?) {
                 mutableData.value = null
@@ -142,6 +160,34 @@ class Repo {
                 mutableData.value = response
             }
         })
+        return mutableData
+    }
+
+    fun getBookmarks(context: Context, reload: String): LiveData<MutableList<AllesPost>?> {
+        val mutableData = MutableLiveData<MutableList<AllesPost>>()
+        if (cachedBookmarks == null || reload.toBoolean()) {
+            val bookmarks = BookmarksManager.data.value!!
+            val list = mutableListOf<AllesPost>()
+
+            repeat(bookmarks.size) {
+                val call = retrofitInstance.getPost(bookmarks[it])
+                call.enqueue(object : BaseCallback<AllesPost>(context) {
+                    override fun onFailure(call: Call<AllesPost>?, t: Throwable?) {
+                        mutableData.value = null
+                    }
+
+                    override fun onSuccess(response: AllesPost) {
+                        list.add(response)
+                        if (it == bookmarks.size - 1) {
+                            mutableData.value = list.toMutableList()
+                            cachedBookmarks = list
+                        }
+                    }
+                })
+            }
+        } else {
+            mutableData.value = cachedBookmarks!!.toMutableList()
+        }
         return mutableData
     }
 }

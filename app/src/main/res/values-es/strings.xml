@@ -2,6 +2,7 @@
 <resources>
     <string name="title_home">Inicio</string>
     <string name="title_notifications">Menciones</string>
+    <string name="title_bookmarks">Guardados</string>
     <string name="login_username">Usuario</string>
     <string name="login_password">Contraseña</string>
     <string name="login_text">Iniciar sesión</string>
@@ -52,8 +53,11 @@
     <string name="title_me">Yo</string>
     <string name="copy_link">Copiar enlace</string>
     <string name="delete_post">Eliminar publicación</string>
-    <string name="save_post">Guardar publicación</string>
+    <string name="bookmark_post">Añadir a guardados</string>
+    <string name="bookmark_post_remove">Eliminar de guardados</string>
     <string name="removed">Eliminado</string>
     <string name="copied">Copiado</string>
-    <string name="delete_post_confirmation">Toca aqui para eliminar la publicación</string>
+    <string name="added_to_bookmarks">Añadido a guardados</string>
+    <string name="delete_post_confirmation">Toca aquí para eliminar la publicación</string>
+    <string name="removed_from_bookmarks">Eliminado de guardados</string>
 </resources>

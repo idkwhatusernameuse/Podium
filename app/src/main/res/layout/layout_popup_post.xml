@@ -45,7 +45,7 @@
             style="@style/text_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/save_post"
+            android:text="@string/bookmark_post"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"

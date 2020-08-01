@@ -11,21 +11,16 @@
         android:id="@+id/floatingActionButtonLayout"
         layout="@layout/layout_post_fab"/>
 
-    <com.todou.nestrefresh.RefreshHeaderView
-        android:id="@+id/pullToRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/nest_refresh_single_behavior"/>
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nestedScrollView"
         app:layout_behavior="@string/nest_refresh_scroll_behavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <include
                 android:id="@+id/profile"
@@ -41,47 +36,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone">
+            <include
+                android:id="@+id/timeline"
+                layout="@layout/layout_timeline"/>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <include layout="@layout/layout_profile_info_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-
-                    <include layout="@layout/item_post_loading" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile"
-                tools:visibility="visible" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <include

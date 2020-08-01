@@ -12,8 +12,11 @@ interface AllesEndpointsInterface {
     @GET("feed")
     fun getFeed(): Call<AllesFeed>
 
-    @GET("users/{username}?posts=")
+    @GET("users/{username}")
     fun getUser(@Path("username") username: String): Call<AllesUser>
+
+    @GET("users/{username}?posts=")
+    fun getUserPosts(@Path("username") username: String): Call<AllesUser>
 
     @GET("users/{username}/follow")
     fun follow(@Path("username") username: String): Call<Void>
@@ -46,5 +49,8 @@ interface AllesEndpointsInterface {
     fun getImageHeaders(@Path("username") username: String): Call<Void>
 
     @GET("post/{slug}?children?=")
+    fun getThread(@Path("slug") slug: String): Call<AllesPost>
+
+    @GET("post/{slug}")
     fun getPost(@Path("slug") slug: String): Call<AllesPost>
 }

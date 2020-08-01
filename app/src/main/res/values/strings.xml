@@ -5,6 +5,7 @@
     <string name="title_home">Home</string>
     <string name="title_notifications">Mentions</string>
     <string name="title_me">Me</string>
+    <string name="title_bookmarks">Bookmarks</string>
 
     <!-- LoginActivity -->
     <string name="title_activity_login">Login to Alles</string>
@@ -85,8 +86,11 @@
     <string name="continue_">Continue</string>
     <string name="copy_link">Copy link</string>
     <string name="delete_post">Remove post</string>
-    <string name="save_post">Save post</string>
+    <string name="bookmark_post">Add to bookmarks</string>
+    <string name="bookmark_post_remove">Remove from bookmarks</string>
     <string name="removed">Removed</string>
     <string name="copied">Copied</string>
+    <string name="added_to_bookmarks">Added to bookmarks</string>
     <string name="delete_post_confirmation">Tap here to delete the post</string>
+    <string name="removed_from_bookmarks">Removed from bookmarks</string>
 </resources>
