@@ -1,6 +1,5 @@
 package dev.idkwuu.allesandroid.ui
 
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -8,6 +7,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.Repo
+import dev.idkwuu.allesandroid.util.SharedPreferences
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onRestart() {
         Repo.shouldStopLoop = false
         Repo.handler.post(Repo.onlineRunnable)
+        SharedPreferences.init(this)
         super.onRestart()
     }
 }
