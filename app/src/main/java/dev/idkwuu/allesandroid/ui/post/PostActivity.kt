@@ -133,7 +133,7 @@ class PostActivity : AppCompatActivity() {
         val retrofit = RetrofitClientInstance().getRetrofitInstance()
             .create(AllesEndpointsInterface::class.java)
         val call = retrofit.post(post)
-
+        findViewById<Button>(R.id.post).isEnabled = false
         findViewById<Button>(R.id.cancel).setOnClickListener { call.cancel(); finish() }
 
         call.enqueue(object : Callback<AllesInteractionPost> {
@@ -143,7 +143,6 @@ class PostActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<AllesInteractionPost>, response: Response<AllesInteractionPost>) {
-                Repo.overrideNextFeedLoad = true
                 setResult(69)
                 finish()
             }

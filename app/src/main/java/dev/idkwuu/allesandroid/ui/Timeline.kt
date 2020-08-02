@@ -17,18 +17,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.todou.nestrefresh.RefreshHeaderView
 import com.todou.nestrefresh.base.OnRefreshListener
 import dev.idkwuu.allesandroid.R
+import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.models.AllesPost
 import dev.idkwuu.allesandroid.ui.post.PostListAdapter
 
 class Timeline(
     title: String? = null,
     private val view: View,
-    fabLayout: FloatingActionButton? = null,
-    activity: Activity? = null,
     withReload: Boolean,
-    private val loader: (context: Context, param: String) -> LiveData<MutableList<AllesPost>?>,
-    private val viewLifecycleOwner: LifecycleOwner,
-    private val user: String? = null
+    private val reloadFunction: () -> Unit = {},
+    private val data: LiveData<MutableList<AllesPost>>,
+    private val viewLifecycleOwner: LifecycleOwner
 ) {
 
     private val titleView: TextView by lazy { view.findViewById<TextView>(R.id.title) }
@@ -37,8 +36,6 @@ class Timeline(
     private val adapter: PostListAdapter by lazy { PostListAdapter(view.context) }
     private val pullToRefresh: RefreshHeaderView by lazy { view.findViewById<RefreshHeaderView>(R.id.pullToRefresh) }
     private val errorLayout: View by lazy { view.findViewById<View>(R.id.error_loading) }
-
-    private fun parameter(reload: Boolean?) = user ?: reload.toString()
 
     init {
         if (title != null) {
@@ -50,22 +47,12 @@ class Timeline(
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         recyclerView.isNestedScrollingEnabled = false
-        observeData(param = parameter(false))
-
-        // Set up FAB
-        if (activity != null && fabLayout != null) {
-            FloatingActionButtonLayout().set(
-                activity = activity,
-                context = view.context,
-                fab = fabLayout,
-                nestedScrollView = view.findViewById(R.id.nestedScrollView)
-            )
-        }
+        observeData()
 
         if (withReload) {
             pullToRefresh.setOnRefreshListener(object : OnRefreshListener {
                 override fun onRefresh() {
-                    observeData(hideShimmer = false, param = parameter(true))
+                    reloadFunction()
                 }
             })
         } else {
@@ -73,8 +60,8 @@ class Timeline(
         }
     }
 
-    private fun observeData(hideShimmer: Boolean = true, param: String) {
-        loader(view.context, param).observe(viewLifecycleOwner, Observer {
+    private fun observeData(hideShimmer: Boolean = true) {
+        data.observe(viewLifecycleOwner, Observer {
             if (hideShimmer) {
                 shimmer.stopShimmer()
                 shimmer.visibility = View.GONE
@@ -93,7 +80,7 @@ class Timeline(
                     errorLayout.visibility = View.GONE
                     shimmer.startShimmer()
                     shimmer.visibility = View.VISIBLE
-                    fullReload()
+                    reloadFunction()
                 }
             } else {
                 errorLayout.visibility = View.GONE
@@ -103,6 +90,4 @@ class Timeline(
             }
         })
     }
-
-    fun fullReload() = observeData(hideShimmer = true, param = parameter(true))
 }

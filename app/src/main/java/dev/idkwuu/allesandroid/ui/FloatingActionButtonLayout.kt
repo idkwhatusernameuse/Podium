@@ -19,10 +19,5 @@ class FloatingActionButtonLayout {
                 fab.show()
             }
         })
-
-        // Post FAB!
-        fab.setOnClickListener {
-            startActivityForResult(activity, Intent(context, PostActivity::class.java), 69, null)
-        }
     }
 }

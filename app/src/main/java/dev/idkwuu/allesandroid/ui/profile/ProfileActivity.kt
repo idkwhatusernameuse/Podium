@@ -1,4 +1,4 @@
-package dev.idkwuu.allesandroid.ui
+package dev.idkwuu.allesandroid.ui.profile
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

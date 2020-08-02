@@ -5,7 +5,7 @@ import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
-import dev.idkwuu.allesandroid.ui.ProfileActivity
+import dev.idkwuu.allesandroid.ui.profile.ProfileActivity
 import dev.idkwuu.allesandroid.ui.ThreadActivity
 
 class TextClickableSpan(string: String) : ClickableSpan() {

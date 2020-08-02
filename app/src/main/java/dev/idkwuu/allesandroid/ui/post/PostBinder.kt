@@ -24,13 +24,11 @@ import com.bumptech.glide.signature.ObjectKey
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dev.idkwuu.allesandroid.R
-import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
 import dev.idkwuu.allesandroid.api.Repo
-import dev.idkwuu.allesandroid.api.RetrofitClientInstance
 import dev.idkwuu.allesandroid.models.AllesPost
 import dev.idkwuu.allesandroid.models.AllesVote
 import dev.idkwuu.allesandroid.ui.ImageViewerActivity
-import dev.idkwuu.allesandroid.ui.ProfileActivity
+import dev.idkwuu.allesandroid.ui.profile.ProfileActivity
 import dev.idkwuu.allesandroid.ui.ThreadActivity
 import dev.idkwuu.allesandroid.util.SharedPreferences
 import dev.idkwuu.allesandroid.util.TextClickableSpan
@@ -39,7 +37,6 @@ import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import android.os.Handler
-import android.transition.Transition
 import dev.idkwuu.allesandroid.util.BookmarksManager
 
 class PostBinder {
@@ -77,7 +74,6 @@ class PostBinder {
             }
         }
 
-        Repo.overrideNextFeedLoad = true
         Repo.retrofitInstance.vote(slug, AllesVote(vote)).enqueue(dont_care_lol)
     }
 
@@ -210,7 +206,6 @@ class PostBinder {
 
                 // Confirmation
                 parentView.removed.setOnClickListener {
-                    Repo.overrideNextFeedLoad = true
                     Repo.retrofitInstance.remove(slug).enqueue(dont_care_lol)
                     animateViewHeight(parentView.post, 0)
                     parentView.removed_text.text = parentView.context.getString(R.string.removed)
