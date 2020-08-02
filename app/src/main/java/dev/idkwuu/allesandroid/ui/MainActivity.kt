@@ -18,22 +18,22 @@ import dev.idkwuu.allesandroid.util.SharedPreferences
 
 class MainActivity : AppCompatActivity() {
 
-    private val fragment1: Fragment = HomeFragment()
-    private val fragment2: Fragment = NotificationsFragment()
-    private val fragment3: Fragment = BookmarksFragment()
-    private val fragment4: Fragment = ProfileFragment()
+    private val fragmentsList = listOf(
+        HomeFragment(),
+        NotificationsFragment(),
+        BookmarksFragment(),
+        ProfileFragment()
+    )
+    private var createdFragments = mutableListOf<Boolean>(true, false, false, false)
     private val fm: FragmentManager = supportFragmentManager
-    private var active: Fragment = fragment1
+    private var active: Fragment = fragmentsList[0]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        fm.beginTransaction().add(R.id.nav_host_fragment, fragment4, "4").hide(fragment4).commit()
-        fm.beginTransaction().add(R.id.nav_host_fragment, fragment3, "3").hide(fragment3).commit()
-        fm.beginTransaction().add(R.id.nav_host_fragment, fragment2, "2").hide(fragment2).commit()
-        fm.beginTransaction().add(R.id.nav_host_fragment, fragment1, "1").commit()
+        fm.beginTransaction().add(R.id.nav_host_fragment, fragmentsList[0], "1").commit()
 
         /*val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)*/
@@ -44,24 +44,30 @@ class MainActivity : AppCompatActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    fm.beginTransaction().hide(active).show(fragment1).commit()
-                    active = fragment1
+                    replaceFragment(0)
                 }
                 R.id.navigation_notifications -> {
-                    fm.beginTransaction().hide(active).show(fragment2).commit()
-                    active = fragment2
+                    replaceFragment(1)
                 }
                 R.id.navigation_bookmarks -> {
-                    fm.beginTransaction().hide(active).show(fragment3).commit()
-                    active = fragment3
+                    replaceFragment(2)
                 }
                 R.id.navigation_me -> {
-                    fm.beginTransaction().hide(active).show(fragment4).commit()
-                    active = fragment4
+                    replaceFragment(3)
                 }
             }
             true
         }
+
+    private fun replaceFragment(id: Int) {
+        if (!createdFragments[id]) {
+            createdFragments[id] = true
+            fm.beginTransaction().add(R.id.nav_host_fragment, fragmentsList[id], "2").hide(active).commit()
+        } else {
+            fm.beginTransaction().hide(active).show(fragmentsList[id]).commit()
+        }
+        active = fragmentsList[id]
+    }
 
     override fun onStop() {
         Repo.shouldStopLoop = true
