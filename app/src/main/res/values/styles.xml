@@ -1,14 +1,22 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item-->
-        <item name="android:statusBarColor">@color/nav_bar</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:actionBarStyle">@style/ThemeActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="actionBarStyle">@style/ThemeActionBar</item>
         <item name="android:fontFamily">@font/inter</item>
-        <item name="android:colorBackground">@color/background</item>
+    </style>
+
+    <style name="ThemeActionBar" parent="Widget.MaterialComponents.ActionBar.Solid">
+        <item name="android:background">@color/background</item>
+        <item name="background">@color/background</item>
+        <item name="elevation">0dp</item>
     </style>
 
     <style name="Translucent" parent="AppTheme">
