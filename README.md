@@ -2,13 +2,7 @@
 
 # Podium
 
-An Alles client for Android made in Kotlin.
-
-<a href='https://play.google.com/store/apps/details?id=dev.idkwuu.allesandroid'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="200"/></a>
-
-### Disclaimer
-
-Project may break at any given moment due to the migration from Alles.cx to Alles Micro
+An Alles Micro client for Android made in Kotlin. This project is under construction and ISN'T WORKING AT THE MOMENT. Also, there's no public API for Alles Micro currently.
 
 ### License
 
