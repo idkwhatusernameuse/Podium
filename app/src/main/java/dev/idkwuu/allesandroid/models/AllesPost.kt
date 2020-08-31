@@ -2,53 +2,58 @@ package dev.idkwuu.allesandroid.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import org.json.JSONObject
 
 class AllesPost(
-    @SerializedName("type")
-    @Expose
-    val type: String,
-
-    @SerializedName("slug")
-    @Expose
-    var slug: String,
+    @SerializedName("id")
+    val id: String,
 
     @SerializedName("author")
-    @Expose
-    var author: AllesAuthor,
+    val author: String,
+
+    @SerializedName("parent")
+    val parent: String?,
+
+    @SerializedName("children")
+    val children: Children,
 
     @SerializedName("content")
     @Expose
-    var content: String,
+    val content: String,
 
     @SerializedName("image")
     @Expose
-    var image: String? = null,
+    val image: String? = null,
 
-    @SerializedName("createdAt")
+    @SerializedName("url")
     @Expose
-    var createdAt: String,
-
-    @SerializedName("score")
-    @Expose
-    var score: Int,
+    val url: String? = null,
 
     @SerializedName("vote")
-    @Expose
-    var vote: Int,
+    val vote: Vote,
 
-    @SerializedName("replyCount")
-    @Expose
-    var replyCount: Int,
+    @SerializedName("interactions")
+    val interactions: Int?,
 
-    @SerializedName("replies")
-    @Expose
-    var replies: List<AllesPost>?,
+    @SerializedName("createdAt")
+    val createdAt: String,
 
-    @SerializedName("ancestors")
-    @Expose
-    var ancestors: List<AllesPost>?,
+    @SerializedName("users")
+    val users: JSONObject
+)
 
-    @SerializedName("err")
-    @Expose
-    var error: String?
+class Children(
+    @SerializedName("count")
+    val count: Int,
+
+    @SerializedName("list")
+    val list: List<String>
+)
+
+class Vote(
+    @SerializedName("score")
+    val score: Int,
+
+    @SerializedName("me")
+    val me: Int
 )

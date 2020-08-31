@@ -22,10 +22,6 @@ class TextClickableSpan(string: String) : ClickableSpan() {
             text.contains('#') -> {
 
             }
-            text.contains('%') -> {
-                intent = Intent(view.context, ThreadActivity::class.java)
-                intent.putExtra("post", text.replace("%", ""))
-            }
         }
         // Do not try to open hastags, yet.
         if (!text.contains('#')) {

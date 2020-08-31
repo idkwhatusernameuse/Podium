@@ -37,7 +37,10 @@ import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import android.os.Handler
+import dev.idkwuu.allesandroid.api.AllesEndpoints
+import dev.idkwuu.allesandroid.models.AllesUser
 import dev.idkwuu.allesandroid.util.BookmarksManager
+import org.json.JSONObject
 
 class PostBinder {
     private fun vote(itemView: View, slug: String, vote: Int, currentVote: Int) {
@@ -81,47 +84,51 @@ class PostBinder {
     fun bindView(post: AllesPost, itemView: View, isMainPost: Boolean = false) {
         itemView.user_info.setOnClickListener {
             val intent = Intent(itemView.context, ProfileActivity::class.java)
-            intent.putExtra("user", post.author.username)
+            intent.putExtra("user", post.author)
             itemView.context.startActivity(intent)
         }
         // Author name
-        if (post.author.plus) {
-            itemView.user_title.text = "${post.author.name}\u207A"
+        val author = Gson().fromJson(post.users[post.author].toString(), AllesUser::class.java)
+        if (author.plus) {
+            itemView.user_title.text = "${author.name}\u207A"
         } else {
-            itemView.user_title.text = post.author.name
+            itemView.user_title.text = author.name
         }
-        // Author username
-        itemView.user_handle.text = "@${post.author.username}"
         // Votes
-        itemView.votesCount.text = post.score.toString()
-        var actualVote = post.vote
-        itemView.plusInternal.setOnClickListener {
+        itemView.votesCount.text = post.vote.score.toString()
+        var actualVote = post.vote.me
+        itemView.plus.setOnClickListener {
             actualVote = if (actualVote == 1) {
-                vote(itemView, post.slug, 0, actualVote)
+                vote(itemView, post.id, 0, actualVote)
                 0
             } else {
-                vote(itemView, post.slug, 1, actualVote)
+                vote(itemView, post.id, 1, actualVote)
                 1
             }
         }
-        itemView.minusInternal.setOnClickListener {
+        itemView.minus.setOnClickListener {
             actualVote = if (actualVote == -1) {
-                vote(itemView, post.slug, 0, actualVote)
+                vote(itemView, post.id, 0, actualVote)
                 0
             } else {
-                vote(itemView, post.slug, -1, actualVote)
+                vote(itemView, post.id, -1, actualVote)
                 -1
             }
         }
         // Comments
-        itemView.comments_count.text = post.replyCount.toString()
-        if (post.replyCount > 0) {
+        itemView.comments_count.text = post.children.count.toString()
+        if (post.children.count > 0) {
             itemView.comments_icon.setImageResource(R.drawable.ic_fluent_chat_20_filled)
         }
+        // Post views
+        if (post.interactions != null) {
+            itemView.views.visibility = View.VISIBLE
+            itemView.views_text.text = post.interactions.toString()
+        }
         // Has user voted?
-        if (post.vote == 1) ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(
+        if (post.vote.me == 1) ImageViewCompat.setImageTintList(itemView.plus, ColorStateList.valueOf(
             ContextCompat.getColor(itemView.context, R.color.plus_selected)))
-        else if (post.vote == -1) ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(
+        else if (post.vote.me == -1) ImageViewCompat.setImageTintList(itemView.minus, ColorStateList.valueOf(
             ContextCompat.getColor(itemView.context, R.color.minus_selected)))
         // Set post content
         if (post.content.isNotEmpty()) {
@@ -132,10 +139,11 @@ class PostBinder {
         // Post image
         if (post.image != null) {
             itemView.card_image.visibility = View.VISIBLE
-            Glide.with(itemView.context.applicationContext).load(post.image).into(itemView.post_image)
+            val imageURL = "${AllesEndpoints.fs}${post.image}"
+            Glide.with(itemView.context.applicationContext).load(imageURL).into(itemView.post_image)
             itemView.post_image.setOnClickListener {
                 val intent = Intent(itemView.context, ImageViewerActivity::class.java)
-                intent.putExtra("URL", post.image.toString())
+                intent.putExtra("URL", imageURL)
                 itemView.context.startActivity(intent)
             }
         }
@@ -147,10 +155,11 @@ class PostBinder {
         val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(timeAndDate!!)
         itemView.time.text = "${DateUtils.getRelativeTimeSpanString(timeAndDate.time, now, 0)}, $time"
         // Set profile photo
-        Repo().getEtagProfilePicture(post.author.username).observeForever { etag ->
+        val pfpURL = "${AllesEndpoints.fs}${post.author}?size=40"
+        Repo().getEtagProfilePicture(post.author).observeForever { etag ->
             if (etag?.second != null) {
                 Glide.with(itemView.context.applicationContext)
-                    .load("https://avatar.alles.cx/u/${post.author.username}")
+                    .load(pfpURL)
                     .signature(ObjectKey(etag.second!!))
                     .into(itemView.profile_image)
             }
@@ -167,9 +176,9 @@ class PostBinder {
         itemView.options.setOnClickListener {
             openPopup(
                 it,
-                post.slug,
-                post.author.username,
-                if (post.author.username == SharedPreferences.current_user) itemView else null
+                post.id,
+                post.author,
+                if (post.author == SharedPreferences.current_user) itemView else null
             )
         }
     }

@@ -11,301 +11,258 @@
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="8dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/votes"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/plusLayout"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="bottom"
-                app:layout_constraintBottom_toTopOf="@+id/votesCount"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageButton
-                    android:id="@+id/plus"
-                    style="@style/imageButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/description_plus"
-                    android:tint="@color/neutral"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@drawable/ic_fluent_add_16_filled" />
-
-                <LinearLayout
-                    android:id="@+id/plusInternal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/plus"
+                style="@style/imageButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:contentDescription="@string/description_plus"
+                android:tint="@color/neutral"
+                app:srcCompat="@drawable/ic_fluent_add_16_filled" />
 
             <TextView
                 android:id="@+id/votesCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_gravity="center_horizontal"
                 android:textAppearance="@style/text_body"
-                app:layout_constraintBottom_toTopOf="@+id/minusLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plusLayout"
                 tools:text="69" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/minusLayout"
+            <ImageButton
+                android:id="@+id/minus"
+                style="@style/imageButton"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:gravity="top"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/votesCount">
+                android:layout_height="30dp"
+                android:contentDescription="@string/description_plus"
+                android:tint="@color/neutral"
+                app:srcCompat="@drawable/ic_fluent_remove_16_filled" />
 
-                <ImageButton
-                    android:id="@+id/minus"
-                    style="@style/imageButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/description_plus"
-                    android:tint="@color/neutral"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_fluent_remove_16_filled" />
-
-                <LinearLayout
-                    android:id="@+id/minusInternal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
             android:id="@+id/divider"
             android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/cardview_stroke"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/votes"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@color/cardview_stroke" />
 
-        <LinearLayout
-            android:id="@+id/user_info"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:civ_border_color="#FF000000"
-                app:civ_border_width="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/user_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAppearance="@style/text_body"
-                    app:layout_constraintBottom_toTopOf="@+id/user_handle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/profile_image"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="idkwhatusernameuse\u207A" />
-
-                <TextView
-                    android:id="@+id/user_handle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAppearance="@style/text_body2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/profile_image"
-                    app:layout_constraintTop_toBottomOf="@+id/user_title"
-                    tools:text="\@idkwuu" />
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/options"
-                style="@style/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_fluent_more_24_regular" />
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/post_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider"
-            app:layout_constraintTop_toBottomOf="@+id/user_info">
-
-            <TextView
-                android:id="@+id/post_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:textAppearance="@style/text_body2"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="This is an example of a post on Alles, aaaaa the lazy fox jumped over something i dont remember the phrase"
-                tools:visibility="visible" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_image"
-                style="@style/cardStyle"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="8dp"
-                android:adjustViewBounds="true"
-                android:visibility="gone"
-                app:cardCornerRadius="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/post_text"
-                tools:visibility="visible">
-
-                <ImageView
-                    android:id="@+id/post_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-            </androidx.cardview.widget.CardView>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/cardview_stroke"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider"
-            app:layout_constraintTop_toBottomOf="@+id/post_content" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottom"
-            android:layout_width="0dp"
-
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider"
-            app:layout_constraintTop_toBottomOf="@+id/divider2">
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textAppearance="@style/text_body2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="10 minutes ago" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/comments_icon"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/user_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:tint="@color/neutral"
+                    android:layout_gravity="start"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_fluent_chat_20_regular" />
+                    android:clickable="true"
+                    android:focusable="true">
 
-                <TextView
-                    android:id="@+id/comments_count"
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:cardElevation="0dp"
+                        app:cardCornerRadius="100dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/profile_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:srcCompat="@tools:sample/avatars" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:id="@+id/user_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:maxLines="1"
+                        android:textAppearance="@style/text_body"
+                        tools:text="idkwhatusernameuse\u207A" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <ImageButton
+                    android:layout_gravity="center_vertical|end"
+                    android:id="@+id/options"
+                    style="@style/imageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:textAppearance="@style/text_body2"
+                    android:src="@drawable/ic_fluent_more_24_regular"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/comments_icon"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="40" />
+                    app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/post_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/post_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:textAppearance="@style/text_body2"
+                    android:visibility="gone"
+                    tools:text="This is an example of a post on Alles, aaaaa the lazy fox jumped over something i dont remember the phrase"
+                    tools:visibility="visible" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="8dp"
+                    android:adjustViewBounds="true"
+                    android:visibility="gone"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/post_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/cardview_stroke"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:textAppearance="@style/text_body2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="10 minutes ago" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        android:id="@+id/views">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            app:srcCompat="@drawable/ic_fluent_eye_show_20_regular"
+                            app:tint="@color/neutral" />
+
+                        <TextView
+                            android:id="@+id/views_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:textAppearance="@style/text_body2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/view_icon"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="420" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:id="@+id/comments_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            app:srcCompat="@drawable/ic_fluent_chat_20_regular"
+                            app:tint="@color/neutral" />
+
+                        <TextView
+                            android:id="@+id/comments_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:textAppearance="@style/text_body2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/comments_icon"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="40" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <LinearLayout
         android:id="@+id/removed"

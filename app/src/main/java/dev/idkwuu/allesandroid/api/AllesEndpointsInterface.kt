@@ -30,9 +30,6 @@ interface AllesEndpointsInterface {
     @GET("mentions")
     fun getMentions(): Call<AllesMentions>
 
-    @GET("accounts")
-    fun getAccounts(): Call<AllesAccounts>
-
     @POST("post")
     fun post(@Body content: AllesInteractionPost): Call<AllesInteractionPost>
 
