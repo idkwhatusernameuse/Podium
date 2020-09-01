@@ -65,7 +65,6 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        retainInstance = true
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         user = try {
@@ -134,7 +133,7 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeData(user: String) {
-        viewModel.userInfo.observe(viewLifecycleOwner, Observer {
+        /*viewModel.userInfo.observe(viewLifecycleOwner, Observer {
             requireView().findViewById<RefreshHeaderView>(R.id.pullToRefresh).stopRefresh()
             val nestedScrollView = requireView().findViewById<NestedScrollView>(R.id.nestedScrollView)
             val errorLayout = requireView().findViewById<View>(R.id.error_loading)
@@ -198,10 +197,10 @@ class ProfileFragment : Fragment() {
                     observeData(user)
                 }
             }
-        })
+        })*/
     }
 
-    private fun setFollow(followButton: MaterialButton, follow: Boolean, username: String) {
+    /*private fun setFollow(followButton: MaterialButton, follow: Boolean, username: String) {
         val retrofit = RetrofitClientInstance().getRetrofitInstance()
             .create(AllesEndpointsInterface::class.java)
         if (follow) {
@@ -234,5 +233,5 @@ class ProfileFragment : Fragment() {
         if (resultCode == 69) {
             viewModel.fetchUserPosts(requireContext(), user)
         }
-    }
+    }*/
 }
