@@ -12,14 +12,23 @@ class LicensesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_licenses)
-
-        // Back button
-        findViewById<ImageButton>(R.id.back).setOnClickListener { finish() }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.licenses)
 
         // Set up recycler view with licenses
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val adapter = LicensesAdapter(this, LicenseExtractor().getLicenses(this))
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }
