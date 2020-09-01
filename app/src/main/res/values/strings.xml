@@ -62,6 +62,7 @@
     <string name="theme_default">System default</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="theme_restart">If the theme isn\'t applied, restart the app</string>
 
     <string name="account_preferences">Account settings</string>
     <string name="name">Name</string>

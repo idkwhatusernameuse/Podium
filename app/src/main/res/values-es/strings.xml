@@ -60,4 +60,5 @@
     <string name="added_to_bookmarks">Añadido a guardados</string>
     <string name="delete_post_confirmation">Toca aquí para eliminar la publicación</string>
     <string name="removed_from_bookmarks">Eliminado de guardados</string>
+    <string name="theme_restart">Si el tema no se aplicó, reinicia la aplicación</string>
 </resources>

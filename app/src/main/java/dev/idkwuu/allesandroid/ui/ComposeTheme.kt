@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.load.engine.Resource
 import dev.idkwuu.allesandroid.R
+import dev.idkwuu.allesandroid.util.Theme
 
 private val primaryColor = Color(0xFF3D90CD)
 val disabledColor = Color(0xFF676767)
@@ -66,8 +67,17 @@ val shapes = Shapes(
     large = RoundedCornerShape(0.dp)
 )
 
+@Composable // WHY T
+fun darkTheme(): Boolean {
+    return when (Theme.get()) {
+        1 -> false
+        2 -> true
+        else -> isSystemInDarkTheme()
+    }
+}
+
 @Composable
-fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun AppTheme(darkTheme: Boolean = darkTheme(), content: @Composable() () -> Unit) {
     if (darkTheme) {
         cardColor = Color(0xFF212121)
     }

@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3d90cd</color>
     <color name="colorPrimaryDark">#3d90cd</color>
     <color name="colorAccent">@color/colorPrimary</color>
-    <color name="background">@android:color/white</color>
+    <color name="background">#F5F5F5</color>
     <color name="cardview_stroke">#ECECEC</color>
     <color name="text_color">@android:color/black</color>
 

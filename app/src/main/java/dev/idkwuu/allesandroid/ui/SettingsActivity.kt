@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -26,39 +27,30 @@ import dev.idkwuu.allesandroid.ui.components.ListItem
 import dev.idkwuu.allesandroid.ui.components.Subtitle
 import dev.idkwuu.allesandroid.ui.licenses.LicensesActivity
 import dev.idkwuu.allesandroid.util.SharedPreferences
-import dev.idkwuu.allesandroid.util.switchTheme
+import dev.idkwuu.allesandroid.util.Theme
 
 class SettingsActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.settings)
         setContent {
             val context = ContextAmbient.current
             AppTheme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            backgroundColor = MaterialTheme.colors.background,
-                            elevation = 0.dp,
-                            title = { Text(context.getString(R.string.settings), style = MaterialTheme.typography.h6) },
-                            navigationIcon = {
-                                IconButton(
-                                    onClick = { finish() },
-                                    icon = { Icon(vectorResource(R.drawable.ic_fluent_arrow_left_20_regular)) }
-                                )
-                            }
-                        )
-                    }
-                ) {
+                Surface {
                     Column {
                         Subtitle(context.getString(R.string.app_preferences))
                         ListItem(
                             title = context.getString(R.string.theme),
-                            subtitle = context.getString(R.string.theme_default),
+                            subtitle = context.getString(when(Theme.get()) {
+                                1 -> R.string.theme_light
+                                2 -> R.string.theme_dark
+                                else -> R.string.theme_default
+                            }),
                             vectorIcon = R.drawable.ic_fluent_color_24_filled,
                             onClick = { openThemeDialog() })
-                        Divider()
                         Subtitle(context.getString(R.string.about))
                         ListItem(
                             title = context.getString(R.string.licenses),
@@ -76,12 +68,22 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
     private fun openThemeDialog() {
         val builder = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.theme)
             .setItems(R.array.theme_entries) { _, i ->
-                // TODO: Update current theme line
-                switchTheme(i)
+                Theme.switch(i)
+                Toast.makeText(this, R.string.theme_restart, Toast.LENGTH_LONG).show()
             }
             .setNegativeButton(R.string.cancel) { dialogInterface, _ ->
                 dialogInterface.cancel()

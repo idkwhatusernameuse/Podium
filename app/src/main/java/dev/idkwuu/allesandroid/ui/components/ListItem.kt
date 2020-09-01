@@ -1,9 +1,6 @@
 package dev.idkwuu.allesandroid.ui.components
 
-import androidx.compose.foundation.Box
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.Text
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.ColumnScope.gravity
 import androidx.compose.foundation.layout.RowScope.gravity
@@ -22,7 +19,7 @@ import java.util.*
 
 @Composable
 fun ListItem(title: String, subtitle: String, vectorIcon: Int? = null, imageIcon: Int? = null, onClick: () -> Unit) {
-    Surface(
+    Box(
         modifier = Modifier.clickable(onClick = onClick)
     ) {
         Row(
@@ -56,8 +53,12 @@ fun ListItem(title: String, subtitle: String, vectorIcon: Int? = null, imageIcon
 
 @Composable
 fun Subtitle(text: String) {
-    Text(
-        text = text.toUpperCase(Locale.ROOT),
-        style = MaterialTheme.typography.body1,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp))
+    Surface(
+        Modifier.fillMaxWidth(),
+    ) {
+        Text(
+            text = text.toUpperCase(Locale.ROOT),
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
+    }
 }
