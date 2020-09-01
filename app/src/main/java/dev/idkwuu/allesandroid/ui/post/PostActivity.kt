@@ -1,22 +1,19 @@
 package dev.idkwuu.allesandroid.ui.post
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
 import dev.idkwuu.allesandroid.R
 import dev.idkwuu.allesandroid.api.AllesEndpointsInterface
-import dev.idkwuu.allesandroid.api.Repo
 import dev.idkwuu.allesandroid.api.RetrofitClientInstance
+import dev.idkwuu.allesandroid.databinding.ActivityPostBinding
 import dev.idkwuu.allesandroid.models.AllesInteractionPost
 import dev.idkwuu.allesandroid.util.ImageUtils
 import retrofit2.Call
@@ -25,6 +22,8 @@ import retrofit2.Response
 import kotlin.random.Random
 
 class PostActivity : AppCompatActivity() {
+
+    private lateinit var v: ActivityPostBinding
 
     private val randomStrings = listOf(
         R.string.post_hint_1,
@@ -40,23 +39,22 @@ class PostActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post)
-
-        val addImage = findViewById<ImageButton>(R.id.addImage)
-        val post = findViewById<Button>(R.id.post)
-        val editText = findViewById<EditText>(R.id.editText)
+        v = ActivityPostBinding.inflate(layoutInflater)
+        setContentView(v.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
 
         // Replying to
         val postToReply = intent.getStringExtra("replyTo")
         if (postToReply != null) {
-            findViewById<TextView>(R.id.replyingTo).text = "${getString(R.string.replying)} @${intent.getStringExtra("userToReply")}"
-            post.text = getString(R.string.reply)
+            supportActionBar?.title = "${getString(R.string.replying)} @${intent.getStringExtra("userToReply")}"
+            v.post.text = getString(R.string.reply)
         }
 
         // Get a random phrase for the hint
         randomStringForHint()
 
-        editText.addTextChangedListener(object : TextWatcher {
+        v.editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) { }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
 
@@ -66,80 +64,74 @@ class PostActivity : AppCompatActivity() {
             }
         })
 
-        addImage.setOnClickListener {
-            if (bitmap == null) loadImage()
+        v.addImage.setOnClickListener {
+            if (bitmap == null) getContent.launch("image/*")
         }
 
-        post.setOnClickListener {
+        v.post.setOnClickListener {
             postEverything(postToReply)
         }
 
-        // Back button
-        findViewById<ImageButton>(R.id.back).setOnClickListener { finish() }
-
         // Remove photo button
-        findViewById<ImageButton>(R.id.removePhoto).setOnClickListener {
+        v.removePhoto.setOnClickListener {
             bitmap = null
             mime = ""
-            addImage.setColorFilter(getColor(R.color.neutral))
-            findViewById<ConstraintLayout>(R.id.imageContainer).visibility = View.GONE
+            v.addImage.setColorFilter(getColor(R.color.neutral))
+            v.imageContainer.visibility = View.GONE
             checkIfCanPost()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     private fun checkIfCanPost() {
-        val post = findViewById<Button>(R.id.post)
-        if (findViewById<EditText>(R.id.editText).text.toString().isNotEmpty()) {
-            post.backgroundTintList = getColorStateList(R.color.colorPrimary)
-            post.isEnabled = true
+        if (v.editText.text.toString().isNotEmpty()) {
+            v.post.backgroundTintList = getColorStateList(R.color.colorPrimary)
+            v.post.isEnabled = true
         } else {
-            post.isEnabled = false
-            post.backgroundTintList = getColorStateList(R.color.disabled)
+            v.post.isEnabled = false
+            v.post.backgroundTintList = getColorStateList(R.color.disabled)
         }
     }
 
-    private fun loadImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, 1)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == 1){
-            val inputStream = data?.data?.let { applicationContext.contentResolver.openInputStream(it) }!!
-            bitmap = BitmapFactory.decodeStream(inputStream)
-            mime = contentResolver.getType(data.data!!).toString()
-            findViewById<ImageView>(R.id.imageView).setImageBitmap(bitmap)
-            findViewById<ImageButton>(R.id.addImage).setColorFilter(getColor(R.color.disabled))
-            findViewById<ConstraintLayout>(R.id.imageContainer).visibility = View.VISIBLE
-            inputStream.close()
-            checkIfCanPost()
-        }
+    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(it))
+        mime = contentResolver.getType(it).toString()
+        v.imageView.setImageBitmap(bitmap)
+        v.addImage.setColorFilter(getColor(R.color.disabled))
+        v.imageContainer.visibility = View.VISIBLE
+        checkIfCanPost()
     }
 
     private fun randomStringForHint() {
-        findViewById<EditText>(R.id.editText).hint = getString(randomStrings[Random.nextInt(0, 4)])
+        v.editText.hint = getString(randomStrings[Random.nextInt(0, 4)])
     }
 
     private fun postEverything(postToReply: String?) {
-        val loading = findViewById<LinearLayout>(R.id.loading)
-        loading.visibility = View.VISIBLE
+        v.loading.visibility = View.VISIBLE
         val post = AllesInteractionPost(
-            content = findViewById<EditText>(R.id.editText).text.toString(),
+            content = v.editText.text.toString(),
             image = if (bitmap != null) { "data:$mime;base64,${ImageUtils.convertToBase64(bitmap!!)}" } else { null },
             parent = postToReply
         )
         val retrofit = RetrofitClientInstance().getRetrofitInstance()
             .create(AllesEndpointsInterface::class.java)
         val call = retrofit.post(post)
-        findViewById<Button>(R.id.post).isEnabled = false
-        findViewById<Button>(R.id.cancel).setOnClickListener { call.cancel(); finish() }
+        v.post.isEnabled = false
+        v.cancel.setOnClickListener { call.cancel(); finish() }
 
         call.enqueue(object : Callback<AllesInteractionPost> {
             override fun onFailure(call: Call<AllesInteractionPost>, t: Throwable) {
-                loading.visibility = View.GONE
-                Snackbar.make(findViewById(R.id.editText), R.string.post_snackbar_error, Snackbar.LENGTH_LONG).show()
+                v.loading.visibility = View.GONE
+                Snackbar.make(v.editText, R.string.post_snackbar_error, Snackbar.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call<AllesInteractionPost>, response: Response<AllesInteractionPost>) {

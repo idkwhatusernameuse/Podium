@@ -1,8 +1,6 @@
 package dev.idkwuu.allesandroid.ui
 
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         /*val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)*/
-        Repo.handler.post(Repo.onlineRunnable)
+        //Repo.handler.post(Repo.onlineRunnable)
     }
 
     private val onNavigationItemSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener =
@@ -75,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRestart() {
-        Repo.handler.post(Repo.onlineRunnable)
+        //Repo.handler.post(Repo.onlineRunnable)
         SharedPreferences.init(this)
         super.onRestart()
     }
