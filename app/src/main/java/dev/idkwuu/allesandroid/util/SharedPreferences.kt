@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import dev.idkwuu.allesandroid.BuildConfig
 
 object SharedPreferences {
 
@@ -36,6 +35,8 @@ object SharedPreferences {
     private const val key_currentUser = "current_user"
     private const val key_theme = "theme"
     private const val key_bookmarks = "bookmarks"
+    private const val key_experimental = "experimental"
+    private const val key_blurredProfile = "blurred_profile"
 
     var isLoggedIn: Boolean
         get() = login_preferences.getBoolean(key_isLoggedIn, false)
@@ -67,4 +68,15 @@ object SharedPreferences {
             it.putString(key_bookmarks, value)
         }
 
+    var experimentalSettings: Boolean
+        get() = preferences.getBoolean(key_experimental, false)
+        set(value) = preferences.edit {
+            it.putBoolean(key_experimental, value)
+        }
+
+    var blurredProfile: Boolean
+        get() = preferences.getBoolean(key_blurredProfile, false)
+        set(value) = preferences.edit {
+            it.putBoolean(key_blurredProfile, value)
+        }
 }

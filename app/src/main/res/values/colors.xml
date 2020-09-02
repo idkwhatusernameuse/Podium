@@ -24,4 +24,7 @@
     <color name="profile_foreground">@android:color/black</color>
 
     <color name="fluent_default_icon_tint">@android:color/black</color>
+
+    <color name="profile_bg_tint">#C4FFFFFF</color>
+    <color name="profile_text_tint">#7E000000</color>
 </resources>

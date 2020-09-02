@@ -30,6 +30,8 @@
     <string name="follows_you">Follows you</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
+    <string name="staff">Staff</string>
+    <string name="plus">Alles+</string>
 
     <!-- PostActivity -->
     <string name="post">Post</string>
