@@ -2,7 +2,9 @@
 
 # Podium
 
-An Alles Micro client for Android made in Kotlin. This project is under construction and ISN'T WORKING AT THE MOMENT. Also, there's no public API for Alles Micro currently.
+Micro is dead.
+
+An Alles Micro client for Android made in Kotlin. ~~This project is under construction and ISN'T WORKING AT THE MOMENT. Also, there's no public API for Alles Micro currently.~~
 
 ### License
 
