@@ -2,7 +2,9 @@
 
 # Podium
 
-An Alles Micro client for Android made in Kotlin. Currently development has stopped.
+An Alles Micro client for Android made in Kotlin. 
+
+Development will continue on [this repo](https://github.com/idkwuu/Voli). This repository will be kept up tho.
 
 ### License
 
